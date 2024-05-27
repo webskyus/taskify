@@ -5,7 +5,7 @@ import { LandingBanner } from '~/widgets/landing-banner/ui/landing-banner';
 export const meta: MetaFunction = () => {
 	return [
 		{
-			title: 'Plan.io',
+			title: 'Taskify',
 		},
 		{
 			name: 'description',

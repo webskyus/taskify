@@ -9,11 +9,11 @@ import {ROUTES} from "~/shared/lib/utils/urls";
 export const meta: MetaFunction = () => {
 	return [
 		{
-			title: 'Plan.io | Sign-up',
+			title: 'Taskify | Sign-up',
 		},
 		{
 			name: 'description',
-			content: 'Your all in one productivity app | Sign-up',
+			content: 'Your all in one agile board web app | Sign-up',
 		},
 	];
 };

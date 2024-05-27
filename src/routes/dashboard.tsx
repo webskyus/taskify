@@ -6,7 +6,7 @@ import {ROUTES} from "~/shared/lib/utils/urls";
 export const meta: MetaFunction = () => {
     return [
         {
-            title: 'Plan.io | Dashboard',
+            title: 'Taskify | Dashboard',
         },
         {
             name: 'description',

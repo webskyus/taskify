@@ -11,15 +11,13 @@ export const LandingBanner = () => {
 			<h1
 				className={
 					'text-3xl sm:text-7xl sm:pl-40 sm:pr-40 mb-8 font-bold text-foundation-primary-500'
-				}>
-				{LANDING_TEXT.title}
-			</h1>
+				} dangerouslySetInnerHTML={{__html: LANDING_TEXT.title}} />
 
 			<p
 				className={
 					`
-						lg:pl-48 lg:pr-48 xl:pl-96 
-						xl:pr-96 mb-10 m-auto text-xl 
+						lg:pl-48 lg:pr-48 xl:pl-48 
+						xl:pr-48 mb-10 m-auto text-xl 
 						sm:text-2xl text-center font-medium text-foundation-secondary-400
 					`
 				}>

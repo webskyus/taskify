@@ -21,7 +21,7 @@ type HeaderAuthLinkTextType = {
 
 export const HEADER_TEXT = {
 	[AUTH_TYPE.SIGN_IN]: 'Log in',
-	[AUTH_TYPE.SIGN_UP]: 'Get Plan.io free',
+	[AUTH_TYPE.SIGN_UP]: 'Get Taskify free',
 };
 
 export const AUTH_TEXT: Record<AUTH_TYPE, AuthTextType> = {
@@ -33,17 +33,17 @@ export const AUTH_TEXT: Record<AUTH_TYPE, AuthTextType> = {
 	},
 	[AUTH_TYPE.SIGN_UP]: {
 		title: 'Sign up',
-		description: 'Create an account and start using plan.io',
+		description: 'Create an account and start using Taskify',
 		auth_google: 'Sign up with Google',
 		auth_github: 'Sign up with GitHub',
 	},
 };
 
 export const LANDING_TEXT: LandingTextType = {
-	title: 'Your 📕 wiki,📋 docs, & 🎯 projects. Together.',
+	title: '♻️ Relabel, 🚀 Move, <br/> 🔄 Modify, 📂 Archive and Many more operations.',
 	description:
-		'Plan.io is the connected workspace where better, faster work happens.',
-	auth_button: 'Get Plan.io free',
+		'Experience seamless project management with our Trello-inspired platform, Taskify. Organize tasks, collaborate with ease, and boost productivity starting today.',
+	auth_button: 'Get Taskify free',
 };
 
 export const HEADER_AUTH_LINK_TEXT: Record<AUTH_TYPE, HeaderAuthLinkTextType> =
