@@ -2,7 +2,8 @@ import {
     pgTable,
     uuid,
     timestamp,
-    text, jsonb,
+    text,
+    jsonb,
 } from 'drizzle-orm/pg-core';
 
 const workspaces = pgTable('workspaces', {
@@ -23,7 +24,8 @@ const users = pgTable('users', {
     id: uuid('id')
         .primaryKey()
         .notNull(),
-    fullName: text('full_name'),
+    fullName: text('full_name')
+        .references(() => authUsers.raw_user_meta_data),
     avatarUrl: text('avatar_url'),
     billingAddress: jsonb('billing_address'),
     updatedAt: timestamp('updated_at', {
