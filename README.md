@@ -54,7 +54,6 @@
 
 - 🆓 **Creating Free Plan Restrictions**: Implement restrictions for free plan users to manage access and resources effectively.
 
-
 ---
 
 ## Commands 
