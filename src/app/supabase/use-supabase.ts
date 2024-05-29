@@ -18,7 +18,8 @@ export const useSupabase = ({ env, serverSession }: UseSupabase) => {
     const [supabase] = useState(() =>
         createBrowserClient<Database>(
             env.SUPABASE_URL!,
-            env.SUPABASE_ANON_KEY!)
+            env.SUPABASE_ANON_KEY!
+        )
     );
     const serverAccessToken = serverSession?.access_token;
     const revalidator = useRevalidator();
@@ -42,5 +43,7 @@ export const useSupabase = ({ env, serverSession }: UseSupabase) => {
         revalidator
     ]);
 
-    return { supabase };
+    return {
+        supabase
+    };
 };

@@ -1,4 +1,6 @@
-import {pgTable, uuid, text, timestamp, jsonb} from 'drizzle-orm/pg-core';
+import {pgTable, uuid, text, timestamp, jsonb, pgSchema} from 'drizzle-orm/pg-core';
+
+const authSchema = pgSchema("auth");
 
 const workspaces = pgTable('workspaces', {
 	id: uuid('id').defaultRandom().primaryKey().notNull(),
@@ -29,6 +31,15 @@ const users = pgTable('users', {
 	paymentMethod: jsonb('payment_method'),
 	email: text('email'),
 });
+
+const profiles = pgTable('profiles', {
+	id: uuid('id')
+		.primaryKey()
+		.notNull(),
+	fullName: text('full_name'),
+	firstName: text('first_name'),
+	lastName: text('last_name'),
+})
 
 export {
 	workspaces,

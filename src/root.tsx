@@ -75,10 +75,10 @@ export default function App() {
             <Links/>
         </head>
         <body>
-        <Outlet context={{supabase}}/>
-        <ScrollRestoration/>
-        <Scripts/>
-        <LiveReload/>
+            <Outlet context={{supabase}}/>
+            <ScrollRestoration/>
+            <Scripts/>
+            <LiveReload/>
         </body>
         </html>
     );
