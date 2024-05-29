@@ -1,18 +1,9 @@
 import {pgTable, uuid, text, timestamp, jsonb, pgSchema} from 'drizzle-orm/pg-core';
 
-const authSchema = pgSchema("auth");
-
-const users = authSchema.table("users", {
-	id: uuid('id')
-		.primaryKey()
-		.notNull()
-})
 
 const workspaces = pgTable('workspaces', {
 	id: uuid('id')
-		.defaultRandom()
-		.primaryKey()
-		.notNull(),
+		.defaultRandom(),
 	title: text('title')
 		.notNull(),
 	data: text('data')
@@ -37,14 +28,10 @@ const profiles = pgTable('profiles', {
 	id: uuid('id')
 		.primaryKey()
 		.notNull(),
-	userId: uuid('user_id')
-		.references(() => users.id)
-		.notNull(),
 	fullName: text('full_name'),
 });
 
 export {
 	workspaces,
 	profiles,
-	users
 }
