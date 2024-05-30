@@ -12,4 +12,6 @@ const Loader: FC<Props> = props => {
 	return <span className={styles.loader} />;
 };
 
-export default Loader;
+export {
+	Loader
+};

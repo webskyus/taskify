@@ -14,7 +14,7 @@ interface Props {
 	handleThemeChange: (theme: Theme) => void;
 }
 
-export const ThemeToggler: FC<Props> = (props) => {
+const ThemeToggler: FC<Props> = (props) => {
 	const {handleThemeChange} = props;
 	const [_, setTheme] = useTheme();
 
@@ -37,4 +37,8 @@ export const ThemeToggler: FC<Props> = (props) => {
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
+};
+
+export {
+	ThemeToggler
 };

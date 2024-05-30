@@ -5,7 +5,7 @@ import { Button } from '~/shared/ui/button';
 import { ChevronRight } from 'lucide-react';
 import { LANDING_TEXT } from '~/shared/lib/utils/static';
 
-export const LandingBanner = () => {
+const LandingBanner = () => {
 	return (
 		<section className={'mt-24 sm:mt-56 m-auto text-center'}>
 			<h1
@@ -35,3 +35,7 @@ export const LandingBanner = () => {
 		</section>
 	);
 };
+
+export {
+	LandingBanner,
+}

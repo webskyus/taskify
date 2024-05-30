@@ -4,10 +4,9 @@ import LogoIcon from '~/shared/assets/icons/logo';
 import { Button } from '~/shared/ui/button';
 import { HEADER_TEXT } from '~/shared/lib/utils/static';
 import { AUTH_TYPE } from '~/shared/types/auth';
-import {ThemeSwitch, useTheme} from '~/routes/action.set-theme';
-import {Theme} from "~/app/theme/utils";
+import {ThemeSwitch} from '~/routes/action.set-theme';
 
-export const Header = () => {
+const Header = () => {
 	return (
 		<header className={'flex justify-between items-center pt-4'}>
 			<Link to={ROUTES.LANDING}>
@@ -39,3 +38,7 @@ export const Header = () => {
 		</header>
 	);
 };
+
+export {
+	Header
+}

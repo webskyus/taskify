@@ -11,7 +11,7 @@ interface Props {
 	authType: AUTH_TYPE;
 }
 
-export const Auth: FC<Props> = props => {
+const Auth: FC<Props> = props => {
 	const { authType } = props;
 	const {supabase} = useOutletContext<{
 		supabase: SupabaseClient
@@ -60,3 +60,7 @@ export const Auth: FC<Props> = props => {
 		</section>
 	);
 };
+
+export {
+	Auth
+}

@@ -3,6 +3,7 @@ import {json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node"
 import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
 import {ROUTES} from "~/shared/lib/utils/urls";
 import {useLoaderData} from "@remix-run/react";
+import {DashboardHeader} from "~/widgets/dashboard-header";
 
 export const meta: MetaFunction = () => {
     return [
@@ -49,21 +50,12 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 const Dashboard = () => {
     const {profile} = useLoaderData<typeof loader>();
 
-    return <>
-        <p>{profile?.full_name}</p>
-        <img src={profile?.avatar_url} alt="Profile photo"/>
-        <p>{profile?.email}</p>
-        <p>
-            {
-                new Intl
-                    .DateTimeFormat('en-GB', {
-                        dateStyle: 'full',
-                        timeStyle: 'long',
-                    })
-                    .format(new Date(profile?.created_at))
-            }
-        </p>
-    </>;
+    return <section className={"container"}>
+        <DashboardHeader data={profile}/>
+
+        WORKSPACES + | CHOOSE ONE
+        PROJECTS + | CHOOSE ONE
+    </section>;
 };
 
-export default Dashboard;
+export default Dashboard

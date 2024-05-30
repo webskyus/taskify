@@ -10,7 +10,7 @@ interface Props {
 	authType: AUTH_TYPE;
 }
 
-export const AuthHeader: FC<Props> = props => {
+const AuthHeader: FC<Props> = props => {
 	const { authType } = props;
 
 	return (
@@ -36,3 +36,7 @@ export const AuthHeader: FC<Props> = props => {
 		</header>
 	);
 };
+
+export {
+	AuthHeader
+}
