@@ -2,7 +2,7 @@ import {
     pgTable,
     uuid,
     timestamp,
-    text
+    text, jsonb
 } from 'drizzle-orm/pg-core';
 
 const workspaces = pgTable('workspaces', {
@@ -15,8 +15,6 @@ const workspaces = pgTable('workspaces', {
     logo: text('logo')
         .notNull(),
     banner: text('banner')
-        .notNull(),
-    inTrash: text('in_trash')
         .notNull(),
     iconId: text('icon_id')
         .notNull(),
@@ -33,9 +31,12 @@ const profiles = pgTable('profiles', {
         .primaryKey()
         .notNull(),
     fullName: text('full_name'),
+    avatarUrl: text('avatar_url'),
+    billingAddress: jsonb('billing_address'),
+    updatedAt: timestamp('updated_at', {
+        withTimezone: true,
+        mode: 'string'
+    }),
+    paymentMethod: jsonb('payment_method'),
+    email: text('email'),
 });
-
-export {
-    workspaces,
-    profiles,
-}
