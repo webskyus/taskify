@@ -2,6 +2,7 @@ import React from 'react';
 import {json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node";
 import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
 import {ROUTES} from "~/shared/lib/utils/urls";
+import {useLoaderData} from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
     return [
@@ -16,9 +17,14 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({request}: LoaderFunctionArgs) => {
-    const {headers, serverSession} = await getSupabaseWithSessionAndHeaders({
+    const {headers, serverSession, supabase} = await getSupabaseWithSessionAndHeaders({
         request
     });
+    const {data} = await supabase
+        .from("profiles")
+        .select()
+        .eq('id', serverSession?.user?.id)
+        .single()
 
     if (!serverSession) {
         return redirect(
@@ -31,7 +37,8 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
     return json(
         {
-            serverSession
+            serverSession,
+            profile: data
         },
         {
             headers
@@ -40,8 +47,22 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 }
 
 const Dashboard = () => {
+    const {profile} = useLoaderData<typeof loader>();
+
     return <>
-        <code>top secret page</code>
+        <p>{profile?.full_name}</p>
+        <img src={profile?.avatar_url} alt="Profile photo"/>
+        <p>{profile?.email}</p>
+        <p>
+            {
+                new Intl
+                    .DateTimeFormat('en-GB', {
+                        dateStyle: 'full',
+                        timeStyle: 'long',
+                    })
+                    .format(new Date(profile?.created_at))
+            }
+        </p>
     </>;
 };
 
