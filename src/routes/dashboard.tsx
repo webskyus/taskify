@@ -73,10 +73,10 @@ const Dashboard = () => {
                         return <Link key={_} to={url}>
                             <article className={`p-4 rounded ${randomBgGradient}`}>
                                 <p className={'mb-2 text-6xl'}>🐑</p>
-                                <h2 className={'text-2xl font-bold line-clamp-1'}>
+                                <h2 className={'text-2xl font-bold line-clamp-1 text-white'}>
                                     WORKSPACE #{i + 1}
                                 </h2>
-                                <p className={'line-clamp-2'}>
+                                <p className={'line-clamp-2 text-white'}>
                                     Workspace Description Workspace Description Workspace Description Workspace
                                     Description
                                 </p>
