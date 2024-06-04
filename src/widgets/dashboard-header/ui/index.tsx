@@ -15,7 +15,9 @@ interface Props {
 
 const DashboardHeader: FC<Props> = ({data}) => {
 	const {avatar_url, full_name, email} = data;
-
+	// 1. Show logout
+	// 2. Show workspaces link
+	// 3. Show projects link if you choose workspace
 	return (
 		<header className={'flex justify-between items-center pt-4 mb-24'}>
 			<Link to={ROUTES.DASHBOARD}>

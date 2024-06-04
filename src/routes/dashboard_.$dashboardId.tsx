@@ -2,7 +2,7 @@ import React from 'react';
 import {json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node";
 import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
 import {ROUTES} from "~/shared/lib/utils/urls";
-import {useLoaderData} from "@remix-run/react";
+import {Link, useLoaderData, useParams} from "@remix-run/react";
 import {DashboardHeader} from "~/widgets/dashboard-header";
 import {gradientColors} from "~/shared/lib/utils/constants";
 import {getRandomInt} from "~/shared/lib/utils";
@@ -57,6 +57,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
 const Dashboard = () => {
     const {profile} = useLoaderData<typeof loader>();
+    const {dashboardId} = useParams();
 
     return <section className={"container"}>
         <DashboardHeader data={profile}/>
@@ -69,16 +70,19 @@ const Dashboard = () => {
                 {
                     [1, 23, 4, 5, 35, 3, 1, 23, 4, 5, 35, 3, 1, 23, 4, 5, 35, 3, 535].map((_, i) => {
                         const randomBgGradient = gradientColors[getRandomInt(0, gradientColors.length - 1)];
+                        const url = `${ROUTES.DASHBOARD}/${dashboardId}/${i}`;
 
-                        return <article className={`p-4 rounded ${randomBgGradient}`}>
-                            <p className={'mb-2 text-6xl'}>🐑</p>
-                            <h2 className={'text-2xl font-bold line-clamp-1'}>
-                                Projects #{i + 1}
-                            </h2>
-                            <p className={'line-clamp-2'}>
-                                Projects Description Description Description Description Description
-                            </p>
-                        </article>
+                        return <Link key={_} to={url}>
+                            <article className={`p-4 rounded ${randomBgGradient}`}>
+                                <p className={'mb-2 text-6xl'}>🐑</p>
+                                <h2 className={'text-2xl font-bold line-clamp-1'}>
+                                    Projects #{i + 1}
+                                </h2>
+                                <p className={'line-clamp-2'}>
+                                    Projects Description Description Description Description Description
+                                </p>
+                            </article>
+                        </Link>
                     })
                 }
             </section>
