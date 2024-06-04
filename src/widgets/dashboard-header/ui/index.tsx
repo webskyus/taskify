@@ -17,7 +17,7 @@ const DashboardHeader: FC<Props> = ({data}) => {
 	const {avatar_url, full_name, email} = data;
 
 	return (
-		<header className={'flex justify-between items-center pt-4 mb-24 sm:mb-56'}>
+		<header className={'flex justify-between items-center pt-4 mb-24'}>
 			<Link to={ROUTES.DASHBOARD}>
 				<LogoIcon className={'w-24 sm:w-40'} />
 			</Link>
