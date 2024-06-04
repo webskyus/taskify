@@ -10,11 +10,11 @@ import {getRandomInt} from "~/shared/lib/utils";
 export const meta: MetaFunction = () => {
     return [
         {
-            title: 'Taskify | Dashboard',
+            title: 'Taskify | Projects',
         },
         {
             name: 'description',
-            content: 'Your all in one productivity app | Dashboard',
+            content: 'Your all in one productivity app | Projects',
         },
     ];
 };
@@ -62,20 +62,21 @@ const Dashboard = () => {
         <DashboardHeader data={profile}/>
 
         <section>
-            <h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>🌈 Workspaces</h1>
+            <h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>🌸 Projects</h1>
 
-            <section className={"grid grid-rows-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 mb-4"}>
+            <section
+                className={"grid grid-rows-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 mb-4"}>
                 {
-                    [1,23,4,5,35,3,1,23,4,5,35,3,1,23,4,5,35,3,535].map((_, i) => {
-                        const randomBgGradient = gradientColors[getRandomInt(0, gradientColors.length-1)];
+                    [1, 23, 4, 5, 35, 3, 1, 23, 4, 5, 35, 3, 1, 23, 4, 5, 35, 3, 535].map((_, i) => {
+                        const randomBgGradient = gradientColors[getRandomInt(0, gradientColors.length - 1)];
 
                         return <article className={`p-4 rounded ${randomBgGradient}`}>
                             <p className={'mb-2 text-6xl'}>🐑</p>
                             <h2 className={'text-2xl font-bold line-clamp-1'}>
-                                WORKSPACE #{i+1}
+                                Projects #{i + 1}
                             </h2>
                             <p className={'line-clamp-2'}>
-                                Workspace Description Workspace Description Workspace Description Workspace Description
+                                Projects Description Description Description Description Description
                             </p>
                         </article>
                     })
