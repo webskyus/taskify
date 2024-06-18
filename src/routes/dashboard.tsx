@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node";
 import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
 import {ROUTES} from "~/shared/lib/utils/urls";
@@ -6,6 +6,8 @@ import {Link, useLoaderData} from "@remix-run/react";
 import {DashboardHeader} from "~/widgets/dashboard-header";
 import {gradientColors} from "~/shared/lib/utils/constants";
 import {getRandomInt} from "~/shared/lib/utils";
+import { LuMessageSquarePlus } from "react-icons/lu";
+import {Button} from "~/shared/ui/button";
 
 export const meta: MetaFunction = () => {
     return [
@@ -49,22 +51,29 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     )
 }
 
-// WORKSPACES + | CHOOSE ONE
-// PROJECTS + | CHOOSE ONE
-// SUPABASE | add property from notebook
-// SUPABASE | add projects
-// SUPABASE | handle for new user create workspace
-
 const Dashboard = () => {
     const {profile} = useLoaderData<typeof loader>();
+    const [isVisible, setVisible] = useState(false);
+
+    const handleOpenDialog = () => setVisible(!isVisible);
 
     return <section className={"container"}>
         <DashboardHeader data={profile}/>
 
         <section>
-            <h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>🌈 Workspaces</h1>
+            <header className={'flex items-center justify-between mb-6'}>
+                <h1 className={'text-4xl sm:text-6xl font-bold'}>
+                    🌈 Workspaces
+                </h1>
 
-            <section className={"grid grid-rows-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 mb-4"}>
+                {/*<CreateDialog/>*/}
+                <Button variant={"ghost"} size={"icon"} className={'text-6xl'} onClick={handleOpenDialog}>
+                    <LuMessageSquarePlus className={'stroke-red-300'}/>
+                </Button>
+            </header>
+
+            <section
+                className={"grid grid-rows-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 mb-4"}>
                 {
                     [1,23,4,5,35,3,1,23,4,5,35,3,1,23,4,5,35,3,535].map((_, i) => {
                         const randomBgGradient = gradientColors[getRandomInt(0, gradientColors.length-1)];
