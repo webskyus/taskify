@@ -1,9 +1,12 @@
 import React, { FC } from 'react';
 import {Avatar, AvatarFallback, AvatarImage} from "~/shared/ui/avatar";
 import {getShortFullName} from "~/shared/lib/utils";
-import {Link} from "@remix-run/react";
+import {Link, useOutletContext} from "@remix-run/react";
 import {ROUTES} from "~/shared/lib/utils/urls";
 import LogoIcon from "~/shared/assets/icons/logo";
+import {ThemeSwitch} from "~/routes/action.set-theme";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "~/shared/ui/dropdown-menu";
+import {SupabaseClient} from "@supabase/supabase-js";
 
 interface Props {
 	data: {
@@ -15,9 +18,16 @@ interface Props {
 
 const DashboardHeader: FC<Props> = ({data}) => {
 	const {avatar_url, full_name, email} = data;
-	// 1. Show logout
-	// 2. Show workspaces link
-	// 3. Show projects link if you choose workspace
+	const {supabase} = useOutletContext<{
+		supabase: SupabaseClient
+	}>();
+
+	const handleLogout = async () => {
+		const { error } = await supabase.auth.signOut();
+
+		console.log('dd.print.user.signout.error', error);
+	}
+
 	return (
 		<header className={'flex justify-between items-center pt-4 mb-24'}>
 			<Link to={ROUTES.DASHBOARD}>
@@ -25,17 +35,33 @@ const DashboardHeader: FC<Props> = ({data}) => {
 			</Link>
 
 			<nav className={'flex items-center ml-auto'}>
-				<h5 className={'pt-[6px] mr-2 font-semibold text-right'}>
-					<p className={"leading-[12px] text-[14px]"}>{full_name}</p>
-					<span className={"text-[12px] leading-[12px] font-light"}>{email}</span>
-				</h5>
-				<Avatar>
-					<AvatarImage src={avatar_url} />
-					<AvatarFallback>{getShortFullName(full_name)}</AvatarFallback>
-				</Avatar>
+				<ul className={'flex items-center'}>
+					<li className={'ml-2'}>
+						<DropdownMenu>
+							<DropdownMenuTrigger className={'flex items-center'}>
+								<h5 className={'pt-[6px] mr-2 font-semibold text-right'}>
+									<p className={"leading-[12px] text-[14px]"}>{full_name}</p>
+									<span className={"text-[12px] leading-[12px] font-light"}>{email}</span>
+								</h5>
+								<Avatar>
+									<AvatarImage src={avatar_url}/>
+									<AvatarFallback>{getShortFullName(full_name)}</AvatarFallback>
+								</Avatar>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align='end'>
+								<DropdownMenuItem onClick={handleLogout}>
+									Logout
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</li>
+					<li className={'ml-2'}>
+						<ThemeSwitch/>
+					</li>
+				</ul>
 			</nav>
 		</header>
-	);
+);
 };
 
 export {

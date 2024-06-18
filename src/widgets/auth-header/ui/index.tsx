@@ -5,6 +5,7 @@ import { Link } from '@remix-run/react';
 import { Button } from '~/shared/ui/button';
 import { AUTH_TYPE } from '~/shared/types/auth';
 import { HEADER_AUTH_LINK_TEXT } from '~/shared/lib/utils/static';
+import {ThemeSwitch} from "~/routes/action.set-theme";
 
 interface Props {
 	authType: AUTH_TYPE;
@@ -21,7 +22,7 @@ const AuthHeader: FC<Props> = props => {
 
 			<nav>
 				<ul className={'flex items-center'}>
-					<li>
+					<li className={'ml-2'}>
 						<Button
 							asChild
 							variant={'link'}
@@ -30,6 +31,10 @@ const AuthHeader: FC<Props> = props => {
 								{HEADER_AUTH_LINK_TEXT[authType].title}
 							</Link>
 						</Button>
+					</li>
+
+					<li className={'ml-2'}>
+						<ThemeSwitch/>
 					</li>
 				</ul>
 			</nav>

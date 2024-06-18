@@ -8,7 +8,6 @@ import {
 } from '~/shared/ui/dropdown-menu';
 import {FC} from "react";
 import {Theme} from "~/app/theme/utils";
-import {useTheme} from "~/routes/action.set-theme";
 
 interface Props {
 	handleThemeChange: (theme: Theme) => void;
@@ -16,7 +15,6 @@ interface Props {
 
 const ThemeToggler: FC<Props> = (props) => {
 	const {handleThemeChange} = props;
-	const [_, setTheme] = useTheme();
 
 	return (
 		<DropdownMenu>
@@ -27,7 +25,7 @@ const ThemeToggler: FC<Props> = (props) => {
 					<span className='sr-only'>Toggle theme</span>
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align='center'>
+			<DropdownMenuContent align='end'>
 				<DropdownMenuItem onClick={() => handleThemeChange(Theme.LIGHT)}>
 					Light
 				</DropdownMenuItem>

@@ -49,12 +49,6 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     )
 }
 
-// WORKSPACES + | CHOOSE ONE
-// PROJECTS + | CHOOSE ONE
-// SUPABASE | add property from notebook
-// SUPABASE | add projects
-// SUPABASE | handle for new user create workspace
-
 const Dashboard = () => {
     const {profile} = useLoaderData<typeof loader>();
     const {dashboardId} = useParams();

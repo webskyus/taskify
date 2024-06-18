@@ -12,7 +12,7 @@ const CreateDialog: FC<Props> = ({type}) => {
     return <Dialog>
             <DialogTrigger asChild>
                 <Button variant={"ghost"} size={"icon"} className={'text-6xl'}>
-                    <LuMessageSquarePlus className={'stroke-red-300'}/>
+                    <LuMessageSquarePlus className={'stroke-purple-400 dark:stroke-pink-400'}/>
                 </Button>
             </DialogTrigger>
 
