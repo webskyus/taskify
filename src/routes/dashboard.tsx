@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node";
 import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
 import {ROUTES} from "~/shared/lib/utils/urls";
@@ -6,8 +6,8 @@ import {Link, useLoaderData} from "@remix-run/react";
 import {DashboardHeader} from "~/widgets/dashboard-header";
 import {gradientColors} from "~/shared/lib/utils/constants";
 import {getRandomInt} from "~/shared/lib/utils";
-import { LuMessageSquarePlus } from "react-icons/lu";
-import {Button} from "~/shared/ui/button";
+import {CreateDialog} from "~/features/create-dialog";
+import {CREATED_PAGE_TYPE} from "~/shared/lib/utils/static";
 
 export const meta: MetaFunction = () => {
     return [
@@ -53,9 +53,6 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
 const Dashboard = () => {
     const {profile} = useLoaderData<typeof loader>();
-    const [isVisible, setVisible] = useState(false);
-
-    const handleOpenDialog = () => setVisible(!isVisible);
 
     return <section className={"container"}>
         <DashboardHeader data={profile}/>
@@ -66,10 +63,7 @@ const Dashboard = () => {
                     🌈 Workspaces
                 </h1>
 
-                {/*<CreateDialog/>*/}
-                <Button variant={"ghost"} size={"icon"} className={'text-6xl'} onClick={handleOpenDialog}>
-                    <LuMessageSquarePlus className={'stroke-red-300'}/>
-                </Button>
+                <CreateDialog type={CREATED_PAGE_TYPE.WORKSPACE}/>
             </header>
 
             <section

@@ -19,12 +19,17 @@ type HeaderAuthLinkTextType = {
 	url: ROUTES;
 };
 
-export const HEADER_TEXT = {
+enum CREATED_PAGE_TYPE {
+	WORKSPACE = 'Workspace',
+	PROJECT = 'Project'
+}
+
+const HEADER_TEXT = {
 	[AUTH_TYPE.SIGN_IN]: 'Log in',
 	[AUTH_TYPE.SIGN_UP]: 'Get Taskify free',
 };
 
-export const AUTH_TEXT: Record<AUTH_TYPE, AuthTextType> = {
+const AUTH_TEXT: Record<AUTH_TYPE, AuthTextType> = {
 	[AUTH_TYPE.SIGN_IN]: {
 		title: 'Login',
 		description: 'Sign in if you already have an account.',
@@ -39,14 +44,14 @@ export const AUTH_TEXT: Record<AUTH_TYPE, AuthTextType> = {
 	},
 };
 
-export const LANDING_TEXT: LandingTextType = {
+const LANDING_TEXT: LandingTextType = {
 	title: '♻️ Relabel, 🚀 Move, <br/> 🔄 Modify, 📂 Archive and Many more operations.',
 	description:
 		'Experience seamless project management with our Trello-inspired platform, Taskify. Organize tasks, collaborate with ease, and boost productivity starting today.',
 	auth_button: 'Get Taskify free',
 };
 
-export const HEADER_AUTH_LINK_TEXT: Record<AUTH_TYPE, HeaderAuthLinkTextType> =
+const HEADER_AUTH_LINK_TEXT: Record<AUTH_TYPE, HeaderAuthLinkTextType> =
 	{
 		[AUTH_TYPE.SIGN_UP]: {
 			title: 'Have account? Sign in',
@@ -57,3 +62,11 @@ export const HEADER_AUTH_LINK_TEXT: Record<AUTH_TYPE, HeaderAuthLinkTextType> =
 			url: ROUTES.SIGN_UP,
 		},
 	};
+
+export {
+	HEADER_TEXT,
+	HEADER_AUTH_LINK_TEXT,
+	LANDING_TEXT,
+	AUTH_TEXT,
+	CREATED_PAGE_TYPE
+}
