@@ -133,7 +133,10 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        Inter: ["Inter", ...defaultTheme.fontFamily.sans],
+        Inter: [
+            "Inter",
+          ...defaultTheme.fontFamily.sans
+        ],
       },
       fontSize: {
         "xs": "0.75rem",
@@ -146,6 +149,8 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+      require("tailwindcss-animate")
+  ],
 } satisfies Config
 

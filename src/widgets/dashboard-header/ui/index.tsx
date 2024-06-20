@@ -49,7 +49,7 @@ const DashboardHeader: FC<Props> = ({data}) => {
 								</Avatar>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align='end'>
-								<DropdownMenuItem onClick={handleLogout}>
+								<DropdownMenuItem className={'text-red-400'} onClick={handleLogout}>
 									Logout
 								</DropdownMenuItem>
 							</DropdownMenuContent>

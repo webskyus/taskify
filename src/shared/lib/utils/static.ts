@@ -63,10 +63,22 @@ const HEADER_AUTH_LINK_TEXT: Record<AUTH_TYPE, HeaderAuthLinkTextType> =
 		},
 	};
 
+const CREATE_DIALOG_TEXT: Record<CREATED_PAGE_TYPE, any> = {
+	[CREATED_PAGE_TYPE.WORKSPACE]: {
+		title: 'Create new workspace',
+		description: 'You can create a workspace where you can set up projects.'
+	},
+	[CREATED_PAGE_TYPE.PROJECT]: {
+		title: 'Create new project',
+		description: 'You can create new project and start using Taskify board',
+	},
+}
+
 export {
 	HEADER_TEXT,
 	HEADER_AUTH_LINK_TEXT,
 	LANDING_TEXT,
 	AUTH_TEXT,
-	CREATED_PAGE_TYPE
+	CREATED_PAGE_TYPE,
+	CREATE_DIALOG_TEXT
 }

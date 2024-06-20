@@ -8,6 +8,7 @@ import {gradientColors} from "~/shared/lib/utils/constants";
 import {getRandomInt} from "~/shared/lib/utils";
 import {CreateDialog} from "~/features/create-dialog";
 import {CREATED_PAGE_TYPE} from "~/shared/lib/utils/static";
+import {EmptyResultMessage} from "~/shared/ui/empty-result-message";
 
 export const meta: MetaFunction = () => {
     return [
@@ -25,11 +26,15 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     const {headers, serverSession, supabase} = await getSupabaseWithSessionAndHeaders({
         request
     });
-    const {data} = await supabase
+    const {data: profile} = await supabase
         .from("profiles")
         .select()
         .eq('id', serverSession?.user?.id)
         .single()
+    const {data: workspaces} = await supabase
+        .from('workspaces')
+        .select()
+        .eq('user_id', serverSession?.user?.id)
 
     if (!serverSession) {
         return redirect(
@@ -43,7 +48,8 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     return json(
         {
             serverSession,
-            profile: data
+            profile,
+            workspaces
         },
         {
             headers
@@ -52,7 +58,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 }
 
 const Dashboard = () => {
-    const {profile} = useLoaderData<typeof loader>();
+    const {profile, workspaces} = useLoaderData<typeof loader>();
 
     return <section className={"container"}>
         <DashboardHeader data={profile}/>
@@ -66,10 +72,22 @@ const Dashboard = () => {
                 <CreateDialog type={CREATED_PAGE_TYPE.WORKSPACE}/>
             </header>
 
+            {
+                !workspaces?.length &&
+                <EmptyResultMessage/>
+            }
+
             <section
-                className={"grid grid-rows-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 mb-4"}>
+                className={`
+                    grid grid-rows-4 grid-cols-1 
+                    gap-1 mb-4
+                    sm:grid-cols-2 
+                    md:grid-cols-3 
+                    lg:grid-cols-4 
+                    xl:grid-cols-5 
+                `}>
                 {
-                    [1,23,4,5,35,3,1,23,4,5,35,3,1,23,4,5,35,3,535].map((_, i) => {
+                    workspaces?.map((_, i) => {
                         const randomBgGradient = gradientColors[getRandomInt(0, gradientColors.length-1)];
                         const url = `${ROUTES.DASHBOARD}/${i}`;
 
