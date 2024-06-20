@@ -16,9 +16,6 @@ import {getTheme} from '~/app/theme/theme-session.server';
 import {ClientHintCheck, getHints, useNonce} from '~/app/theme/client-hints';
 import {useTheme} from "~/routes/action.set-theme";
 import styles from "~/app/styles/root.css";
-import db from "~/app/supabase/db";
-import {useEffect, useState} from "react";
-import {createBrowserClient, createServerClient} from "@supabase/auth-helpers-remix";
 import {useSupabase} from "~/app/supabase/use-supabase";
 import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
 

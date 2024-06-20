@@ -40,6 +40,7 @@
     "cookie": "^0.6.0",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.8",
+    "emoji-picker-react": "^4.10.0",
     "isbot": "^4.4.0",
     "lucide-react": "^0.364.0",
     "postgres": "^3.4.4",

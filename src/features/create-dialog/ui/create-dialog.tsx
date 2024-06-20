@@ -8,12 +8,16 @@ import {Input} from "~/shared/ui/input";
 import {Form} from "@remix-run/react";
 import {Checkbox} from "~/shared/ui/checkbox";
 import {gradientColors} from "~/shared/lib/utils/constants";
+import EmojiPicker, {Theme} from "emoji-picker-react";
+import {useTheme} from "~/routes/action.set-theme";
 
 interface Props {
     type: `${CREATED_PAGE_TYPE}`
 }
 
 const CreateDialog: FC<Props> = ({type}) => {
+    const theme = useTheme();
+    // Workspace | Name - Color - Emoji
     return <Dialog>
             <DialogTrigger asChild>
                 <Button variant={"ghost"} size={"icon"} className={'text-6xl'}>
@@ -31,21 +35,30 @@ const CreateDialog: FC<Props> = ({type}) => {
                     </DialogDescription>
 
                     <Form>
-                        <div className={'mb-4'}>
-                            <Input id="name" name={"name"} type={"text"} placeholder={"Workspace name"}/>
+                        <div className={'mb-6'}>
+                            <Label htmlFor={"name"} className={'block mb-3'}>Name</Label>
+                            <Input id="name" name={"name"} type={"text"} placeholder={`${type} name`}/>
                         </div>
 
-                        <div className={'flex mb-4 w-[450px] pr-2 pb-2 overflow-x-auto'}>
-                            <Checkbox name={"color"} className={`w-10 h-10 rounded-full ${gradientColors[0]}`}/>
-                            <Checkbox name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[1]}`}/>
-                            <Checkbox name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[2]}`}/>
-                            <Checkbox name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[3]}`}/>
-                            <Checkbox name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[4]}`}/>
-                            <Checkbox name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[5]}`}/>
-                            <Checkbox name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[6]}`}/>
-                            <Checkbox name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[7]}`}/>
-                            <Checkbox name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[8]}`}/>
-                            <Checkbox name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[9]}`}/>
+                        <div className={'mb-6'}>
+                            <Label htmlFor={"card-color"} className={'block mb-2'}>Color</Label>
+                            <div className={'flex w-[450px] pr-2 pb-2 overflow-x-auto'}>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 rounded-full ${gradientColors[0]}`}/>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[1]}`}/>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[2]}`}/>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[3]}`}/>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[4]}`}/>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[5]}`}/>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[6]}`}/>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[7]}`}/>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[8]}`}/>
+                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[9]}`}/>
+                            </div>
+                        </div>
+
+                        <div className={'mb-6'}>
+                            <Label htmlFor={"card-color"} className={'block mb-2'}>Emoji</Label>
+                            <EmojiPicker width={"100%"} lazyLoadEmojis={true} reactionsDefaultOpen={true} theme={theme as Theme} />
                         </div>
                     </Form>
                 </DialogHeader>
