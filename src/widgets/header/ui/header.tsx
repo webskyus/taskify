@@ -25,7 +25,7 @@ const Header = () => {
 					</li>
 
 					<li className={'ml-2'}>
-						<Button asChild>
+						<Button asChild variant={"secondary"}>
 							<Link to={ROUTES.SIGN_UP}>{HEADER_TEXT[AUTH_TYPE.SIGN_UP]}</Link>
 						</Button>
 					</li>

@@ -24,7 +24,7 @@ const LandingBanner = () => {
 				{LANDING_TEXT.description}
 			</p>
 
-			<Button asChild className={'pt-[4px] pb-[4px] pl-[16px] pr-[16px] group'}>
+			<Button asChild className={'pt-[4px] pb-[4px] pl-[16px] pr-[16px] group'} variant={"secondary"}>
 				<Link to={ROUTES.SIGN_UP}>
 					{LANDING_TEXT.auth_button}
 					<ChevronRight

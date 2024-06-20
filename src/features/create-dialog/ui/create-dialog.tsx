@@ -1,15 +1,23 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Button} from "~/shared/ui/button";
 import {LuMessageSquarePlus} from "react-icons/lu";
-import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger} from "~/shared/ui/dialog";
+import {
+    Dialog, DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "~/shared/ui/dialog";
 import {CREATE_DIALOG_TEXT, CREATED_PAGE_TYPE} from "~/shared/lib/utils/static";
 import {Label} from "~/shared/ui/label";
 import {Input} from "~/shared/ui/input";
 import {Form} from "@remix-run/react";
-import {Checkbox} from "~/shared/ui/checkbox";
 import {gradientColors} from "~/shared/lib/utils/constants";
 import EmojiPicker, {Theme} from "emoji-picker-react";
 import {useTheme} from "~/routes/action.set-theme";
+import {RadioGroup, RadioGroupItem} from "~/shared/ui/radio-group";
 
 interface Props {
     type: `${CREATED_PAGE_TYPE}`
@@ -20,7 +28,7 @@ const CreateDialog: FC<Props> = ({type}) => {
     const [emoji, setEmoji] = useState('🌈');
 
     return <Dialog>
-            <DialogTrigger asChild>
+            <DialogTrigger asChild onClick={() => setEmoji('🌈')}>
                 <Button variant={"ghost"} size={"icon"} className={'text-6xl'}>
                     <LuMessageSquarePlus className={'stroke-green-400'}/>
                 </Button>
@@ -42,6 +50,7 @@ const CreateDialog: FC<Props> = ({type}) => {
                                 <Input id="card-emoji"
                                        name={"emoji"}
                                        readOnly={true}
+                                       disabled
                                        className={'w-10 p-0 mr-2 text-2xl border-0'}
                                        value={emoji}
                                 />
@@ -61,31 +70,27 @@ const CreateDialog: FC<Props> = ({type}) => {
 
                         <div className={'mb-6'}>
                             <Label htmlFor={"card-color"} className={'block mb-2'}>Color</Label>
-                            <div className={'flex w-[450px] pr-2 pb-2 overflow-x-auto'}>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 rounded-full ${gradientColors[0]}`}/>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[1]}`}/>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[2]}`}/>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[3]}`}/>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[4]}`}/>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[5]}`}/>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[6]}`}/>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[7]}`}/>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[8]}`}/>
-                                <Checkbox id="card-color" name={"color"}
-                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[9]}`}/>
-                            </div>
+                            <RadioGroup defaultValue="color_1" className={'flex w-[450px] pr-2 pb-2 overflow-x-auto'}>
+                                <RadioGroupItem value="color_1" id="r1" className={`min-w-10 min-h-10 rounded-full ${gradientColors[0]}`} />
+                                <RadioGroupItem value="color_2" id="r2" className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[1]}`} />
+                                <RadioGroupItem value="color_3" id="r3" className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[2]}`} />
+                                <RadioGroupItem value="color_4" id="r4" className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[3]}`} />
+                                <RadioGroupItem value="color_5" id="r5" className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[4]}`} />
+                                <RadioGroupItem value="color_6" id="r6" className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[5]}`} />
+                                <RadioGroupItem value="color_7" id="r7" className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[6]}`} />
+                                <RadioGroupItem value="color_8" id="r8" className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[7]}`} />
+                                <RadioGroupItem value="color_9" id="r9" className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[8]}`} />
+                                <RadioGroupItem value="color_10" id="r10" className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[9]}`} />
+                            </RadioGroup>
                         </div>
                     </Form>
                 </DialogHeader>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type={"button"} variant={"link"}>Close</Button>
+                    </DialogClose>
+                    <Button type={"submit"} variant={"secondary"}>Create</Button>
+                </DialogFooter>
             </DialogContent>
     </Dialog>
 };
