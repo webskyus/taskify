@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import {Button} from "~/shared/ui/button";
 import {LuMessageSquarePlus} from "react-icons/lu";
 import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger} from "~/shared/ui/dialog";
@@ -17,7 +17,8 @@ interface Props {
 
 const CreateDialog: FC<Props> = ({type}) => {
     const theme = useTheme();
-    // Workspace | Name - Color - Emoji
+    const [emoji, setEmoji] = useState('🌈');
+
     return <Dialog>
             <DialogTrigger asChild>
                 <Button variant={"ghost"} size={"icon"} className={'text-6xl'}>
@@ -37,28 +38,51 @@ const CreateDialog: FC<Props> = ({type}) => {
                     <Form>
                         <div className={'mb-6'}>
                             <Label htmlFor={"name"} className={'block mb-3'}>Name</Label>
-                            <Input id="name" name={"name"} type={"text"} placeholder={`${type} name`}/>
+                            <div className={'flex items-center'}>
+                                <Input id="card-emoji"
+                                       name={"emoji"}
+                                       readOnly={true}
+                                       className={'w-10 p-0 mr-2 text-2xl border-0'}
+                                       value={emoji}
+                                />
+                                <Input id="name" name={"name"} type={"text"} placeholder={`${type} name`}/>
+                            </div>
+
+                        </div>
+
+                        <div className={'mb-6'}>
+                            <Label htmlFor={"card-emoji"} className={'block mb-2'}>Emoji</Label>
+                            <EmojiPicker width={"100%"}
+                                         lazyLoadEmojis={true}
+                                         reactionsDefaultOpen={true}
+                                         onEmojiClick={({emoji}) => setEmoji(emoji)}
+                                         theme={theme as Theme}/>
                         </div>
 
                         <div className={'mb-6'}>
                             <Label htmlFor={"card-color"} className={'block mb-2'}>Color</Label>
                             <div className={'flex w-[450px] pr-2 pb-2 overflow-x-auto'}>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 rounded-full ${gradientColors[0]}`}/>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[1]}`}/>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[2]}`}/>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[3]}`}/>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[4]}`}/>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[5]}`}/>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[6]}`}/>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[7]}`}/>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[8]}`}/>
-                                <Checkbox id="card-color" name={"color"} className={`w-10 h-10 ml-2 rounded-full ${gradientColors[9]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 rounded-full ${gradientColors[0]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[1]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[2]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[3]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[4]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[5]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[6]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[7]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[8]}`}/>
+                                <Checkbox id="card-color" name={"color"}
+                                          className={`w-10 h-10 ml-2 rounded-full ${gradientColors[9]}`}/>
                             </div>
-                        </div>
-
-                        <div className={'mb-6'}>
-                            <Label htmlFor={"card-color"} className={'block mb-2'}>Emoji</Label>
-                            <EmojiPicker width={"100%"} lazyLoadEmojis={true} reactionsDefaultOpen={true} theme={theme as Theme} />
                         </div>
                     </Form>
                 </DialogHeader>
