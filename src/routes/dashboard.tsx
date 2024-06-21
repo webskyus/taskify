@@ -2,7 +2,7 @@ import React from 'react';
 import {ActionFunctionArgs, json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node";
 import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
 import {ROUTES} from "~/shared/lib/utils/urls";
-import {Link, useLoaderData} from "@remix-run/react";
+import {Link, useLoaderData, useOutletContext} from "@remix-run/react";
 import {DashboardHeader} from "~/widgets/dashboard-header";
 import {gradientColors} from "~/shared/lib/utils/constants";
 import {date, getRandomInt} from "~/shared/lib/utils";
@@ -14,6 +14,7 @@ import {HiOutlineDotsHorizontal} from "react-icons/hi";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "~/shared/ui/dropdown-menu";
 import {validator} from "~/features/create-dialog/ui/create-dialog";
 import {validationError} from "remix-validated-form";
+import {SupabaseClient} from "@supabase/supabase-js";
 
 export const meta: MetaFunction = () => {
     return [
@@ -77,9 +78,19 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
 const Dashboard = () => {
     const {profile, workspaces} = useLoaderData<typeof loader>();
+    const {supabase} = useOutletContext<{
+        supabase: SupabaseClient
+    }>();
 
     const handleDeleteWorkspace = async (id: number) => {
-
+        try {
+            await supabase
+                .from('workspaces')
+                .delete()
+                .eq('id', id)
+        } catch (e) {
+            console.log('dd.delete.workspace.error', e)
+        }
     }
 
     const handleEditWorkspace = async (id: number) => {
@@ -132,10 +143,10 @@ const Dashboard = () => {
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
-                                            <DropdownMenuItem onClick={() => handleEditWorkspace(1)}>
+                                            <DropdownMenuItem onClick={() => handleEditWorkspace(id)}>
                                                 Edit
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem className={'text-red-400'} onClick={() => handleDeleteWorkspace(1)}>
+                                            <DropdownMenuItem className={'text-red-400'} onClick={() => handleDeleteWorkspace(id)}>
                                                 Delete
                                             </DropdownMenuItem>
                                         </DropdownMenuContent>
