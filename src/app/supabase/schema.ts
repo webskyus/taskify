@@ -1,25 +1,27 @@
-import {pgTable, uuid, text, timestamp, jsonb} from 'drizzle-orm/pg-core';
+import {pgTable, uuid, text, timestamp, jsonb, smallint} from 'drizzle-orm/pg-core';
 
 
 const workspaces = pgTable('workspaces', {
     id: uuid('id')
+        .primaryKey()
         .defaultRandom(),
-    title: text('title')
+    name: text('name')
         .notNull(),
-    data: text('data')
+    description: text('description')
         .notNull(),
-    logo: text('logo')
+    icon: smallint('icon')
         .notNull(),
-    banner: text('banner')
+    color: text("color")
         .notNull(),
-    iconId: text('icon_id')
+    ownerId: uuid('owner_id')
         .notNull(),
-    workspaceOwner: uuid('workspace_owner')
-        .notNull(),
-    createdAt: timestamp('created_at', {
-        withTimezone: true,
-        mode: 'string',
-    }),
+    createdAt: timestamp(
+        'created_at',
+        {
+            withTimezone: true,
+            mode: 'string',
+        }
+    ).defaultNow(),
 });
 
 const profiles = pgTable('profiles', {
