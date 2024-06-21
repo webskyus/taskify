@@ -66,17 +66,17 @@ const Dashboard = () => {
                         const randomBgGradient = gradientColors[getRandomInt(0, gradientColors.length - 1)];
                         const url = `${ROUTES.DASHBOARD}/${dashboardId}/${i}`;
 
-                        return <Link key={_} to={url}>
-                            <article className={`p-4 rounded ${randomBgGradient}`}>
-                                <p className={'mb-2 text-6xl'}>🐑</p>
-                                <h2 className={'text-2xl font-bold line-clamp-1 text-white'}>
-                                    Projects #{i + 1}
-                                </h2>
+                        return  <article className={`p-4 rounded ${randomBgGradient}`}>
+                                <Link key={_} to={url}>
+                                    <p className={'mb-2 text-6xl'}>🐑</p>
+                                    <h2 className={'text-2xl font-bold line-clamp-1 text-white'}>
+                                        Projects #{i + 1}
+                                    </h2>
+                                </Link>
                                 <p className={'line-clamp-2 text-white'}>
                                     Projects Description Description Description Description Description
                                 </p>
                             </article>
-                        </Link>
                     })
                 }
             </section>

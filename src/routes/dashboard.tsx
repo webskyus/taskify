@@ -1,14 +1,19 @@
 import React from 'react';
-import {json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node";
+import {ActionFunctionArgs, json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node";
 import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
 import {ROUTES} from "~/shared/lib/utils/urls";
 import {Link, useLoaderData} from "@remix-run/react";
 import {DashboardHeader} from "~/widgets/dashboard-header";
 import {gradientColors} from "~/shared/lib/utils/constants";
-import {getRandomInt} from "~/shared/lib/utils";
+import {date, getRandomInt} from "~/shared/lib/utils";
 import {CreateDialog} from "~/features/create-dialog";
 import {CREATED_PAGE_TYPE} from "~/shared/lib/utils/static";
 import {EmptyResultMessage} from "~/shared/ui/empty-result-message";
+import {Button} from "~/shared/ui/button";
+import {HiOutlineDotsHorizontal} from "react-icons/hi";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "~/shared/ui/dropdown-menu";
+import {validator} from "~/features/create-dialog/ui/create-dialog";
+import {validationError} from "remix-validated-form";
 
 export const meta: MetaFunction = () => {
     return [
@@ -20,6 +25,19 @@ export const meta: MetaFunction = () => {
             content: 'Your all in one productivity app | Dashboard',
         },
     ];
+};
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+    const result = await validator.validate(
+        await request.formData()
+    );
+    const { error} = result;
+
+    if (error) return validationError(result.error);
+
+    return json({
+        ok: true
+    })
 };
 
 export const loader = async ({request}: LoaderFunctionArgs) => {
@@ -34,7 +52,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     const {data: workspaces} = await supabase
         .from('workspaces')
         .select()
-        .eq('user_id', serverSession?.user?.id)
+        .eq('owner_id', serverSession?.user?.id)
 
     if (!serverSession) {
         return redirect(
@@ -59,6 +77,14 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
 const Dashboard = () => {
     const {profile, workspaces} = useLoaderData<typeof loader>();
+
+    const handleDeleteWorkspace = async (id: number) => {
+
+    }
+
+    const handleEditWorkspace = async (id: number) => {
+
+    }
 
     return <section className={"container"}>
         <DashboardHeader data={profile}/>
@@ -87,22 +113,40 @@ const Dashboard = () => {
                     xl:grid-cols-5 
                 `}>
                 {
-                    workspaces?.map((_, i) => {
-                        const randomBgGradient = gradientColors[getRandomInt(0, gradientColors.length-1)];
-                        const url = `${ROUTES.DASHBOARD}/${i}`;
+                    workspaces?.map((workspace, i) => {
+                        const {id, name, color, icon, created_at, description} = workspace;
+                        const url = `${ROUTES.DASHBOARD}/${id}`;
 
-                        return <Link key={_} to={url}>
-                            <article className={`p-4 rounded ${randomBgGradient}`}>
-                                <p className={'mb-2 text-6xl'}>🐑</p>
-                                <h2 className={'text-2xl font-bold line-clamp-1 text-white'}>
-                                    WORKSPACE #{i + 1}
-                                </h2>
-                                <p className={'line-clamp-2 text-white'}>
-                                    Workspace Description Workspace Description Workspace Description Workspace
-                                    Description
+                        return <article key={id} className={`p-4 rounded ${gradientColors[color]}`}>
+                                <header className={'flex items-start justify-between'}>
+                                    <Link to={url}>
+                                        <p className={'mb-2 text-6xl'}>{icon}</p>
+                                        <h2 className={'text-2xl font-bold line-clamp-1 text-white'}>
+                                            {name}
+                                        </h2>
+                                    </Link>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger>
+                                            <Button variant={"link"} className={'!h-6 !p-0 hover:opacity-50 transition-opacity'}>
+                                                <HiOutlineDotsHorizontal size={28} />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuItem onClick={() => handleEditWorkspace(1)}>
+                                                Edit
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem className={'text-red-400'} onClick={() => handleDeleteWorkspace(1)}>
+                                                Delete
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+
+                                </header>
+                                <p className={'mt-2 mb-4 line-clamp-3 text-white'}>
+                                    {description}
                                 </p>
+                            <time dateTime={"24.12.2024"} className={'text-xs italic'}>Created in {date(created_at)} </time>
                             </article>
-                        </Link>
                     })
                 }
             </section>

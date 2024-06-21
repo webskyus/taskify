@@ -10,7 +10,7 @@ const date = (
     locale: Intl.LocalesArgument = 'en-GB',
     options: Intl.DateTimeFormatOptions = {
         dateStyle: 'full',
-        timeStyle: 'long',
+        timeStyle: 'short',
     }
 ) => {
     const now = new Date(date);
