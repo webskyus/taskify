@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import {Button} from "~/shared/ui/button";
 import {LuMessageSquarePlus} from "react-icons/lu";
 import {
@@ -13,76 +13,134 @@ import {
 import {CREATE_DIALOG_TEXT, CREATED_PAGE_TYPE} from "~/shared/lib/utils/static";
 import {Label} from "~/shared/ui/label";
 import {Input} from "~/shared/ui/input";
-import {Form, useNavigation} from "@remix-run/react";
 import {gradientColors} from "~/shared/lib/utils/constants";
 import EmojiPicker, {Theme} from "emoji-picker-react";
 import {useTheme} from "~/routes/action.set-theme";
 import {RadioGroup, RadioGroupItem} from "~/shared/ui/radio-group";
-import {ActionFunctionArgs} from "@remix-run/node";
 import {z} from "zod";
+import {useIsSubmitting, ValidatedForm} from "remix-validated-form";
+import {withZod} from "@rvf/zod";
+import {ROUTES} from "~/shared/lib/utils/urls";
+import {useOutletContext} from "@remix-run/react";
+import {SupabaseClient} from "@supabase/supabase-js";
 
 interface Props {
     type: `${CREATED_PAGE_TYPE}`
 }
 
-const schema = z.object({
-    name: z
-        .string()
-        .min(
-            5,
-            "Minimum 5 characters required"
-        ),
-});
+export const validator = withZod(
+    z.object({
+        name: z
+            .string()
+            .min(
+                5,
+                {
+                    message: "Minimum 5 characters required"
+                }
+            ),
+        description: z
+            .string()
+            .min(
+                10,
+                {
+                    message: "Minimum 10 characters required"
+                }
+            ),
+        icon: z
+            .string(),
+        color: z
+            .string()
+            .optional()
+    })
+);
 
-export const action = async ({request}: ActionFunctionArgs) => {
-    const formData = await request.formData();
-
-    console.log('dd.form.formData', formData)
-}
 
 const CreateDialog: FC<Props> = ({type}) => {
     const theme = useTheme();
-    const navigation = useNavigation();
-    const [emoji, setEmoji] = useState('🌈');
+    const {supabase} = useOutletContext<{
+        supabase: SupabaseClient
+    }>();
+    const isSubmitting = useIsSubmitting("create-dialog-form");
+    const [icon, setIcon] = useState('🌈');
+
+    const handleSubmitForm = async (data) => {
+        const {
+            name,
+            description,
+            icon,
+            color
+        } = data;
+
+        try {
+            const {data: {user}} = await supabase.auth.getUser();
+
+            await supabase
+                .from('workspaces')
+                .insert([
+                    {
+                        name,
+                        description,
+                        icon,
+                        color: +color,
+                        owner_id: user?.id
+                    }
+                ])
+        } catch (e) {
+            console.log('dd.form.error')
+        }
+    }
 
     return <Dialog>
-        <DialogTrigger asChild onClick={() => setEmoji('🌈')}>
+        <DialogTrigger asChild onClick={() => setIcon('🌈')}>
             <Button variant={"ghost"} size={"icon"} className={'text-6xl'}>
                 <LuMessageSquarePlus className={'stroke-green-400'}/>
             </Button>
         </DialogTrigger>
 
         <DialogContent>
-            <DialogHeader>
-                <DialogTitle>
-                    {CREATE_DIALOG_TEXT[type].title}
-                </DialogTitle>
-                <DialogDescription className={'!mb-4'}>
-                    {CREATE_DIALOG_TEXT[type].description}
-                </DialogDescription>
+            <ValidatedForm onSubmit={handleSubmitForm} id={"create-dialog-form"} method="post" validator={validator} action={ROUTES.DASHBOARD}>
+                <DialogHeader>
+                    <DialogTitle>
+                        {CREATE_DIALOG_TEXT[type].title}
+                    </DialogTitle>
+                    <DialogDescription className={'!mb-4'}>
+                        {CREATE_DIALOG_TEXT[type].description}
+                    </DialogDescription>
+                </DialogHeader>
 
-                <Form method="post">
+                <article>
                     <div className={'mb-6'}>
                         <Label htmlFor={"name"} className={'block mb-3'}>
                             Name
                         </Label>
-                        <div className={'flex items-center'}>
+
+                        <div className={'flex items-baseline'}>
                             <Input id="card-emoji"
-                                   name={"emoji"}
-                                   readOnly={true}
-                                   disabled
+                                   name={"icon"}
+                                   readOnly
                                    className={'w-10 p-0 mr-2 text-2xl border-0'}
-                                   value={emoji}
+                                   value={icon}
                             />
 
-                            <Input id="name"
-                                   name={"name"}
-                                   type={"text"}
-                                   placeholder={`${type} name`}
-                                   required
-                            />
+                            <div className={'w-full'}>
+                                <Input id="name"
+                                       name={"name"}
+                                       type={"text"}
+                                       placeholder={`DeltaX Workspace...`}
+                                />
+                            </div>
                         </div>
+                    </div>
 
+                    <div className={'mb-6'}>
+                        <Label htmlFor={"description"} className={'block mb-3'}>
+                            Description
+                        </Label>
+                        <Input id="description"
+                               name={"description"}
+                               type={"text"}
+                               placeholder={`My lovely workspace for DeltaX company projects...`}
+                        />
                     </div>
 
                     <div className={'mb-6'}>
@@ -90,44 +148,61 @@ const CreateDialog: FC<Props> = ({type}) => {
                         <EmojiPicker width={"100%"}
                                      lazyLoadEmojis={true}
                                      reactionsDefaultOpen={true}
-                                     onEmojiClick={({emoji}) => setEmoji(emoji)}
+                                     onEmojiClick={({emoji}) => setIcon(emoji)}
                                      theme={theme as Theme}/>
                     </div>
 
                     <div className={'mb-6'}>
                         <Label htmlFor={"card-color"} className={'block mb-2'}>Color</Label>
-                        <RadioGroup defaultValue="color_1" className={'flex w-[450px] pr-2 pb-2 overflow-x-auto'}>
-                            <RadioGroupItem value="color_1" id="r1"
+                        <RadioGroup defaultValue="0" name={"color"} className={'flex w-[450px] pr-2 pb-2 overflow-x-auto'}>
+                            <RadioGroupItem value="0"
+                                            id="r1"
                                             className={`min-w-10 min-h-10 rounded-full ${gradientColors[0]}`}/>
-                            <RadioGroupItem value="color_2" id="r2"
+                            <RadioGroupItem value="1"
+                                            id="r2"
                                             className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[1]}`}/>
-                            <RadioGroupItem value="color_3" id="r3"
+                            <RadioGroupItem value="2"
+                                            id="r3"
                                             className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[2]}`}/>
-                            <RadioGroupItem value="color_4" id="r4"
+                            <RadioGroupItem value="3"
+                                            id="r4"
                                             className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[3]}`}/>
-                            <RadioGroupItem value="color_5" id="r5"
+                            <RadioGroupItem value="4"
+                                            id="r5"
                                             className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[4]}`}/>
-                            <RadioGroupItem value="color_6" id="r6"
+                            <RadioGroupItem value="5"
+                                            id="r6"
                                             className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[5]}`}/>
-                            <RadioGroupItem value="color_7" id="r7"
+                            <RadioGroupItem value="6"
+                                            id="r7"
                                             className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[6]}`}/>
-                            <RadioGroupItem value="color_8" id="r8"
+                            <RadioGroupItem value="7"
+                                            id="r8"
                                             className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[7]}`}/>
-                            <RadioGroupItem value="color_9" id="r9"
+                            <RadioGroupItem value="8"
+                                            id="r9"
                                             className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[8]}`}/>
-                            <RadioGroupItem value="color_10" id="r10"
+                            <RadioGroupItem value="9"
+                                            id="r10"
                                             className={`min-w-10 min-h-10 ml-2 rounded-full ${gradientColors[9]}`}/>
                         </RadioGroup>
                     </div>
-                </Form>
-            </DialogHeader>
-            <DialogFooter>
-                <DialogClose asChild>
-                    <Button type={"button"} variant={"link"}>Close</Button>
-                </DialogClose>
-                <Button variant={"secondary"}
-                        disabled={navigation.state === 'submitting'}>Create</Button>
-            </DialogFooter>
+                </article>
+
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type={"button"} variant={"link"}>Close</Button>
+                    </DialogClose>
+                    <Button variant={"secondary"}
+                            disabled={isSubmitting}>
+                        {
+                            isSubmitting
+                                ? 'Creating...'
+                                : 'Create'
+                        }
+                    </Button>
+                </DialogFooter>
+            </ValidatedForm>
         </DialogContent>
     </Dialog>
 };

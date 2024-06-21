@@ -15,6 +15,83 @@
       "when": 1717059329384,
       "tag": "0001_tan_union_jack",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1718965444381,
+      "tag": "0002_calm_chronomancer",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1718965516699,
+      "tag": "0003_green_johnny_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1718965597075,
+      "tag": "0004_eager_master_mold",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1718965740291,
+      "tag": "0005_long_ulik",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1718976165613,
+      "tag": "0006_condemned_jamie_braddock",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1718977077327,
+      "tag": "0007_free_magik",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1718977481304,
+      "tag": "0008_aberrant_praxagora",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1718977773612,
+      "tag": "0009_wandering_romulus",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1718978183390,
+      "tag": "0010_black_radioactive_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1718978710339,
+      "tag": "0011_narrow_puma",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1718978869600,
+      "tag": "0012_aberrant_agent_brand",
+      "breakpoints": true
     }
   ]
 }
