@@ -7,6 +7,9 @@ import LogoIcon from "~/shared/assets/icons/logo";
 import {ThemeSwitch} from "~/routes/action.set-theme";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "~/shared/ui/dropdown-menu";
 import {SupabaseClient} from "@supabase/supabase-js";
+import {ActionFunctionArgs, json} from "@remix-run/node";
+import {validationError} from "remix-validated-form";
+import {validator} from "~/features/create-dialog/ui/create-dialog";
 
 interface Props {
 	data: {
@@ -15,6 +18,7 @@ interface Props {
 		email: string
 	}
 }
+
 
 const DashboardHeader: FC<Props> = ({data}) => {
 	const {avatar_url, full_name, email} = data;
