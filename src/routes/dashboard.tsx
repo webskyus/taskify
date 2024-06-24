@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {ActionFunctionArgs, json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node";
 import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
 import {ROUTES} from "~/shared/lib/utils/urls";
@@ -15,6 +15,7 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {validator} from "~/features/create-dialog/ui/create-dialog";
 import {validationError} from "remix-validated-form";
 import {SupabaseClient} from "@supabase/supabase-js";
+import {ErrorMessage} from "~/shared/ui/error-message";
 
 export const meta: MetaFunction = () => {
     return [
@@ -28,11 +29,11 @@ export const meta: MetaFunction = () => {
     ];
 };
 
-export const action = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({request}: ActionFunctionArgs) => {
     const result = await validator.validate(
         await request.formData()
     );
-    const { error} = result;
+    const {error} = result;
 
     if (error) return validationError(result.error);
 
@@ -50,7 +51,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
         .select()
         .eq('id', serverSession?.user?.id)
         .single()
-    const {data: workspaces} = await supabase
+    const {data: workspaces, error} = await supabase
         .from('workspaces')
         .select()
         .eq('owner_id', serverSession?.user?.id)
@@ -68,7 +69,8 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
         {
             serverSession,
             profile,
-            workspaces
+            workspaces,
+            error
         },
         {
             headers
@@ -77,10 +79,47 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 }
 
 const Dashboard = () => {
-    const {profile, workspaces} = useLoaderData<typeof loader>();
+    const [trigger, setTrigger] = useState(0);
+    const {profile, workspaces: serverWorkspaces, error} = useLoaderData<typeof loader>();
+    const [workspaces, setWorkspaces] = useState(serverWorkspaces);
     const {supabase} = useOutletContext<{
         supabase: SupabaseClient
     }>();
+
+    useEffect(() => {
+        handleGetRealtimeWorkspaces();
+    }, [workspaces]);
+
+    const handleGetRealtimeWorkspaces = async () => {
+        const {data: {user}} = await supabase.auth.getUser();
+        const channel = supabase.channel('table-db-changes')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'workspaces',
+                    filter: `owner_id=eq.${user?.id}`
+                },
+                payload => handleGetWorkspaces()
+            )
+            .subscribe()
+
+        return () => channel.unsubscribe();
+    }
+
+    const handleGetWorkspaces = async () => {
+        try {
+            const {data: {user}} = await supabase.auth.getUser();
+            const {data} = await supabase
+                .from('workspaces')
+                .select()
+                .eq('owner_id', user?.id)
+            console.log('data', data)
+        } catch (e) {
+            console.log('dd.workspaces.request.error', e)
+        }
+    }
 
     const handleDeleteWorkspace = async (id: number) => {
         try {
@@ -110,8 +149,13 @@ const Dashboard = () => {
             </header>
 
             {
-                !workspaces?.length &&
+                !workspaces?.length && !error &&
                 <EmptyResultMessage/>
+            }
+
+            {
+                error &&
+                <ErrorMessage/>
             }
 
             <section
@@ -129,35 +173,38 @@ const Dashboard = () => {
                         const url = `${ROUTES.DASHBOARD}/${id}`;
 
                         return <article key={id} className={`p-4 rounded ${gradientColors[color]}`}>
-                                <header className={'flex items-start justify-between'}>
-                                    <Link to={url}>
-                                        <p className={'mb-2 text-6xl'}>{icon}</p>
-                                        <h2 className={'text-2xl font-bold line-clamp-1 text-white'}>
-                                            {name}
-                                        </h2>
-                                    </Link>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger>
-                                            <Button variant={"link"} className={'!h-6 !p-0 hover:opacity-50 transition-opacity'}>
-                                                <HiOutlineDotsHorizontal size={28} />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent>
-                                            <DropdownMenuItem onClick={() => handleEditWorkspace(id)}>
-                                                Edit
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem className={'text-red-400'} onClick={() => handleDeleteWorkspace(id)}>
-                                                Delete
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
+                            <header className={'flex items-start justify-between'}>
+                                <Link to={url}>
+                                    <p className={'mb-2 text-6xl'}>{icon}</p>
+                                    <h2 className={'text-2xl font-bold line-clamp-1 text-white'}>
+                                        {name}
+                                    </h2>
+                                </Link>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger>
+                                        <Button variant={"link"}
+                                                className={'!h-6 !p-0 hover:opacity-50 transition-opacity'}>
+                                            <HiOutlineDotsHorizontal size={28}/>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuItem onClick={() => handleEditWorkspace(id)}>
+                                            Edit
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem className={'text-red-400'}
+                                                          onClick={() => handleDeleteWorkspace(id)}>
+                                            Delete
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
 
-                                </header>
-                                <p className={'mt-2 mb-4 line-clamp-3 text-white'}>
-                                    {description}
-                                </p>
-                            <time dateTime={"24.12.2024"} className={'text-xs italic'}>Created in {date(created_at)} </time>
-                            </article>
+                            </header>
+                            <p className={'mt-2 mb-4 line-clamp-3 text-white'}>
+                                {description}
+                            </p>
+                            <time dateTime={"24.12.2024"} className={'text-xs italic'}>Created
+                                in {date(created_at)} </time>
+                        </article>
                     })
                 }
             </section>

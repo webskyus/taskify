@@ -63,7 +63,8 @@ const CreateDialog: FC<Props> = ({type}) => {
     const isSubmitting = useIsSubmitting("create-dialog-form");
     const [icon, setIcon] = useState('🌈');
 
-    const handleSubmitForm = async (data) => {
+    // TODO change any type
+    const handleSubmitForm = async (data: any) => {
         const {
             name,
             description,
