@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaSquareGithub } from 'react-icons/fa6';
 import { Button } from '~/shared/ui/button';
 import { AUTH_TYPE } from '~/shared/types/auth';
 import { AUTH_TEXT } from '~/shared/lib/utils/static';
-import {SupabaseClient} from "@supabase/supabase-js";
+import { SupabaseClient } from '@supabase/supabase-js';
 import { useOutletContext } from '@remix-run/react';
 
 interface Props {
@@ -13,13 +13,13 @@ interface Props {
 
 const Auth: FC<Props> = props => {
 	const { authType } = props;
-	const {supabase} = useOutletContext<{
-		supabase: SupabaseClient
+	const { supabase } = useOutletContext<{
+		supabase: SupabaseClient;
 	}>();
 
 	const handleSignInWithGoogle = async () => {
 		await supabase.auth.signInWithOAuth({
-			provider: "google",
+			provider: 'google',
 			options: {
 				redirectTo: 'http://localhost:3000/auth/callback',
 				queryParams: {
@@ -32,7 +32,7 @@ const Auth: FC<Props> = props => {
 
 	const handleSignInWithGitHub = async () => {
 		await supabase.auth.signInWithOAuth({
-			provider: "github",
+			provider: 'github',
 			options: {
 				redirectTo: 'http://localhost:3000/auth/callback',
 			},
@@ -48,12 +48,18 @@ const Auth: FC<Props> = props => {
 				{AUTH_TEXT[authType].description}
 			</p>
 
-			<Button variant={'secondary'} className={'w-[100%] mb-1'} onClick={handleSignInWithGoogle}>
+			<Button
+				variant={'secondary'}
+				className={'w-[100%] mb-1'}
+				onClick={handleSignInWithGoogle}>
 				<FcGoogle size={24} className={'mr-2'} />
 				{AUTH_TEXT[authType].auth_google}
 			</Button>
 
-			<Button variant={'secondary'} className={'w-[100%]'} onClick={handleSignInWithGitHub}>
+			<Button
+				variant={'secondary'}
+				className={'w-[100%]'}
+				onClick={handleSignInWithGitHub}>
 				<FaSquareGithub size={24} className={'mr-2'} />
 				{AUTH_TEXT[authType].auth_github}
 			</Button>
@@ -61,6 +67,4 @@ const Auth: FC<Props> = props => {
 	);
 };
 
-export {
-	Auth
-}
+export { Auth };

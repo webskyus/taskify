@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import {useTheme} from "~/routes/action.set-theme";
-import {Theme} from "~/app/theme/utils";
+import { useTheme } from '~/routes/action.set-theme';
+import { Theme } from '~/app/theme/utils';
 
 interface Props {
 	textFillColor?: string;
@@ -10,15 +10,9 @@ interface Props {
 }
 
 const LogoIcon: FC<Props> = props => {
-	const {
-		textFillColor ,
-		width = 160,
-		height = 50,
-		className = '',
-	} = props;
+	const { textFillColor, width = 160, height = 50, className = '' } = props;
 	const theme = useTheme();
 	const logoColor = Theme.DARK === theme ? '#fff' : '#2F2B43';
-
 
 	return (
 		<svg

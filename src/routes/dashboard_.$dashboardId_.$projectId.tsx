@@ -1,53 +1,53 @@
-import React from 'react';
-import {json, LoaderFunctionArgs, MetaFunction, redirect} from "@remix-run/node";
-import {getSupabaseWithSessionAndHeaders} from "~/app/supabase/supabase.server";
-import {ROUTES} from "~/shared/lib/utils/urls";
-import {useLoaderData, useParams} from "@remix-run/react";
-import {DashboardHeader} from "~/widgets/dashboard-header";
-import {gradientColors} from "~/shared/lib/utils/constants";
-import {getRandomInt} from "~/shared/lib/utils";
+import {
+	json,
+	LoaderFunctionArgs,
+	MetaFunction,
+	redirect,
+} from '@remix-run/node';
+import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
+import { ROUTES } from '~/shared/lib/utils/urls';
+import { useLoaderData, useParams } from '@remix-run/react';
+import { DashboardHeader } from '~/widgets/dashboard-header';
 
 export const meta: MetaFunction = () => {
-    return [
-        {
-            title: 'Taskify | Projects',
-        },
-        {
-            name: 'description',
-            content: 'Your all in one productivity app | Projects',
-        },
-    ];
+	return [
+		{
+			title: 'Taskify | Projects',
+		},
+		{
+			name: 'description',
+			content: 'Your all in one productivity app | Projects',
+		},
+	];
 };
 
-export const loader = async ({request}: LoaderFunctionArgs) => {
-    const {headers, serverSession, supabase} = await getSupabaseWithSessionAndHeaders({
-        request
-    });
-    const {data} = await supabase
-        .from("profiles")
-        .select()
-        .eq('id', serverSession?.user?.id)
-        .single()
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+	const { headers, serverSession, supabase } =
+		await getSupabaseWithSessionAndHeaders({
+			request,
+		});
+	const { data } = await supabase
+		.from('profiles')
+		.select()
+		.eq('id', serverSession?.user?.id)
+		.single();
 
-    if (!serverSession) {
-        return redirect(
-            ROUTES.SIGN_IN,
-            {
-                headers
-            }
-        )
-    }
+	if (!serverSession) {
+		return redirect(ROUTES.SIGN_IN, {
+			headers,
+		});
+	}
 
-    return json(
-        {
-            serverSession,
-            profile: data
-        },
-        {
-            headers
-        }
-    )
-}
+	return json(
+		{
+			serverSession,
+			profile: data,
+		},
+		{
+			headers,
+		}
+	);
+};
 
 // WORKSPACES + | CHOOSE ONE
 // PROJECTS + | CHOOSE ONE
@@ -56,17 +56,20 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 // SUPABASE | handle for new user create workspace
 
 const Dashboard = () => {
-    const {profile} = useLoaderData<typeof loader>();
-    const {projectId} = useParams();
+	const { profile } = useLoaderData<typeof loader>();
+	const { projectId } = useParams();
 
-    return <section className={"container"}>
-        <DashboardHeader data={profile}/>
+	return (
+		<section className={'container'}>
+			<DashboardHeader data={profile} />
 
-        <section>
-            <h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>🌸 Project Name | ID {projectId}</h1>
-
-        </section>
-    </section>;
+			<section>
+				<h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>
+					🌸 Project Name | ID {projectId}
+				</h1>
+			</section>
+		</section>
+	);
 };
 
-export default Dashboard
+export default Dashboard;

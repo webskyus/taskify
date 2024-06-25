@@ -21,6 +21,4 @@ const Image: FC<Props> = props => {
 	return <img key={key} src={url || placeholder} alt={alt} style={styles} />;
 };
 
-export {
-	Image
-}
+export { Image };

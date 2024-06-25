@@ -4,7 +4,7 @@ import LogoIcon from '~/shared/assets/icons/logo';
 import { Button } from '~/shared/ui/button';
 import { HEADER_TEXT } from '~/shared/lib/utils/static';
 import { AUTH_TYPE } from '~/shared/types/auth';
-import {ThemeSwitch} from '~/routes/action.set-theme';
+import { ThemeSwitch } from '~/routes/action.set-theme';
 
 const Header = () => {
 	return (
@@ -25,13 +25,13 @@ const Header = () => {
 					</li>
 
 					<li className={'ml-2'}>
-						<Button asChild variant={"secondary"}>
+						<Button asChild variant={'secondary'}>
 							<Link to={ROUTES.SIGN_UP}>{HEADER_TEXT[AUTH_TYPE.SIGN_UP]}</Link>
 						</Button>
 					</li>
 
 					<li className={'ml-2'}>
-						<ThemeSwitch/>
+						<ThemeSwitch />
 					</li>
 				</ul>
 			</nav>
@@ -39,6 +39,4 @@ const Header = () => {
 	);
 };
 
-export {
-	Header
-}
+export { Header };

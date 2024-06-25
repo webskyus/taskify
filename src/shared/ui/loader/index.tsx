@@ -12,6 +12,4 @@ const Loader: FC<Props> = props => {
 	return <span className={styles.loader} />;
 };
 
-export {
-	Loader
-};
+export { Loader };

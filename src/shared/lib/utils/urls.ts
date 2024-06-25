@@ -2,9 +2,7 @@ enum ROUTES {
 	LANDING = '/',
 	SIGN_IN = '/sign-in',
 	SIGN_UP = '/sign-up',
-	DASHBOARD = '/dashboard'
+	DASHBOARD = '/dashboard',
 }
 
-export {
-	ROUTES
-}
+export { ROUTES };

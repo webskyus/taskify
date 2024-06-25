@@ -6,15 +6,15 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '~/shared/ui/dropdown-menu';
-import {FC} from "react";
-import {Theme} from "~/app/theme/utils";
+import { FC } from 'react';
+import { Theme } from '~/app/theme/utils';
 
 interface Props {
 	handleThemeChange: (theme: Theme) => void;
 }
 
-const ThemeToggler: FC<Props> = (props) => {
-	const {handleThemeChange} = props;
+const ThemeToggler: FC<Props> = props => {
+	const { handleThemeChange } = props;
 
 	return (
 		<DropdownMenu>
@@ -37,6 +37,4 @@ const ThemeToggler: FC<Props> = (props) => {
 	);
 };
 
-export {
-	ThemeToggler
-};
+export { ThemeToggler };

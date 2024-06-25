@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useRevalidator } from '@remix-run/react';
 
 export const clientHints = {

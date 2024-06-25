@@ -19,9 +19,14 @@ type HeaderAuthLinkTextType = {
 	url: ROUTES;
 };
 
+type CreatedDialogItemType = {
+	title: string;
+	description: string;
+}
+
 enum CREATED_PAGE_TYPE {
 	WORKSPACE = 'Workspace',
-	PROJECT = 'Project'
+	PROJECT = 'Project',
 }
 
 const HEADER_TEXT = {
@@ -45,34 +50,34 @@ const AUTH_TEXT: Record<AUTH_TYPE, AuthTextType> = {
 };
 
 const LANDING_TEXT: LandingTextType = {
-	title: '♻️ Relabel, 🚀 Move, <br/> 🔄 Modify, 📂 Archive and Many more operations.',
+	title:
+		'♻️ Relabel, 🚀 Move, <br/> 🔄 Modify, 📂 Archive and Many more operations.',
 	description:
 		'Experience seamless project management with our Trello-inspired platform, Taskify. Organize tasks, collaborate with ease, and boost productivity starting today.',
 	auth_button: 'Get Taskify free',
 };
 
-const HEADER_AUTH_LINK_TEXT: Record<AUTH_TYPE, HeaderAuthLinkTextType> =
-	{
-		[AUTH_TYPE.SIGN_UP]: {
-			title: 'Have account? Sign in',
-			url: ROUTES.SIGN_IN,
-		},
-		[AUTH_TYPE.SIGN_IN]: {
-			title: 'Create an account',
-			url: ROUTES.SIGN_UP,
-		},
-	};
+const HEADER_AUTH_LINK_TEXT: Record<AUTH_TYPE, HeaderAuthLinkTextType> = {
+	[AUTH_TYPE.SIGN_UP]: {
+		title: 'Have account? Sign in',
+		url: ROUTES.SIGN_IN,
+	},
+	[AUTH_TYPE.SIGN_IN]: {
+		title: 'Create an account',
+		url: ROUTES.SIGN_UP,
+	},
+};
 
-const CREATE_DIALOG_TEXT: Record<CREATED_PAGE_TYPE, any> = {
+const CREATE_DIALOG_TEXT: Record<CREATED_PAGE_TYPE,  CreatedDialogItemType> = {
 	[CREATED_PAGE_TYPE.WORKSPACE]: {
 		title: 'Create new workspace',
-		description: 'You can create a workspace where you can set up projects.'
+		description: 'You can create a workspace where you can set up projects.',
 	},
 	[CREATED_PAGE_TYPE.PROJECT]: {
 		title: 'Create new project',
 		description: 'You can create new project and start using Taskify board',
 	},
-}
+};
 
 export {
 	HEADER_TEXT,
@@ -80,5 +85,5 @@ export {
 	LANDING_TEXT,
 	AUTH_TEXT,
 	CREATED_PAGE_TYPE,
-	CREATE_DIALOG_TEXT
-}
+	CREATE_DIALOG_TEXT,
+};
