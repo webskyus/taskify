@@ -32,4 +32,8 @@ const getRandomInt = (min: number, max: number) => {
 	return Math.floor(Math.random() * (_max - _min + 1)) + _min;
 };
 
-export { cn, date, getShortFullName, getRandomInt };
+const getObjectKeysLength = (data: object) => {
+	return Object.keys(data).length;
+}
+
+export { cn, date, getShortFullName, getRandomInt, getObjectKeysLength };
