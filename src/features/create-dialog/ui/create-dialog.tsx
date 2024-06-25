@@ -26,7 +26,9 @@ import {useIsSubmitting, ValidatedForm} from 'remix-validated-form';
 import {withZod} from '@rvf/zod';
 import {ROUTES} from '~/shared/lib/utils/urls';
 import {Spinner} from "~/shared/ui/spinner";
-import {useFetcher, useSubmit} from "@remix-run/react";
+import {useActionData} from "@remix-run/react";
+import {HiPlus} from "react-icons/hi";
+import {HiSquaresPlus} from "react-icons/hi2";
 
 interface Props {
     type: `${CREATED_PAGE_TYPE}`;
@@ -46,20 +48,27 @@ export const validator = withZod(
 );
 
 const CreateDialog: FC<Props> = ({type}) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [icon, setIcon] = useState('🌈');
+    const actionData = useActionData();
     const theme = useTheme();
     const isSubmitting = useIsSubmitting('create-dialog-form');
-    const [icon, setIcon] = useState('🌈');
-    const submit = useSubmit();
+
+    useEffect(() => {
+        if (actionData && isOpen) {
+            setIsOpen(false);
+        }
+    }, [actionData])
 
     const handleDialogTrigger = () => {
         setIcon('🌈');
     }
 
     return (
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild onClick={handleDialogTrigger}>
                 <Button variant={'ghost'} size={'icon'} className={'text-6xl'}>
-                    <LuMessageSquarePlus className={'stroke-green-400'}/>
+                    <HiSquaresPlus className={'fill-green-400'}/>
                 </Button>
             </DialogTrigger>
 
@@ -68,10 +77,6 @@ const CreateDialog: FC<Props> = ({type}) => {
                     id={'create-dialog-form'}
                     method='post'
                     validator={validator}
-                    onSubmit={(data) => {
-                        submit(data);
-                        console.log('dd.form.submitted')
-                    }}
                     action={ROUTES.DASHBOARD}>
                     <DialogHeader>
                         <DialogTitle>{CREATE_DIALOG_TEXT[type].title}</DialogTitle>
