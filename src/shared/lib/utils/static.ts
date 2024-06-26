@@ -22,7 +22,7 @@ type HeaderAuthLinkTextType = {
 type CreatedDialogItemType = {
 	title: string;
 	description: string;
-}
+};
 
 enum CREATED_PAGE_TYPE {
 	WORKSPACE = 'Workspace',
@@ -68,7 +68,7 @@ const HEADER_AUTH_LINK_TEXT: Record<AUTH_TYPE, HeaderAuthLinkTextType> = {
 	},
 };
 
-const CREATE_DIALOG_TEXT: Record<CREATED_PAGE_TYPE,  CreatedDialogItemType> = {
+const CREATE_DIALOG_TEXT: Record<CREATED_PAGE_TYPE, CreatedDialogItemType> = {
 	[CREATED_PAGE_TYPE.WORKSPACE]: {
 		title: 'Create new workspace',
 		description: 'You can create a workspace where you can set up projects.',

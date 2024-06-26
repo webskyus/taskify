@@ -20,8 +20,7 @@ const Header = () => {
 							asChild
 							variant={'link'}
 							className={'text-foundation-primary-500'}>
-							<Link unstable_viewTransition
-								  to={ROUTES.SIGN_IN}>
+							<Link unstable_viewTransition to={ROUTES.SIGN_IN}>
 								{HEADER_TEXT[AUTH_TYPE.SIGN_IN]}
 							</Link>
 						</Button>

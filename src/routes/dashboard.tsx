@@ -6,12 +6,13 @@ import {
     MetaFunction,
     redirect,
 } from '@remix-run/node';
+import {motion, AnimatePresence } from 'framer-motion';
 import {getSupabaseWithSessionAndHeaders} from '~/app/supabase/supabase.server';
 import {ROUTES} from '~/shared/lib/utils/urls';
 import {Link, useLoaderData, useOutletContext} from '@remix-run/react';
 import {DashboardHeader} from '~/widgets/dashboard-header';
 import {gradientColors} from '~/shared/lib/utils/constants';
-import {date, getObjectKeysLength,} from '~/shared/lib/utils';
+import {date, getObjectKeysLength} from '~/shared/lib/utils';
 import {CreateDialog} from '~/features/create-dialog';
 import {CREATED_PAGE_TYPE} from '~/shared/lib/utils/static';
 import {EmptyResultMessage} from '~/shared/ui/empty-result-message';
@@ -27,9 +28,9 @@ import {validator} from '~/features/create-dialog/ui/create-dialog';
 import {validationError} from 'remix-validated-form';
 import {SupabaseClient} from '@supabase/supabase-js';
 import {ErrorMessage} from '~/shared/ui/error-message';
-import {Database} from "~/app/supabase/supabase.database";
+import {Database} from '~/app/supabase/supabase.database';
 
-type Workspace = Database["public"]["Tables"]["workspaces"]["Row"];
+type Workspace = Database['public']['Tables']['workspaces']['Row'];
 
 export const meta: MetaFunction = () => {
     return [
@@ -116,7 +117,7 @@ const Dashboard = () => {
         workspaces: serverWorkspaces,
         error,
     } = useLoaderData<typeof loader>();
-    const [workspaces, setWorkspaces] = useState(serverWorkspaces);
+    const [workspaces, setWorkspaces] = useState<Workspace[]>(serverWorkspaces);
     const {supabase} = useOutletContext<{
         supabase: SupabaseClient;
     }>();
@@ -149,17 +150,23 @@ const Dashboard = () => {
                     const newWorkspace = payload.new as Workspace;
                     const oldWorkspace = payload.old as Workspace;
 
-                    const newWorkspaceIndex = workspaces.find(workspace => workspace.id === newWorkspace.id);
-                    const oldWorkspaceIndex = workspaces.findIndex(workspace => workspace.id === oldWorkspace.id);
+                    const newWorkspaceIndex = workspaces.find(
+                        workspace => workspace.id === newWorkspace.id
+                    );
+                    const oldWorkspaceIndex = workspaces.findIndex(
+                        workspace => workspace.id === oldWorkspace.id
+                    );
 
-                    getObjectKeysLength(newWorkspace) && !newWorkspaceIndex &&
+                    getObjectKeysLength(newWorkspace) &&
+                    !newWorkspaceIndex &&
                     setWorkspaces([...workspaces, newWorkspace]);
 
-                    getObjectKeysLength(oldWorkspace) && oldWorkspaceIndex !== -1 &&
+                    getObjectKeysLength(oldWorkspace) &&
+                    oldWorkspaceIndex !== -1 &&
                     setWorkspaces([
                         ...workspaces.slice(0, oldWorkspaceIndex),
-                        ...workspaces.slice(oldWorkspaceIndex + 1, workspaces.length)
-                    ])
+                        ...workspaces.slice(oldWorkspaceIndex + 1, workspaces.length),
+                    ]);
                 }
             )
             .subscribe();
@@ -167,10 +174,10 @@ const Dashboard = () => {
         return () => supabase.removeChannel(channel);
     };
 
-    const handleEditWorkspace = async (id: number) => {
+    const handleEditWorkspace = async (id: string) => {
     };
 
-    const handleDeleteWorkspace = async (id: number) => {
+    const handleDeleteWorkspace = async (id: string) => {
         try {
             await supabase.from('workspaces').delete().eq('id', id);
         } catch (e) {
@@ -208,46 +215,51 @@ const Dashboard = () => {
                         const url = `${ROUTES.DASHBOARD}/${id}`;
 
                         return (
-                            <article
-                                key={id}
-                                className={`p-4 rounded ${gradientColors[color]}`}>
-                                <header className={'flex items-start justify-between'}>
-                                    <Link unstable_viewTransition to={url}>
-                                        <p className={'mb-2 text-6xl'}>{icon}</p>
-                                        <h2
-                                            className={'text-2xl font-bold line-clamp-1 text-white'}>
-                                            {name}
-                                        </h2>
-                                    </Link>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger>
-                                            <Button
-                                                variant={'link'}
-                                                className={
-                                                    '!h-6 !p-0 hover:opacity-50 transition-opacity'
-                                                }>
-                                                <HiOutlineDotsHorizontal size={28}/>
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent>
-                                            <DropdownMenuItem onClick={() => handleEditWorkspace(id)}>
-                                                Edit
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem
-                                                className={'text-red-400'}
-                                                onClick={() => handleDeleteWorkspace(id)}>
-                                                Delete
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </header>
-                                <p className={'mt-2 mb-4 line-clamp-3 text-white'}>
-                                    {description}
-                                </p>
-                                <time dateTime={'24.12.2024'} className={'text-xs italic'}>
-                                    Created in {date(created_at)}{' '}
-                                </time>
-                            </article>
+                            <AnimatePresence key={id}>
+                                <motion.article
+                                    initial={{opacity: 0, y: -20 * i}}
+                                    animate={{opacity: 1, y: 0}}
+                                    exit={{opacity: 0, y: 20 * i}}
+                                    transition={{duration: 0.3}}
+                                    className={`p-4 rounded ${gradientColors[color]}`}>
+                                    <header className={'flex items-start justify-between'}>
+                                        <Link unstable_viewTransition to={url}>
+                                            <p className={'mb-2 text-6xl'}>{icon}</p>
+                                            <h2
+                                                className={'text-2xl font-bold line-clamp-1 text-white'}>
+                                                {name}
+                                            </h2>
+                                        </Link>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger>
+                                                <Button
+                                                    variant={'link'}
+                                                    className={
+                                                        '!h-6 !p-0 hover:opacity-50 transition-opacity'
+                                                    }>
+                                                    <HiOutlineDotsHorizontal size={28}/>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent>
+                                                <DropdownMenuItem onClick={() => handleEditWorkspace(id)}>
+                                                    Edit
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    className={'text-red-400'}
+                                                    onClick={() => handleDeleteWorkspace(id)}>
+                                                    Delete
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </header>
+                                    <p className={'mt-2 mb-4 line-clamp-3 text-white'}>
+                                        {description}
+                                    </p>
+                                    <time dateTime={'24.12.2024'} className={'text-xs italic'}>
+                                        Created in {date(created_at)}
+                                    </time>
+                                </motion.article>
+                            </AnimatePresence>
                         );
                     })}
                 </section>

@@ -27,7 +27,9 @@ const AuthHeader: FC<Props> = props => {
 							asChild
 							variant={'link'}
 							className={'text-foundation-primary-500'}>
-							<Link unstable_viewTransition to={HEADER_AUTH_LINK_TEXT[authType].url}>
+							<Link
+								unstable_viewTransition
+								to={HEADER_AUTH_LINK_TEXT[authType].url}>
 								{HEADER_AUTH_LINK_TEXT[authType].title}
 							</Link>
 						</Button>

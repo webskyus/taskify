@@ -17,7 +17,9 @@ const workspaces = pgTable('workspaces', {
 	createdAt: timestamp('created_at', {
 		withTimezone: true,
 		mode: 'string',
-	}).defaultNow(),
+	})
+		.defaultNow()
+		.notNull(),
 });
 
 const profiles = pgTable('profiles', {

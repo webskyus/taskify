@@ -3,7 +3,8 @@
 ## Stack
 - [Remix](https://remix.run/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind | shadcn/ui](https://ui.shadcn.com/)
+- [Tailwind | Shadcn/ui](https://ui.shadcn.com/)
+- [Framer Motion](https://www.framer.com/motion/)
 - [Drizzle ORM](https://orm.drizzle.team/)
 - [Remix PWA](https://remix-pwa.run/)
 - [Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)

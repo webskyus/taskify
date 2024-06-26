@@ -6,7 +6,7 @@ const cn = (...inputs: ClassValue[]) => {
 };
 
 const date = (
-	date: number | Date,
+	date: number | string | Date,
 	locale: Intl.LocalesArgument = 'en-GB',
 	options: Intl.DateTimeFormatOptions = {
 		dateStyle: 'full',
@@ -34,6 +34,6 @@ const getRandomInt = (min: number, max: number) => {
 
 const getObjectKeysLength = (data: object) => {
 	return Object.keys(data).length;
-}
+};
 
 export { cn, date, getShortFullName, getRandomInt, getObjectKeysLength };
