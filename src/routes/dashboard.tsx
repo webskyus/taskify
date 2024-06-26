@@ -212,7 +212,7 @@ const Dashboard = () => {
                                 key={id}
                                 className={`p-4 rounded ${gradientColors[color]}`}>
                                 <header className={'flex items-start justify-between'}>
-                                    <Link to={url}>
+                                    <Link unstable_viewTransition to={url}>
                                         <p className={'mb-2 text-6xl'}>{icon}</p>
                                         <h2
                                             className={'text-2xl font-bold line-clamp-1 text-white'}>

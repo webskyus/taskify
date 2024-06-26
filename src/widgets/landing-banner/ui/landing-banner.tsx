@@ -27,7 +27,7 @@ const LandingBanner = () => {
 				asChild
 				className={'pt-[4px] pb-[4px] pl-[16px] pr-[16px] group'}
 				variant={'secondary'}>
-				<Link to={ROUTES.SIGN_UP}>
+				<Link to={ROUTES.SIGN_UP} unstable_viewTransition>
 					{LANDING_TEXT.auth_button}
 					<ChevronRight
 						size={20}

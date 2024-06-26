@@ -9,7 +9,7 @@ import { ThemeSwitch } from '~/routes/action.set-theme';
 const Header = () => {
 	return (
 		<header className={'flex justify-between items-center pt-4'}>
-			<Link to={ROUTES.LANDING}>
+			<Link unstable_viewTransition to={ROUTES.LANDING}>
 				<LogoIcon className={'w-24 sm:w-40'} />
 			</Link>
 
@@ -20,13 +20,18 @@ const Header = () => {
 							asChild
 							variant={'link'}
 							className={'text-foundation-primary-500'}>
-							<Link to={ROUTES.SIGN_IN}>{HEADER_TEXT[AUTH_TYPE.SIGN_IN]}</Link>
+							<Link unstable_viewTransition
+								  to={ROUTES.SIGN_IN}>
+								{HEADER_TEXT[AUTH_TYPE.SIGN_IN]}
+							</Link>
 						</Button>
 					</li>
 
 					<li className={'ml-2'}>
 						<Button asChild variant={'secondary'}>
-							<Link to={ROUTES.SIGN_UP}>{HEADER_TEXT[AUTH_TYPE.SIGN_UP]}</Link>
+							<Link unstable_viewTransition to={ROUTES.SIGN_UP}>
+								{HEADER_TEXT[AUTH_TYPE.SIGN_UP]}
+							</Link>
 						</Button>
 					</li>
 

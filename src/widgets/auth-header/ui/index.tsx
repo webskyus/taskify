@@ -16,7 +16,7 @@ const AuthHeader: FC<Props> = props => {
 
 	return (
 		<header className={'flex justify-between items-center pt-4 mb-24 sm:mb-56'}>
-			<Link to={ROUTES.LANDING}>
+			<Link unstable_viewTransition to={ROUTES.LANDING}>
 				<LogoIcon className={'w-24 sm:w-40'} />
 			</Link>
 
@@ -27,7 +27,7 @@ const AuthHeader: FC<Props> = props => {
 							asChild
 							variant={'link'}
 							className={'text-foundation-primary-500'}>
-							<Link to={HEADER_AUTH_LINK_TEXT[authType].url}>
+							<Link unstable_viewTransition to={HEADER_AUTH_LINK_TEXT[authType].url}>
 								{HEADER_AUTH_LINK_TEXT[authType].title}
 							</Link>
 						</Button>
