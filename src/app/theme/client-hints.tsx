@@ -37,7 +37,7 @@ function getCookieValue(cookieString: string, name: ClientHintNames) {
  * @returns an object with the client hints and their values
  * Eg: { theme: 'dark' }
  */
-export function getHints(request?: Request) {
+export const getHints = (request?: Request) => {
 	const cookieString =
 		typeof document !== 'undefined'
 			? document.cookie
@@ -72,7 +72,7 @@ export function getHints(request?: Request) {
  * if they are not set then reloads the page if any cookie was set to an
  * inaccurate value.
  */
-export function ClientHintCheck({ nonce }: { nonce: string }) {
+export const ClientHintCheck = ({ nonce }: { nonce: string }) => {
 	const { revalidate } = useRevalidator();
 
 	useEffect(() => {

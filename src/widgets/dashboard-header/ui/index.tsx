@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '~/shared/ui/avatar';
 import { getShortFullName } from '~/shared/lib/utils';
-import { Link, useOutletContext } from '@remix-run/react';
+import {Link, useLoaderData, useOutletContext, useRouteLoaderData} from '@remix-run/react';
 import { ROUTES } from '~/shared/lib/utils/urls';
 import LogoIcon from '~/shared/assets/icons/logo';
 import { ThemeSwitch } from '~/routes/action.set-theme';
@@ -12,17 +12,14 @@ import {
 	DropdownMenuTrigger,
 } from '~/shared/ui/dropdown-menu';
 import { SupabaseClient } from '@supabase/supabase-js';
+import {loader as dashboardLoader} from "~/routes/dashboard";
+import {SerializeFrom} from "@remix-run/node";
 
-interface Props {
-	data: {
-		avatar_url: string;
-		full_name: string;
-		email: string;
-	};
-}
-
-const DashboardHeader: FC<Props> = ({ data }) => {
-	const { avatar_url, full_name, email } = data;
+const DashboardHeader = () => {
+	const {
+		profile
+	} = useRouteLoaderData('routes/dashboard') as SerializeFrom<typeof dashboardLoader>;
+	const { avatar_url, full_name, email } = profile;
 	const { supabase } = useOutletContext<{
 		supabase: SupabaseClient;
 	}>();
@@ -51,8 +48,8 @@ const DashboardHeader: FC<Props> = ({ data }) => {
 									</span>
 								</h5>
 								<Avatar>
-									<AvatarImage src={avatar_url} />
-									<AvatarFallback>{getShortFullName(full_name)}</AvatarFallback>
+									<AvatarImage src={avatar_url || undefined} />
+									<AvatarFallback>{getShortFullName(full_name || undefined)}</AvatarFallback>
 								</Avatar>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align='end'>
