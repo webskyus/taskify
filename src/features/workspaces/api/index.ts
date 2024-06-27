@@ -1,11 +1,12 @@
 import {SupabaseClient} from "@supabase/supabase-js";
 import {RealtimePostgresChangesPayloadType} from "~/features/workspaces/hooks";
 
-type UpdateWorkspaceApiProps = DeleteWorkspaceApiProps;
+type UpdateWorkspaceApiProps = Omit<DeleteWorkspaceApiProps, "setIsVisible">;
 
 type DeleteWorkspaceApiProps = {
     supabase: SupabaseClient,
-    id: string
+    id: string,
+    setIsVisible: (isVisible: boolean) => void;
 }
 
 type WorkspaceChannelApiProps = {
@@ -13,9 +14,16 @@ type WorkspaceChannelApiProps = {
     handleUpdateWorkspacesList: (payload: RealtimePostgresChangesPayloadType) => void;
 }
 
+type GetPersonalWorkspacesApiProps = {
+    supabase: SupabaseClient,
+    userId: string | undefined,
+}
+
 const updateWorkspaceApi = async ({supabase, id}: UpdateWorkspaceApiProps) => {}
 
-const deleteWorkspaceApi = async ({supabase, id}: DeleteWorkspaceApiProps) => {
+const deleteWorkspaceApi = async ({supabase, id, setIsVisible}: DeleteWorkspaceApiProps) => {
+    setIsVisible(false);
+
     try {
         await supabase
             .from('workspaces')
@@ -48,8 +56,21 @@ const workspaceChannelApi = async ({supabase, handleUpdateWorkspacesList}: Works
     return () => supabase.removeChannel(channel);
 }
 
+const getPersonalWorkspacesApi = async ({supabase, userId}: GetPersonalWorkspacesApiProps) => {
+    const {data, error} = await supabase
+        .from('workspaces')
+        .select()
+        .eq('owner_id', userId);
+
+    return {
+        data,
+        error
+    }
+}
+
 export {
     updateWorkspaceApi,
     deleteWorkspaceApi,
-    workspaceChannelApi
+    workspaceChannelApi,
+    getPersonalWorkspacesApi
 }

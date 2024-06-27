@@ -12,6 +12,8 @@ import {validator} from '~/features/create-dialog/ui/create-dialog';
 import {validationError} from 'remix-validated-form';
 import {Workspaces} from "~/features/workspaces/components/workspaces";
 import {Database} from "~/app/supabase/supabase.database";
+import {getPersonalWorkspacesApi} from "~/features/workspaces/api";
+import {getUserProfileApi} from "~/widgets/dashboard-header/api";
 
 export type Profile = Database['public']['Tables']['profiles']['Row'];
 export type Workspace = Database['public']['Tables']['workspaces']['Row'];
@@ -66,15 +68,11 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
         await getSupabaseWithSessionAndHeaders({
             request,
         });
-    const {data: profile} = await supabase
-        .from('profiles')
-        .select()
-        .eq('id', serverSession?.user?.id)
-        .single();
-    const {data: workspaces, error} = await supabase
-        .from('workspaces')
-        .select()
-        .eq('owner_id', serverSession?.user?.id);
+    const userId = serverSession?.user?.id;
+
+    const {data: profile} = await getUserProfileApi({supabase, userId});
+
+    const {data: workspaces, error} = await getPersonalWorkspacesApi({supabase, userId});
 
     if (!serverSession) {
         return redirect(ROUTES.SIGN_IN, {

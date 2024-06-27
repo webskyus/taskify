@@ -1,6 +1,6 @@
 import {useOutletContext, useRouteLoaderData} from "@remix-run/react";
 import {getObjectKeysLength} from "~/shared/lib/utils";
-import {useEffect, useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {loader as dashboardLoader, Workspace} from "~/routes/dashboard";
 import {SerializeFrom} from "@remix-run/node";
 import {deleteWorkspaceApi, updateWorkspaceApi, workspaceChannelApi} from "~/features/workspaces/api";
@@ -8,14 +8,18 @@ import {RealtimePostgresChangesPayload, SupabaseClient} from "@supabase/supabase
 
 export type RealtimePostgresChangesPayloadType = RealtimePostgresChangesPayload<{[p: string]: any }>;
 
-const useGetWorkspaceCrud = () => {
+interface useGetWorkspaceCrudProps {
+    setIsVisible: Dispatch<SetStateAction<boolean>>
+}
+
+const useGetWorkspaceCrud = ({setIsVisible}: useGetWorkspaceCrudProps) => {
     const {supabase} = useOutletContext<{
         supabase: SupabaseClient;
     }>();
 
     const handleUpdateWorkspace = async (id: string) => updateWorkspaceApi({supabase, id})
 
-    const handleDeleteWorkspace = async (id: string) => deleteWorkspaceApi({supabase, id});
+    const handleDeleteWorkspace = async (id: string) => deleteWorkspaceApi({supabase, id, setIsVisible});
 
     return {
         handleUpdateWorkspace,
