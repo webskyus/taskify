@@ -7,13 +7,11 @@ import {
 } from '@remix-run/node';
 import {getSupabaseWithSessionAndHeaders} from '~/app/supabase/supabase.server';
 import {ROUTES} from '~/shared/lib/utils/urls';
-import {DashboardHeader} from '~/widgets/dashboard-header';
+import {DashboardHeader, getUserProfileApi} from '~/widgets/dashboard-header';
 import {validator} from '~/features/create-dialog/ui/create-dialog';
 import {validationError} from 'remix-validated-form';
-import {Workspaces} from "~/features/workspaces/components/workspaces";
 import {Database} from "~/app/supabase/supabase.database";
-import {getPersonalWorkspacesApi} from "~/features/workspaces/api";
-import {getUserProfileApi} from "~/widgets/dashboard-header/api";
+import {getPersonalWorkspacesApi, Workspaces} from "~/features/workspaces";
 
 export type Profile = Database['public']['Tables']['profiles']['Row'];
 export type Workspace = Database['public']['Tables']['workspaces']['Row'];

@@ -6,6 +6,7 @@ import { AUTH_TYPE } from '~/shared/types/auth';
 import { AUTH_TEXT } from '~/shared/lib/utils/static';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useOutletContext } from '@remix-run/react';
+import {signInWithGithubOAuthApi, signInWithGoogleOAuthApi} from "~/widgets/auth/api";
 
 interface Props {
 	authType: AUTH_TYPE;
@@ -17,27 +18,9 @@ const Auth: FC<Props> = props => {
 		supabase: SupabaseClient;
 	}>();
 
-	const handleSignInWithGoogle = async () => {
-		await supabase.auth.signInWithOAuth({
-			provider: 'google',
-			options: {
-				redirectTo: 'http://localhost:3000/auth/callback',
-				queryParams: {
-					access_type: 'offline',
-					prompt: 'consent',
-				},
-			},
-		});
-	};
+	const handleSignInWithGoogle = async () => signInWithGoogleOAuthApi(supabase);
 
-	const handleSignInWithGitHub = async () => {
-		await supabase.auth.signInWithOAuth({
-			provider: 'github',
-			options: {
-				redirectTo: 'http://localhost:3000/auth/callback',
-			},
-		});
-	};
+	const handleSignInWithGitHub = async () => signInWithGithubOAuthApi(supabase);
 
 	return (
 		<section className={'max-w-md m-auto shadow-2xl p-4 rounded'}>

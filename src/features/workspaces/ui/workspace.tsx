@@ -3,8 +3,8 @@ import {CreateDialog} from "~/features/create-dialog";
 import {CREATED_PAGE_TYPE} from "~/shared/lib/utils/static";
 import {EmptyResultMessage} from "~/shared/ui/empty-result-message";
 import {ErrorMessage} from "~/shared/ui/error-message";
-import {WorkspaceItem} from "~/features/workspaces/components/workspace-item";
-import {useGetWorkspaces} from "~/features/workspaces/hooks";
+import {WorkspaceItem} from "~/features/workspaces/ui/components/workspace-item";
+import {useGetWorkspaces} from "~/features/workspaces";
 
 const Workspaces = () => {
     const {workspaces, error} = useGetWorkspaces();

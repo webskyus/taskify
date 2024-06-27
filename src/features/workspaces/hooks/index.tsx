@@ -3,8 +3,8 @@ import {getObjectKeysLength} from "~/shared/lib/utils";
 import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {loader as dashboardLoader, Workspace} from "~/routes/dashboard";
 import {SerializeFrom} from "@remix-run/node";
-import {deleteWorkspaceApi, updateWorkspaceApi, workspaceChannelApi} from "~/features/workspaces/api";
 import {RealtimePostgresChangesPayload, SupabaseClient} from "@supabase/supabase-js";
+import {deleteWorkspaceApi, updateWorkspaceApi, workspaceChannelApi} from "~/features/workspaces";
 
 export type RealtimePostgresChangesPayloadType = RealtimePostgresChangesPayload<{[p: string]: any }>;
 

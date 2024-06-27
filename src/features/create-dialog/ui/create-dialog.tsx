@@ -1,6 +1,5 @@
 import { FC, useEffect, useState, useTransition } from 'react';
 import { Button } from '~/shared/ui/button';
-import { LuMessageSquarePlus } from 'react-icons/lu';
 import {
 	Dialog,
 	DialogClose,
@@ -27,7 +26,6 @@ import { withZod } from '@rvf/zod';
 import { ROUTES } from '~/shared/lib/utils/urls';
 import { Spinner } from '~/shared/ui/spinner';
 import { useActionData } from '@remix-run/react';
-import { HiPlus } from 'react-icons/hi';
 import { HiSquaresPlus } from 'react-icons/hi2';
 
 interface Props {
