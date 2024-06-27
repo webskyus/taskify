@@ -11,7 +11,7 @@ import { DashboardHeader, getUserProfileApi } from '~/widgets/dashboard-header';
 import { validator } from '~/features/create-dialog/ui/create-dialog';
 import { validationError } from 'remix-validated-form';
 import { Database } from '~/app/supabase/supabase.database';
-import { getPersonalWorkspacesApi, Workspaces } from '~/features/workspaces';
+import { getWorkspacesApi, Workspaces } from '~/features/workspaces';
 
 export type Profile = Database['public']['Tables']['profiles']['Row'];
 export type Workspace = Database['public']['Tables']['workspaces']['Row'];
@@ -37,13 +37,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 	if (error) return validationError(result.error);
 
+	// TODO MOVE TO API FOLDER
 	try {
 		const { name, description, icon, color } = formData;
 		const {
 			data: { user },
 		} = await supabase.auth.getUser();
 
-		await supabase.from('workspaces').insert([
+		await supabase
+			.from('workspaces')
+			.insert([
 			{
 				name,
 				description,
@@ -67,10 +70,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 			request,
 		});
 	const userId = serverSession?.user?.id;
-
 	const { data: profile } = await getUserProfileApi({ supabase, userId });
-
-	const { data: workspaces, error } = await getPersonalWorkspacesApi({
+	const { data: workspaces, error } = await getWorkspacesApi({
 		supabase,
 		userId,
 	});

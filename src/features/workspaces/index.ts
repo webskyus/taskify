@@ -2,7 +2,7 @@ export {
 	updateWorkspaceApi,
 	deleteWorkspaceApi,
 	workspaceChannelApi,
-	getPersonalWorkspacesApi,
+	getWorkspacesApi,
 } from './api/index';
 export {
 	useGetWorkspaceCrud,

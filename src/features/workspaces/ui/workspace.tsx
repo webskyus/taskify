@@ -1,5 +1,5 @@
 import { CreateDialog } from '~/features/create-dialog';
-import { CREATED_PAGE_TYPE } from '~/shared/lib/utils/static';
+import {CREATED_PAGE_TYPE, WORKSPACE_TEXT} from '~/shared/lib/utils/static';
 import { EmptyResultMessage } from '~/shared/ui/empty-result-message';
 import { ErrorMessage } from '~/shared/ui/error-message';
 import { WorkspaceItem } from '~/features/workspaces/ui/components/workspace-item';
@@ -13,7 +13,14 @@ const Workspaces = () => {
 	return (
 		<>
 			<header className={'flex items-center justify-between mb-6'}>
-				<h1 className={'text-4xl sm:text-6xl font-bold'}>Workspaces</h1>
+				<header>
+					<h1 className={'mb-1 text-4xl sm:text-6xl font-bold'}>
+						{WORKSPACE_TEXT.title}
+					</h1>
+					<p className={'text-md'}>
+						{WORKSPACE_TEXT.description}
+					</p>
+				</header>
 
 				<CreateDialog type={CREATED_PAGE_TYPE.WORKSPACE} />
 			</header>
