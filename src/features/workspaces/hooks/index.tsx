@@ -1,6 +1,6 @@
 import { useOutletContext, useRouteLoaderData } from '@remix-run/react';
 import { getObjectKeysLength } from '~/shared/lib/utils';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { loader as dashboardLoader, Workspace } from '~/routes/dashboard';
 import { SerializeFrom } from '@remix-run/node';
 import {

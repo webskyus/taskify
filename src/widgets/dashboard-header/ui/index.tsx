@@ -1,10 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '~/shared/ui/avatar';
 import { getShortFullName } from '~/shared/lib/utils';
-import {
-	Link,
-	useOutletContext,
-	useRouteLoaderData,
-} from '@remix-run/react';
+import { Link, useOutletContext, useRouteLoaderData } from '@remix-run/react';
 import { ROUTES } from '~/shared/lib/utils/urls';
 import LogoIcon from '~/shared/assets/icons/logo';
 import { ThemeSwitch } from '~/routes/action.set-theme';

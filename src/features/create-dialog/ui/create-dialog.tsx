@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Button } from '~/shared/ui/button';
 import {
 	Dialog,

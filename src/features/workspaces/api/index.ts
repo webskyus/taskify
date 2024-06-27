@@ -18,15 +18,9 @@ type GetPersonalWorkspacesApiProps = {
 	userId: string | undefined;
 };
 
-const updateWorkspaceApi = async ({
-	supabase,
-	id,
-}: WorkspaceApiProps) => {};
+const updateWorkspaceApi = async ({ supabase, id }: WorkspaceApiProps) => {};
 
-const deleteWorkspaceApi = async ({
-	supabase,
-	id
-}: WorkspaceApiProps) => {
+const deleteWorkspaceApi = async ({ supabase, id }: WorkspaceApiProps) => {
 	try {
 		await supabase.from('workspaces').delete().eq('id', id);
 	} catch (e) {
