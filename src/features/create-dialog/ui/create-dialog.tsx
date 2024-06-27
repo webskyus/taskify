@@ -138,7 +138,7 @@ const CreateDialog: FC<Props> = ({ type }) => {
 							<RadioGroup
 								defaultValue='0'
 								name={'color'}
-								className={'flex w-[450px] pr-2 pb-2 overflow-x-auto'}>
+								className={'flex w-[380px] pr-2 pb-2 overflow-x-auto'}>
 								<RadioGroupItem
 									value='0'
 									id='r1'
