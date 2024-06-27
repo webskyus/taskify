@@ -1,12 +1,12 @@
-import {motion} from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const ErrorMessage = () => {
 	return (
 		<motion.article
-			initial={{opacity: 0, y: -20}}
-			animate={{opacity: 1, y: 0}}
-			exit={{opacity: 0, y: 40}}
-			transition={{duration: 0.3}}
+			initial={{ opacity: 0, y: -20 }}
+			animate={{ opacity: 1, y: 0 }}
+			exit={{ opacity: 0, y: 40 }}
+			transition={{ duration: 0.3 }}
 			className={'mt-40 p-4 text-center'}>
 			<span className={'text-9xl'}>🐡</span>
 			<h5 className={'text-4xl sm:text-9xl font-bold text-red-400'}>

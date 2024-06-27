@@ -65,7 +65,7 @@ export const getHints = (request?: Request) => {
 	);
 
 	return hints;
-}
+};
 
 /**
  * @returns inline script element that checks for client hints and sets cookies
@@ -125,7 +125,7 @@ if (cookieChanged && navigator.cookieEnabled) {
 			}}
 		/>
 	);
-}
+};
 
 // Use nonce for the script tag
 export const NonceContext = React.createContext<string>('');

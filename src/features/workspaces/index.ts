@@ -1,11 +1,11 @@
 export {
-    updateWorkspaceApi,
-    deleteWorkspaceApi,
-    workspaceChannelApi,
-    getPersonalWorkspacesApi
+	updateWorkspaceApi,
+	deleteWorkspaceApi,
+	workspaceChannelApi,
+	getPersonalWorkspacesApi,
 } from './api/index';
 export {
-    useGetWorkspaceCrud,
-    useGetWorkspaces
+	useGetWorkspaceCrud,
+	useGetWorkspaces,
 } from './hooks/index';
-export {Workspaces} from './ui/workspace';
+export { Workspaces } from './ui/workspace';
