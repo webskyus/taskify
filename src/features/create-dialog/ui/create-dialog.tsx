@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import {Dispatch, FC, SetStateAction, useEffect, useState} from 'react';
 import { Button } from '~/shared/ui/button';
 import {
 	Dialog,
@@ -21,7 +21,7 @@ import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { useTheme } from '~/routes/action.set-theme';
 import { RadioGroup, RadioGroupItem } from '~/shared/ui/radio-group';
 import { z } from 'zod';
-import { useIsSubmitting, ValidatedForm } from 'remix-validated-form';
+import {setFormDefaults, useIsSubmitting, ValidatedForm} from 'remix-validated-form';
 import { withZod } from '@rvf/zod';
 import { ROUTES } from '~/shared/lib/utils/urls';
 import { Spinner } from '~/shared/ui/spinner';
@@ -30,6 +30,8 @@ import { HiSquaresPlus } from 'react-icons/hi2';
 
 interface Props {
 	type: `${CREATED_PAGE_TYPE}`;
+	id?: string;
+	handleSetId?: Dispatch<SetStateAction<string | undefined>>
 }
 
 export const validator = withZod(
@@ -42,15 +44,29 @@ export const validator = withZod(
 		}),
 		icon: z.string(),
 		color: z.string(),
+		id: z.string().optional(),
 	})
 );
 
-const CreateDialog: FC<Props> = ({ type }) => {
+const CreateDialog: FC<Props> = ({ type, id, handleSetId }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [icon, setIcon] = useState('🌈');
+	const [formId, _] = useState('create-dialog-form');
 	const actionData = useActionData();
 	const theme = useTheme();
-	const isSubmitting = useIsSubmitting('create-dialog-form');
+	const isSubmitting = useIsSubmitting(formId);
+
+	useEffect(() => {
+        if (!id) return;
+		setIsOpen(true);
+
+		return () => {
+			if (!id) return;
+			if (!handleSetId) return;
+
+			handleSetId(undefined);
+		}
+	}, [id])
 
 	useEffect(() => {
 		if (actionData && isOpen) {
@@ -72,10 +88,13 @@ const CreateDialog: FC<Props> = ({ type }) => {
 
 			<DialogContent>
 				<ValidatedForm
-					id={'create-dialog-form'}
-					method='post'
+					id={formId}
+					method={id ? 'put' : 'post'}
 					validator={validator}
+					navigate={false}
 					action={ROUTES.DASHBOARD}>
+					<Input type="hidden" name="id" value={id} />
+
 					<DialogHeader>
 						<DialogTitle>{CREATE_DIALOG_TEXT[type].title}</DialogTitle>
 						<DialogDescription className={'!mb-4'}>

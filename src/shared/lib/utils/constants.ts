@@ -15,4 +15,6 @@ const gradientColors = [
 	'bg-gradient-to-r from-indigo-500 to-purple-500',
 ];
 
+
+
 export { placeholder, gradientColors };
