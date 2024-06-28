@@ -6,8 +6,10 @@ import { WorkspaceItem } from '~/features/workspaces/ui/components/workspace-ite
 import { useGetWorkspaces } from '~/features/workspaces';
 import { AnimatePresence, motion } from 'framer-motion';
 import { gradientColors } from '~/shared/lib/utils/constants';
+import {useState} from "react";
 
 const Workspaces = () => {
+	const [id, setId] = useState<string>();
 	const { workspaces, error } = useGetWorkspaces();
 
 	return (
@@ -22,7 +24,7 @@ const Workspaces = () => {
 					</p>
 				</header>
 
-				<CreateDialog type={CREATED_PAGE_TYPE.WORKSPACE} />
+				<CreateDialog type={CREATED_PAGE_TYPE.WORKSPACE} id={id} />
 			</header>
 
 			{!workspaces?.length && !error && <EmptyResultMessage />}
@@ -42,14 +44,15 @@ const Workspaces = () => {
 						const { id, color } = workspace;
 						return (
 							<motion.article
-								className={`p-4 rounded ${gradientColors[color]}`}
 								layout
 								key={id}
 								initial={{ opacity: 0, y: -20 * i }}
 								animate={{ opacity: 1, y: 0 }}
 								exit={{ opacity: 0, y: 20 * i }}
-								transition={{ duration: 0.5 }}>
-								<WorkspaceItem workspace={workspace} />
+								transition={{ duration: 0.5 }}
+								className={`p-4 rounded ${gradientColors[color]}`}
+							>
+								<WorkspaceItem workspace={workspace} handleSetId={setId} />
 							</motion.article>
 						);
 					})}
