@@ -11,7 +11,9 @@ import { DashboardHeader, getUserProfileApi } from '~/widgets/dashboard-header';
 import { validator } from '~/features/create-dialog/ui/create-dialog';
 import { validationError } from 'remix-validated-form';
 import { Database } from '~/app/supabase/supabase.database';
-import { getWorkspacesApi, Workspaces } from '~/features/workspaces';
+import {getWorkspacesApi, updateWorkspaceApi, Workspaces} from '~/features/workspaces';
+import {METHODS} from "~/shared/api";
+import {createWorkspaceApi} from "~/features/workspaces/api";
 
 export type Profile = Database['public']['Tables']['profiles']['Row'];
 export type Workspace = Database['public']['Tables']['workspaces']['Row'];
@@ -34,29 +36,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	});
 	const result = await validator.validate(await request.formData());
 	const { data: formData, error } = result;
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	const userId = user?.id;
 
 	if (error) return validationError(result.error);
 
-	// TODO MOVE TO API FOLDER
-	try {
-		const { name, description, icon, color } = formData;
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
+	if (request?.method === METHODS.POST) {
+		await createWorkspaceApi({supabase, userId, formData})
+	}
 
-		await supabase
-			.from('workspaces')
-			.insert([
-			{
-				name,
-				description,
-				icon,
-				color: +color,
-				owner_id: user?.id,
-			},
-		]);
-	} catch (e) {
-		console.log('dd.form.error');
+	if (request?.method === METHODS.PUT) {
+		await updateWorkspaceApi({supabase, formData})
 	}
 
 	return json({
