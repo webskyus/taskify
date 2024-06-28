@@ -25,13 +25,22 @@ import {setFormDefaults, useIsSubmitting, ValidatedForm} from 'remix-validated-f
 import { withZod } from '@rvf/zod';
 import { ROUTES } from '~/shared/lib/utils/urls';
 import { Spinner } from '~/shared/ui/spinner';
-import { useActionData } from '@remix-run/react';
+import {useActionData, useOutletContext} from '@remix-run/react';
 import { HiSquaresPlus } from 'react-icons/hi2';
+import {SupabaseClient} from "@supabase/supabase-js";
 
 interface Props {
 	type: `${CREATED_PAGE_TYPE}`;
 	id?: string;
-	handleSetId?: Dispatch<SetStateAction<string | undefined>>
+	defaultValues?: CreateDialogFormProps
+}
+
+export type CreateDialogFormProps = {
+	id?: string,
+	name: string,
+	description: string,
+	color: string,
+	icon: string
 }
 
 export const validator = withZod(
@@ -48,31 +57,29 @@ export const validator = withZod(
 	})
 );
 
-const CreateDialog: FC<Props> = ({ type, id, handleSetId }) => {
+const CreateDialog: FC<Props> = ({ type, id, defaultValues }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [icon, setIcon] = useState('🌈');
 	const [formId, _] = useState('create-dialog-form');
+
 	const actionData = useActionData();
 	const theme = useTheme();
 	const isSubmitting = useIsSubmitting(formId);
 
 	useEffect(() => {
         if (!id) return;
-		setIsOpen(true);
-
-		return () => {
-			if (!id) return;
-			if (!handleSetId) return;
-
-			handleSetId(undefined);
-		}
+		setIsOpen(true)
 	}, [id])
+
+	useEffect(() => {
+		console.log('dd.default.value', defaultValues)
+	}, [defaultValues]);
 
 	useEffect(() => {
 		if (actionData && isOpen) {
 			setIsOpen(false);
 		}
-	}, [actionData]);
+	}, [actionData, isOpen]);
 
 	const handleDialogTrigger = () => {
 		setIcon('🌈');
@@ -91,9 +98,10 @@ const CreateDialog: FC<Props> = ({ type, id, handleSetId }) => {
 					id={formId}
 					method={id ? 'put' : 'post'}
 					validator={validator}
+					defaultValues={defaultValues}
 					navigate={false}
 					action={ROUTES.DASHBOARD}>
-					<Input type="hidden" name="id" value={id} />
+					<Input type="hidden" name="id" value={id || ''} />
 
 					<DialogHeader>
 						<DialogTitle>{CREATE_DIALOG_TEXT[type].title}</DialogTitle>
@@ -114,7 +122,7 @@ const CreateDialog: FC<Props> = ({ type, id, handleSetId }) => {
 									name={'icon'}
 									readOnly
 									className={'w-10 p-0 mr-2 text-2xl border-0'}
-									value={icon}
+									value={defaultValues?.icon || icon}
 								/>
 
 								<div className={'w-full'}>
@@ -155,7 +163,7 @@ const CreateDialog: FC<Props> = ({ type, id, handleSetId }) => {
 								Color
 							</Label>
 							<RadioGroup
-								defaultValue='0'
+								defaultValue={String(defaultValues?.color) || '0'}
 								name={'color'}
 								className={'flex w-[380px] pr-2 pb-2 overflow-x-auto'}>
 								<RadioGroupItem
