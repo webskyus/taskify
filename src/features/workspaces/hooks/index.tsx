@@ -21,14 +21,10 @@ const useGetWorkspaceCrud = () => {
 		supabase: SupabaseClient;
 	}>();
 
-	const handleUpdateWorkspace = async (id: string) =>
-		updateWorkspaceApi({ supabase, id });
-
 	const handleDeleteWorkspace = async (id: string) =>
 		deleteWorkspaceApi({ supabase, id });
 
 	return {
-		handleUpdateWorkspace,
 		handleDeleteWorkspace,
 	};
 };
