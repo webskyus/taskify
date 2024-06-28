@@ -6,10 +6,7 @@ import { AUTH_TYPE } from '~/shared/types/auth';
 import { AUTH_TEXT } from '~/shared/lib/utils/static';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useOutletContext } from '@remix-run/react';
-import {
-	signInWithGithubOAuthApi,
-	signInWithGoogleOAuthApi,
-} from '~/widgets/auth/api';
+import {signInWithGithubOAuthApi, signInWithGoogleOAuthApi} from "~/features/auth/oauth";
 
 interface Props {
 	authType: AUTH_TYPE;

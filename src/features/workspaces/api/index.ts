@@ -1,6 +1,20 @@
 import {SupabaseClient} from '@supabase/supabase-js';
 import {RealtimePostgresChangesPayloadType} from '~/features/workspaces/hooks';
 
+type CreateWorkspaceApiProps = {
+    supabase: SupabaseClient;
+    userId: string | undefined;
+    formData: {
+        id?: string,
+        name: string,
+        description: string,
+        icon: string,
+        color: string,
+    }
+}
+
+type UpdateWorkspaceApiProps = Omit<CreateWorkspaceApiProps, "userId">;
+
 type WorkspaceApiProps = {
     supabase: SupabaseClient;
     id: string;
@@ -18,7 +32,56 @@ type GetWorkspacesApiProps = {
     userId: string | undefined;
 };
 
-const updateWorkspaceApi = async ({supabase, id}: WorkspaceApiProps) => {
+const createWorkspaceApi = async ({
+                                      supabase,
+                                      userId,
+                                      formData
+                                  }: CreateWorkspaceApiProps) => {
+    try {
+        const {name, description, icon, color} = formData;
+
+        await supabase
+            .from('workspaces')
+            .insert([
+                {
+                    name,
+                    description,
+                    icon,
+                    color: +color,
+                    owner_id: userId,
+                },
+            ]);
+    } catch (e) {
+        console.log('dd.form.error');
+    }
+}
+
+const updateWorkspaceApi = async ({
+                                      supabase,
+                                      formData
+                                  }: UpdateWorkspaceApiProps) => {
+    try {
+        const {
+            id,
+            name,
+            description,
+            icon,
+            color
+        } = formData;
+
+        await supabase
+            .from('workspaces')
+            .update(
+                {
+                    name,
+                    description,
+                    icon,
+                    color: +color
+                })
+            .eq('id', id);
+    } catch (e) {
+        console.log('dd.form.error');
+    }
 };
 
 const deleteWorkspaceApi = async ({supabase, id}: WorkspaceApiProps) => {
@@ -86,6 +149,7 @@ const getWorkspaceApi = async ({
 };
 
 export {
+    createWorkspaceApi,
     updateWorkspaceApi,
     deleteWorkspaceApi,
     workspaceChannelApi,
