@@ -1,16 +1,11 @@
 import {SupabaseClient} from '@supabase/supabase-js';
 import {RealtimePostgresChangesPayloadType} from '~/features/workspaces/hooks';
+import {CreateDialogFormProps} from "~/features/create-dialog/ui/create-dialog";
 
 type CreateWorkspaceApiProps = {
     supabase: SupabaseClient;
     userId: string | undefined;
-    formData: {
-        id?: string,
-        name: string,
-        description: string,
-        icon: string,
-        color: string,
-    }
+    formData: CreateDialogFormProps
 }
 
 type UpdateWorkspaceApiProps = Omit<CreateWorkspaceApiProps, "userId">;
@@ -154,4 +149,5 @@ export {
     deleteWorkspaceApi,
     workspaceChannelApi,
     getWorkspacesApi,
+    getWorkspaceApi,
 };
