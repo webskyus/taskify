@@ -5,7 +5,7 @@ import {
 	redirect,
 } from '@remix-run/node';
 import { AuthHeader } from '~/widgets/auth-header';
-import { Auth } from '~/widgets/auth';
+import { Auth } from '~/features/auth/oauth';
 import { AUTH_TYPE } from '~/shared/types/auth';
 import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
 import { ROUTES } from '~/shared/lib/utils/urls';
