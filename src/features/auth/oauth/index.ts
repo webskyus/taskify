@@ -1,4 +1,5 @@
 export { Auth } from './ui';
 export {
-	signInWithGoogleOAuthApi, signInWithGithubOAuthApi
+	signInWithGoogleOAuthApi,
+	signInWithGithubOAuthApi,
 } from './api';

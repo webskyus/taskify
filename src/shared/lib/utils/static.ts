@@ -27,7 +27,7 @@ type CreatedDialogItemType = {
 type WorkspaceTextType = {
 	title: string;
 	description: string;
-}
+};
 
 enum CREATED_PAGE_TYPE {
 	WORKSPACE = 'Workspace',
@@ -86,8 +86,9 @@ const CREATE_DIALOG_TEXT: Record<CREATED_PAGE_TYPE, CreatedDialogItemType> = {
 
 const WORKSPACE_TEXT: WorkspaceTextType = {
 	title: 'Workspaces',
-	description: 'You can select your workspace to manage and choose or create project on next step.',
-}
+	description:
+		'You can select your workspace to manage and choose or create project on next step.',
+};
 
 export {
 	HEADER_TEXT,
@@ -96,5 +97,5 @@ export {
 	AUTH_TEXT,
 	CREATED_PAGE_TYPE,
 	CREATE_DIALOG_TEXT,
-	WORKSPACE_TEXT
+	WORKSPACE_TEXT,
 };

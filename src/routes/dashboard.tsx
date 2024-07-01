@@ -11,9 +11,13 @@ import { DashboardHeader, getUserProfileApi } from '~/widgets/dashboard-header';
 import { validator } from '~/features/create-dialog/ui/create-dialog';
 import { validationError } from 'remix-validated-form';
 import { Database } from '~/app/supabase/supabase.database';
-import {getWorkspacesApi, updateWorkspaceApi, Workspaces} from '~/features/workspaces';
-import {METHODS} from "~/shared/api";
-import {createWorkspaceApi} from "~/features/workspaces/api";
+import {
+	getWorkspacesApi,
+	updateWorkspaceApi,
+	Workspaces,
+} from '~/features/workspaces';
+import { METHODS } from '~/shared/api';
+import { createWorkspaceApi } from '~/features/workspaces/api';
 
 export type Profile = Database['public']['Tables']['profiles']['Row'];
 export type Workspace = Database['public']['Tables']['workspaces']['Row'];
@@ -44,11 +48,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	if (error) return validationError(result.error);
 
 	if (request?.method === METHODS.POST) {
-		await createWorkspaceApi({supabase, userId, formData})
+		await createWorkspaceApi({ supabase, userId, formData });
 	}
 
 	if (request?.method === METHODS.PUT) {
-		await updateWorkspaceApi({supabase, formData})
+		await updateWorkspaceApi({ supabase, formData });
 	}
 
 	return json({

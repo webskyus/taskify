@@ -9,7 +9,6 @@ import {
 } from '@supabase/supabase-js';
 import {
 	deleteWorkspaceApi,
-	updateWorkspaceApi,
 	workspaceChannelApi,
 } from '~/features/workspaces';
 
