@@ -37,7 +37,6 @@ const Workspaces = () => {
 		});
 	};
 
-	console.log('error', error)
 	return (
 		<>
 			<header className={'flex items-center justify-between mb-6'}>
@@ -48,12 +47,15 @@ const Workspaces = () => {
 					<p className={'text-md'}>{WORKSPACE_TEXT.description}</p>
 				</header>
 
+
 				<CreateDialog
 					type={CREATED_PAGE_TYPE.WORKSPACE}
 					id={id}
 					handleSetId={setId}
 					defaultValue={defaultValue}
 				/>
+
+				{/*TODO ADD FILTERS*/}
 			</header>
 
 			{!workspaces?.length && !error && <EmptyResultMessage />}

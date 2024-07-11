@@ -118,24 +118,11 @@ const getWorkspacesApi = async ({
 	};
 };
 
-const getWorkspaceApi = async ({ supabase, id }: WorkspaceApiProps) => {
-	const { data, error } = await supabase
-		.from('workspaces')
-		.select()
-		.eq('id', id)
-		.single();
-
-	return {
-		data,
-		error,
-	};
-};
 
 export {
 	createWorkspaceApi,
 	updateWorkspaceApi,
 	deleteWorkspaceApi,
 	workspaceChannelApi,
-	getWorkspacesApi,
-	getWorkspaceApi,
+	getWorkspacesApi
 };
