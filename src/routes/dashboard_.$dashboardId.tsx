@@ -10,6 +10,9 @@ import { Link, useLoaderData, useParams } from '@remix-run/react';
 import {DashboardHeader, getUserProfileApi} from '~/widgets/dashboard-header';
 import { gradientColors } from '~/shared/lib/utils/constants';
 import { getRandomInt } from '~/shared/lib/utils';
+import {getWorkspacesApi} from "~/features/workspaces";
+import {getProjectsApi} from "~/features/projects";
+import {Project, Workspace} from "~/routes/dashboard";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -24,11 +27,15 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-	const { headers, serverSession } =
+	const { headers, serverSession, supabase } =
 		await getSupabaseWithSessionAndHeaders({
 			request,
 		});
-
+	const userId = serverSession?.user?.id;
+	const { data: projects, error } = await getProjectsApi({
+		supabase,
+		userId,
+	});
 
 	if (!serverSession) {
 		return redirect(ROUTES.SIGN_IN, {
@@ -38,7 +45,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 	return json(
 		{
-			serverSession
+			serverSession,
+			projects: projects as Project[],
+			error
 		},
 		{
 			headers,
