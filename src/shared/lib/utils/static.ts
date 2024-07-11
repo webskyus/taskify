@@ -29,6 +29,8 @@ type WorkspaceTextType = {
 	description: string;
 };
 
+type ProjectTextType = WorkspaceTextType;
+
 enum CREATED_PAGE_TYPE {
 	WORKSPACE = 'Workspace',
 	PROJECT = 'Project',
@@ -90,6 +92,12 @@ const WORKSPACE_TEXT: WorkspaceTextType = {
 		'You can select your workspace to manage and choose or create project on next step.',
 };
 
+const PROJECT_TEXT: ProjectTextType = {
+	title: 'Projects',
+	description:
+		'You can select your project to manage and choose',
+};
+
 export {
 	HEADER_TEXT,
 	HEADER_AUTH_LINK_TEXT,
@@ -98,4 +106,5 @@ export {
 	CREATED_PAGE_TYPE,
 	CREATE_DIALOG_TEXT,
 	WORKSPACE_TEXT,
+	PROJECT_TEXT
 };
