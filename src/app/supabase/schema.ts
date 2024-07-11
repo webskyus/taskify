@@ -11,9 +11,25 @@ const workspaces = pgTable('workspaces', {
 	id: uuid('id').primaryKey().defaultRandom(),
 	name: text('name').notNull(),
 	description: text('description').notNull(),
-	icon: smallint('icon').notNull(),
-	color: text('color').notNull(),
+	icon: text('icon').notNull(),
+	color: smallint('color').notNull(),
 	ownerId: uuid('owner_id').notNull(),
+	createdAt: timestamp('created_at', {
+		withTimezone: true,
+		mode: 'string',
+	})
+		.defaultNow()
+		.notNull(),
+});
+
+const projects = pgTable('projects', {
+	id: uuid('id').primaryKey().defaultRandom(),
+	name: text('name').notNull(),
+	description: text('description').notNull(),
+	icon: text('icon').notNull(),
+	color: smallint('color').notNull(),
+	ownerId: uuid('owner_id').notNull(),
+	workspaceId: uuid('workspace_id').notNull(),
 	createdAt: timestamp('created_at', {
 		withTimezone: true,
 		mode: 'string',
@@ -41,4 +57,4 @@ const profiles = pgTable('profiles', {
 	email: text('email'),
 });
 
-export { workspaces, profiles };
+export { workspaces, profiles, projects };

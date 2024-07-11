@@ -69,6 +69,22 @@ export const workspaces = pgTable('workspaces', {
 	ownerId: uuid('owner_id').notNull(),
 });
 
+export const projects = pgTable('projects', {
+	id: uuid('id').primaryKey().defaultRandom(),
+	name: text('name').notNull(),
+	description: text('description').notNull(),
+	icon: text('icon').notNull(),
+	color: smallint('color').notNull(),
+	ownerId: uuid('owner_id').notNull(),
+	workspaceId: uuid('workspace_id').notNull(),
+	createdAt: timestamp('created_at', {
+		withTimezone: true,
+		mode: 'string',
+	})
+		.defaultNow()
+		.notNull(),
+});
+
 export const profiles = pgTable('profiles', {
 	id: uuid('id').primaryKey().notNull(),
 	fullName: text('full_name'),
