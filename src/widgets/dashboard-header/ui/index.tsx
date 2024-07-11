@@ -15,7 +15,7 @@ import { loader as dashboardLoader } from '~/routes/dashboard';
 import { SerializeFrom } from '@remix-run/node';
 
 const DashboardHeader = () => {
-	const { profile } = useRouteLoaderData('routes/dashboard') as SerializeFrom<
+	const { profile } = useRouteLoaderData('root') as SerializeFrom<
 		typeof dashboardLoader
 	>;
 	const { avatar_url, full_name, email } = profile;

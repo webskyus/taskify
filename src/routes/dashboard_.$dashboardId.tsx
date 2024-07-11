@@ -7,7 +7,7 @@ import {
 import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
 import { ROUTES } from '~/shared/lib/utils/urls';
 import { Link, useLoaderData, useParams } from '@remix-run/react';
-import { DashboardHeader } from '~/widgets/dashboard-header';
+import {DashboardHeader, getUserProfileApi} from '~/widgets/dashboard-header';
 import { gradientColors } from '~/shared/lib/utils/constants';
 import { getRandomInt } from '~/shared/lib/utils';
 
@@ -28,11 +28,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		await getSupabaseWithSessionAndHeaders({
 			request,
 		});
-	const { data } = await supabase
-		.from('profiles')
-		.select()
-		.eq('id', serverSession?.user?.id)
-		.single();
+
 
 	if (!serverSession) {
 		return redirect(ROUTES.SIGN_IN, {
@@ -42,8 +38,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 	return json(
 		{
-			serverSession,
-			profile: data,
+			serverSession
 		},
 		{
 			headers,
@@ -52,12 +47,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 const Dashboard = () => {
-	const { profile } = useLoaderData<typeof loader>();
 	const { dashboardId } = useParams();
 
 	return (
 		<section className={'container'}>
-			<DashboardHeader data={profile} />
+			<DashboardHeader />
 
 			<section>
 				<h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>🌸 Projects</h1>

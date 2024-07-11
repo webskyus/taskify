@@ -66,7 +66,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 			request,
 		});
 	const userId = serverSession?.user?.id;
-	const { data: profile } = await getUserProfileApi({ supabase, userId });
 	const { data: workspaces, error } = await getWorkspacesApi({
 		supabase,
 		userId,
@@ -81,7 +80,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	return json(
 		{
 			serverSession,
-			profile: profile as Profile,
 			workspaces: workspaces as Workspace[],
 			error,
 		},
