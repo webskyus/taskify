@@ -7,7 +7,7 @@ import {
 } from '@remix-run/node';
 import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
 import { ROUTES } from '~/shared/lib/utils/urls';
-import { DashboardHeader, } from '~/widgets/dashboard-header';
+import { DashboardHeader } from '~/widgets/dashboard-header';
 import { validator } from '~/features/create-dialog/ui/create-dialog';
 import { validationError } from 'remix-validated-form';
 import { Database } from '~/app/supabase/supabase.database';

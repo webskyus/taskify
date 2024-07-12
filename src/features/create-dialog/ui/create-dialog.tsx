@@ -63,11 +63,11 @@ export const validator = withZod(
 );
 
 const CreateDialog: FC<Props> = ({
-									 id,
-									 handleSetId,
-									 type,
-									 defaultValue,
-									 formAction
+	id,
+	handleSetId,
+	type,
+	defaultValue,
+	formAction,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [formId, _] = useState('create-dialog-form');

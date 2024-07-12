@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { gradientColors } from '~/shared/lib/utils/constants';
 import { useEffect, useState } from 'react';
 import { CreateDialogFormProps } from '~/features/create-dialog/ui/create-dialog';
-import {ROUTES} from "~/shared/lib/utils/urls";
+import { ROUTES } from '~/shared/lib/utils/urls';
 
 const Workspaces = () => {
 	const [defaultValue, setDefaultValue] = useState<CreateDialogFormProps>();
