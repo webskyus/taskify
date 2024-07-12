@@ -32,7 +32,7 @@ const DashboardHeader = () => {
 	return (
 		<header className={'flex justify-between items-center pt-4 mb-24'}>
 			<Link unstable_viewTransition to={ROUTES.DASHBOARD}>
-				<LogoIcon className={'w-24 sm:w-40'} />
+				<LogoIcon className={'w-36 sm:w-40'} />
 			</Link>
 
 			<nav className={'flex items-center ml-auto'}>

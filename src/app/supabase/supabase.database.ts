@@ -44,7 +44,7 @@ export type Database = {
       }
       projects: {
         Row: {
-          color: string
+          color: number
           created_at: string
           description: string
           icon: string
@@ -54,7 +54,7 @@ export type Database = {
           workspace_id: string
         }
         Insert: {
-          color: string
+          color: number
           created_at?: string
           description: string
           icon: string
@@ -64,7 +64,7 @@ export type Database = {
           workspace_id: string
         }
         Update: {
-          color?: string
+          color?: number
           created_at?: string
           description?: string
           icon?: string
@@ -86,7 +86,7 @@ export type Database = {
           owner_id: string
         }
         Insert: {
-          color: number
+          color?: number
           created_at?: string
           description: string
           icon: string

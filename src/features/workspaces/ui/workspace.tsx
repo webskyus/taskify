@@ -40,7 +40,7 @@ const Workspaces = () => {
 	return (
 		<>
 			<header className={'flex items-center justify-between mb-6'}>
-				<header>
+				<header className={'pr-10 sm:pr-2'}>
 					<h1 className={'mb-1 text-4xl sm:text-6xl font-bold'}>
 						{WORKSPACE_TEXT.title}
 					</h1>

@@ -1,4 +1,5 @@
 import {
+	ActionFunctionArgs,
 	json,
 	LoaderFunctionArgs,
 	MetaFunction,
@@ -6,13 +7,14 @@ import {
 } from '@remix-run/node';
 import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
 import { ROUTES } from '~/shared/lib/utils/urls';
-import { Link, useLoaderData, useParams } from '@remix-run/react';
-import {DashboardHeader, getUserProfileApi} from '~/widgets/dashboard-header';
-import { gradientColors } from '~/shared/lib/utils/constants';
-import { getRandomInt } from '~/shared/lib/utils';
-import {getWorkspacesApi} from "~/features/workspaces";
-import {getProjectsApi} from "~/features/projects";
-import {Project, Workspace} from "~/routes/dashboard";
+import {DashboardHeader} from '~/widgets/dashboard-header';
+import {getProjectsApi, Projects, updateProjectApi} from "~/features/projects";
+import {Project} from "~/routes/dashboard";
+import {validator} from "~/features/create-dialog/ui/create-dialog";
+import {validationError} from "remix-validated-form";
+import {METHODS} from "~/shared/api";
+import {createWorkspaceApi, updateWorkspaceApi} from "~/features/workspaces/api";
+import {createProjectApi} from "~/features/projects/api";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -24,6 +26,32 @@ export const meta: MetaFunction = () => {
 			content: 'Your all in one productivity app | Projects',
 		},
 	];
+};
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+	const { supabase } = await getSupabaseWithSessionAndHeaders({
+		request,
+	});
+	const result = await validator.validate(await request.formData());
+	const { data: formData, error } = result;
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	const userId = user?.id;
+
+	if (error) return validationError(result.error);
+
+	if (request?.method === METHODS.POST) {
+		await createProjectApi({ supabase, userId, formData });
+	}
+
+	if (request?.method === METHODS.PUT) {
+		await updateProjectApi({ supabase, formData });
+	}
+
+	return json({
+		ok: true,
+	});
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -56,22 +84,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 const Dashboard = () => {
-	const { dashboardId } = useParams();
-
 	return (
 		<section className={'container'}>
 			<DashboardHeader />
-
-			<section>
-				<h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>Projects</h1>
-
-				<section
-					className={
-						'grid grid-rows-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 mb-4'
-					}>
-
-				</section>
-			</section>
+			<Projects/>
 		</section>
 	);
 };

@@ -4,7 +4,7 @@ import {
 	text,
 	timestamp,
 	jsonb,
-	smallint,
+	integer, smallint,
 } from 'drizzle-orm/pg-core';
 
 const workspaces = pgTable('workspaces', {

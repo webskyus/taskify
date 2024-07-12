@@ -1,1 +1,0 @@
-ALTER TABLE "workspaces" ALTER COLUMN "color" SET DATA TYPE numeric;

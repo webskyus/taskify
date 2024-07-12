@@ -12,7 +12,7 @@ const ErrorMessage = () => {
 			<h5 className={'text-4xl sm:text-9xl font-bold text-red-400'}>
 				Someting went wrong...
 			</h5>
-			<p className={'font-bold text-xl text-gray-300'}>
+			<p className={'mt-10 font-bold text-xl text-gray-300'}>
 				Houston, we have a problem. Try reloading the page. If that doesn't
 				help, we are working on it.
 			</p>
