@@ -13,6 +13,7 @@ import {
 import { SupabaseClient } from '@supabase/supabase-js';
 import { loader as dashboardLoader } from '~/routes/dashboard';
 import { SerializeFrom } from '@remix-run/node';
+import {HiChevronRight} from "react-icons/hi";
 
 const DashboardHeader = () => {
 	const { profile } = useRouteLoaderData('root') as SerializeFrom<
@@ -31,9 +32,53 @@ const DashboardHeader = () => {
 
 	return (
 		<header className={'flex justify-between items-center pt-4 mb-24'}>
-			<Link unstable_viewTransition to={ROUTES.DASHBOARD}>
+			<Link unstable_viewTransition to={ROUTES.DASHBOARD} className={'w-14'}>
 				<LogoIcon className={'w-36 sm:w-40'} />
 			</Link>
+
+			<nav className={'hidden md:flex items-center mr-auto'}>
+				<ul className={'flex items-center'}>
+					<li className={'ml-2'}>
+						<DropdownMenu>
+							<DropdownMenuTrigger className={'flex items-center'}>
+								Workspace name #1
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align='end'>
+								<DropdownMenuItem>
+									Workspace name #1
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									Workspace name #2
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									Workspace name #3
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</li>
+					<li className={'ml-2'}>
+						<HiChevronRight size={24}/>
+					</li>
+					<li className={'ml-2'}>
+						<DropdownMenu>
+							<DropdownMenuTrigger className={'flex items-center'}>
+								Project name #1
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align='end'>
+								<DropdownMenuItem>
+									Project name #1
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									Project name #2
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									Project name #3
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</li>
+				</ul>
+			</nav>
 
 			<nav className={'flex items-center ml-auto'}>
 				<ul className={'flex items-center'}>
