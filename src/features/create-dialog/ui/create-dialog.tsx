@@ -83,15 +83,16 @@ const CreateDialog: FC<Props> = ({
 	}, [id, defaultValue]);
 
 	useEffect(() => {
-		console.log('actionData', actionData)
 		if (actionData && isOpen) {
 			setIsOpen(false);
 		}
+	}, [actionData]);
 
+	useEffect(() => {
 		if (!isOpen) {
 			handleSetId && handleSetId(undefined);
 		}
-	}, [actionData, isOpen]);
+	}, [isOpen]);
 
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
