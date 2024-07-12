@@ -20,8 +20,8 @@ import { useTheme } from '~/routes/action.set-theme';
 import styles from '~/app/styles/root.css';
 import { useSupabase } from '~/app/supabase/use-supabase';
 import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
-import {getUserProfileApi} from "~/widgets/dashboard-header";
-import {Profile} from "~/routes/dashboard";
+import { getUserProfileApi } from '~/widgets/dashboard-header';
+import { Profile } from '~/routes/dashboard';
 
 export const links: LinksFunction = () => [
 	{ rel: 'stylesheet', href: styles },
@@ -33,9 +33,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 		SUPABASE_URL: process.env.SUPABASE_URL!,
 		SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY!,
 	};
-	const { serverSession, headers, supabase } = await getSupabaseWithSessionAndHeaders({
-		request,
-	});
+	const { serverSession, headers, supabase } =
+		await getSupabaseWithSessionAndHeaders({
+			request,
+		});
 	const userId = serverSession?.user?.id;
 	const { data: profile } = await getUserProfileApi({ supabase, userId });
 

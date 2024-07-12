@@ -94,8 +94,7 @@ const WORKSPACE_TEXT: WorkspaceTextType = {
 
 const PROJECT_TEXT: ProjectTextType = {
 	title: 'Projects',
-	description:
-		'You can select your project to manage and choose',
+	description: 'You can select your project to manage and choose',
 };
 
 export {
@@ -106,5 +105,5 @@ export {
 	CREATED_PAGE_TYPE,
 	CREATE_DIALOG_TEXT,
 	WORKSPACE_TEXT,
-	PROJECT_TEXT
+	PROJECT_TEXT,
 };

@@ -7,10 +7,7 @@ import {
 	RealtimePostgresChangesPayload,
 	SupabaseClient,
 } from '@supabase/supabase-js';
-import {
-	deleteWorkspaceApi,
-	workspaceChannelApi,
-} from '~/features/workspaces';
+import { deleteWorkspaceApi, workspaceChannelApi } from '~/features/workspaces';
 
 export type RealtimePostgresChangesPayloadType =
 	RealtimePostgresChangesPayload<{ [p: string]: any }>;

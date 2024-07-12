@@ -118,11 +118,10 @@ const getWorkspacesApi = async ({
 	};
 };
 
-
 export {
 	createWorkspaceApi,
 	updateWorkspaceApi,
 	deleteWorkspaceApi,
 	workspaceChannelApi,
-	getWorkspacesApi
+	getWorkspacesApi,
 };
