@@ -13,11 +13,13 @@ import {
 	Projects,
 	updateProjectApi,
 } from '~/features/projects';
-import { Project } from '~/routes/dashboard';
+import {Project, Workspace} from '~/routes/dashboard';
 import { validator } from '~/features/create-dialog/ui/create-dialog';
 import { validationError } from 'remix-validated-form';
 import { METHODS } from '~/shared/api';
 import { createProjectApi } from '~/features/projects/api';
+import {getWorkspacesApi} from "~/features/workspaces";
+import {useLoaderData} from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -64,7 +66,14 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 			request,
 		});
 	const { workspaceId } = params;
-	const { data: projects, error } = await getProjectsApi({
+	const userId = serverSession?.user?.id;
+
+	const { data: workspaces } = await getWorkspacesApi({
+		supabase,
+		userId,
+	});
+
+	const { data: projects } = await getProjectsApi({
 		supabase,
 		workspaceId,
 	});
@@ -79,7 +88,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 		{
 			serverSession,
 			projects: projects as Project[],
-			error,
+			workspaces: workspaces as Workspace[]
 		},
 		{
 			headers,
@@ -88,9 +97,11 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 };
 
 const ProjectsPage = () => {
+	const {workspaces} = useLoaderData<typeof loader>();
+
 	return (
 		<section className={'container'}>
-			<DashboardHeader />
+			<DashboardHeader workspaces={workspaces} />
 			<Projects />
 		</section>
 	);

@@ -107,6 +107,7 @@ const getWorkspacesApi = async ({
 	supabase,
 	userId,
 }: GetWorkspacesApiProps) => {
+
 	const { data, error } = await supabase
 		.from('workspaces')
 		.select()

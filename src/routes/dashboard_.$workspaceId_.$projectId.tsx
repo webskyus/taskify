@@ -2,12 +2,15 @@ import {
 	json,
 	LoaderFunctionArgs,
 	MetaFunction,
-	redirect,
+	redirect, SerializeFrom,
 } from '@remix-run/node';
 import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
 import { ROUTES } from '~/shared/lib/utils/urls';
-import { useLoaderData, useParams } from '@remix-run/react';
+import {useLoaderData, useParams, useRouteLoaderData} from '@remix-run/react';
 import { DashboardHeader } from '~/widgets/dashboard-header';
+import {getWorkspacesApi} from "~/features/workspaces";
+import {loader as dashboardLoader, Project, Workspace} from "~/routes/dashboard";
+import {getProjectsApi} from "~/features/projects";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -21,16 +24,23 @@ export const meta: MetaFunction = () => {
 	];
 };
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 	const { headers, serverSession, supabase } =
 		await getSupabaseWithSessionAndHeaders({
 			request,
 		});
-	const { data } = await supabase
-		.from('profiles')
-		.select()
-		.eq('id', serverSession?.user?.id)
-		.single();
+	const { workspaceId } = params;
+	const userId = serverSession?.user?.id;
+
+	const { data: workspaces } = await getWorkspacesApi({
+		supabase,
+		userId,
+	});
+
+	const { data: projects } = await getProjectsApi({
+		supabase,
+		workspaceId,
+	});
 
 	if (!serverSession) {
 		return redirect(ROUTES.SIGN_IN, {
@@ -41,7 +51,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	return json(
 		{
 			serverSession,
-			profile: data,
+			workspaces: workspaces as Workspace[],
+			projects: projects as Project[],
 		},
 		{
 			headers,
@@ -50,12 +61,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 const ProjectPage = () => {
-	const { profile } = useLoaderData<typeof loader>();
+	const {workspaces, projects} = useLoaderData<typeof loader>();
 	const { projectId } = useParams();
 
 	return (
 		<section className={'container'}>
-			<DashboardHeader />
+			<DashboardHeader workspaces={workspaces} projects={projects} />
 
 			<section>
 				<h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>
