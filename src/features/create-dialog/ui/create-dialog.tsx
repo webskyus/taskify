@@ -175,6 +175,7 @@ const CreateDialog: FC<Props> = ({
 							</Label>
 							<RadioGroup
 								name={'color'}
+								defaultValue={defaultValue?.color || '0'}
 								className={'flex w-[380px] pr-2 pb-2 overflow-x-auto'}>
 								<RadioGroupItem
 									value='0'
