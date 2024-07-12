@@ -41,7 +41,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 		data: { user },
 	} = await supabase.auth.getUser();
 	const userId = user?.id;
-	const {workspaceId} = params;
+	const { workspaceId } = params;
 
 	if (error) return validationError(result.error);
 
@@ -87,7 +87,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 	);
 };
 
-const Dashboard = () => {
+const ProjectsPage = () => {
 	return (
 		<section className={'container'}>
 			<DashboardHeader />
@@ -96,4 +96,4 @@ const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+export default ProjectsPage;

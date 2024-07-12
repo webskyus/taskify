@@ -49,19 +49,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	);
 };
 
-// WORKSPACES + | CHOOSE ONE
-// PROJECTS + | CHOOSE ONE
-// SUPABASE | add property from notebook
-// SUPABASE | add projects
-// SUPABASE | handle for new user create workspace
-
-const Dashboard = () => {
+const ProjectPage = () => {
 	const { profile } = useLoaderData<typeof loader>();
 	const { projectId } = useParams();
 
 	return (
 		<section className={'container'}>
-			<DashboardHeader data={profile} />
+			<DashboardHeader />
 
 			<section>
 				<h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>
@@ -72,4 +66,4 @@ const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+export default ProjectPage;
