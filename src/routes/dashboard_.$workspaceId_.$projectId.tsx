@@ -11,6 +11,8 @@ import { DashboardHeader } from '~/widgets/dashboard-header';
 import {getWorkspacesApi} from "~/features/workspaces";
 import {loader as dashboardLoader, Project, Workspace} from "~/routes/dashboard";
 import {getProjectsApi} from "~/features/projects";
+import postgres from "postgres";
+import column = postgres.toPascal.column;
 
 export const meta: MetaFunction = () => {
 	return [
@@ -72,6 +74,16 @@ const ProjectPage = () => {
 				<h1 className={'mb-6 text-4xl sm:text-6xl font-bold'}>
 					🌸 Project Name | ID {projectId}
 				</h1>
+			</section>
+
+			<section className={'flex w-full items-start min-h-[240px] p-4 overflow-x-auto'}>
+				{
+					[1,2,3, 4, 5, 6, 7, 8, 9, 10].map((column) => {
+						return <article key={column} className={'min-w-[200px] min-h-[200px] h-auto p-4 mr-4 rounded-sm bg-pink-400'}>
+							column
+						</article>
+					})
+				}
 			</section>
 		</section>
 	);
