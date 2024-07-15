@@ -24,8 +24,9 @@ const ProjectItem: FC<Props> = ({ project, handleSetId }) => {
 	const url = `${ROUTES.DASHBOARD}/${workspaceId}/${id}`;
 	const { handleDeleteProject } = useGetProjectCrud();
 
-	const handleUpdateproject = (id: string) => handleSetId(id);
+	const handleUpdateProject = (id: string) => handleSetId(id);
 
+	console.log('workspaceId', workspaceId)
 	return (
 		<>
 			<header className={'flex items-start justify-between'}>
@@ -44,7 +45,7 @@ const ProjectItem: FC<Props> = ({ project, handleSetId }) => {
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent>
-						<DropdownMenuItem onClick={() => handleUpdateproject(id)}>
+						<DropdownMenuItem onClick={() => handleUpdateProject(id)}>
 							Edit
 						</DropdownMenuItem>
 						<DropdownMenuItem

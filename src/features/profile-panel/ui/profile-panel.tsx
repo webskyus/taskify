@@ -7,6 +7,7 @@ import {useOutletContext, useRouteLoaderData} from "@remix-run/react";
 import {SerializeFrom} from "@remix-run/node";
 import {loader as dashboardLoader} from "~/routes/dashboard";
 import {SupabaseClient} from "@supabase/supabase-js";
+import {Button} from "~/shared/ui/button";
 
 const ProfilePanel = () => {
     const { profile } = useRouteLoaderData('root') as SerializeFrom<
@@ -32,8 +33,8 @@ const ProfilePanel = () => {
                             <h5 className={'pt-[6px] mr-2 font-semibold text-right'}>
                                 <p className={'leading-[12px] text-[14px]'}>{full_name}</p>
                                 <span className={'text-[12px] leading-[12px] font-light'}>
-										{email}
-									</span>
+                                    {email}
+                                </span>
                             </h5>
                             <Avatar>
                                 <AvatarImage src={avatar_url || undefined}/>
