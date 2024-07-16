@@ -26,11 +26,10 @@ const ProjectItem: FC<Props> = ({ project, handleSetId }) => {
 
 	const handleUpdateProject = (id: string) => handleSetId(id);
 
-	console.log('workspaceId', workspaceId)
 	return (
 		<>
 			<header className={'flex items-start justify-between'}>
-				<Link unstable_viewTransition to={url}>
+				<Link to={url} unstable_viewTransition>
 					<p className={'mb-2 text-6xl'}>{icon}</p>
 					<h2 className={'text-2xl font-bold line-clamp-1 text-white'}>
 						{name}

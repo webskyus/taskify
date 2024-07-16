@@ -26,7 +26,7 @@ const Projects = () => {
 		return () => setDefaultValue(undefined);
 	}, [id]);
 
-	const handleSetFormDefaultValues = async (id: string) => {
+	const handleSetFormDefaultValues = (id: string) => {
 		const project = projects.find(project => project.id === id);
 
 		if (!project) return;

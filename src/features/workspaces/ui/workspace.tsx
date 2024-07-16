@@ -23,7 +23,7 @@ const Workspaces = () => {
 		return () => setDefaultValue(undefined);
 	}, [id]);
 
-	const handleSetFormDefaultValues = async (id: string) => {
+	const handleSetFormDefaultValues = (id: string) => {
 		const workspace = workspaces.find(workspace => workspace.id === id);
 
 		if (!workspace) return;

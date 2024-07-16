@@ -116,7 +116,9 @@ const CreateDialog: FC<Props> = ({
 					<Input type='hidden' name='id' value={id || ''} />
 
 					<DialogHeader>
-						<DialogTitle>{CREATE_DIALOG_TEXT[type].title}</DialogTitle>
+						<DialogTitle>
+							{CREATE_DIALOG_TEXT[type].title}
+						</DialogTitle>
 						<DialogDescription className={'!mb-4'}>
 							{CREATE_DIALOG_TEXT[type].description}
 						</DialogDescription>
@@ -142,7 +144,7 @@ const CreateDialog: FC<Props> = ({
 										id='name'
 										name={'name'}
 										type={'text'}
-										placeholder={`DeltaX Workspace...`}
+										placeholder={`${type} name...`}
 									/>
 								</div>
 							</div>
@@ -166,7 +168,7 @@ const CreateDialog: FC<Props> = ({
 								id='description'
 								name={'description'}
 								type={'text'}
-								placeholder={`My lovely workspace for DeltaX company projects...`}
+								placeholder={`${type} description...`}
 							/>
 						</div>
 
