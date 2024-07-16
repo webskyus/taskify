@@ -34,6 +34,7 @@ type ProjectTextType = WorkspaceTextType;
 enum CREATED_PAGE_TYPE {
 	WORKSPACE = 'Workspace',
 	PROJECT = 'Project',
+	PROJECT_COLUMN = 'Project Column',
 }
 
 const HEADER_TEXT = {
@@ -83,6 +84,10 @@ const CREATE_DIALOG_TEXT: Record<CREATED_PAGE_TYPE, CreatedDialogItemType> = {
 	[CREATED_PAGE_TYPE.PROJECT]: {
 		title: 'Create new project',
 		description: 'You can create new project and start using Taskify board',
+	},
+	[CREATED_PAGE_TYPE.PROJECT_COLUMN]: {
+		title: 'Create new project column',
+		description: 'You can create new column for project and start create tasks',
 	},
 };
 
