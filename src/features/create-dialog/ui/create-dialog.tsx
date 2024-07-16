@@ -37,7 +37,7 @@ interface Props {
 	id?: string;
 	handleSetId: Dispatch<SetStateAction<string | undefined>>;
 	defaultValue?: CreateDialogFormProps;
-	formAction: ROUTES.DASHBOARD | `${ROUTES.DASHBOARD}/${string}`;
+	formAction: ROUTES.DASHBOARD | `${ROUTES.DASHBOARD}/${string}` | `${ROUTES.DASHBOARD}/${string}/${string}`;
 }
 
 export type CreateDialogFormProps = {

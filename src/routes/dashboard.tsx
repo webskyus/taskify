@@ -90,7 +90,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	);
 };
 
-const Dashboard = () => {
+const DashboardRoute = () => {
 	return (
 		<section className={'container'}>
 			<DashboardHeader />
@@ -99,4 +99,4 @@ const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+export default DashboardRoute;
