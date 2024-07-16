@@ -43,7 +43,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	);
 };
 
-const SignIn = () => {
+const SignInRoute = () => {
 	return (
 		<section className={'container'}>
 			<AuthHeader authType={AUTH_TYPE.SIGN_IN} />
@@ -52,4 +52,4 @@ const SignIn = () => {
 	);
 };
 
-export default SignIn;
+export default SignInRoute;
