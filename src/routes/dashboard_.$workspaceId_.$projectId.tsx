@@ -14,6 +14,9 @@ import {getProjectsApi} from "~/features/projects";
 import postgres from "postgres";
 import {CREATED_PAGE_TYPE, PROJECT_TEXT} from "~/shared/lib/utils/static";
 import {CreateDialog} from "~/features/create-dialog";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "~/shared/ui/dropdown-menu";
+import {Button} from "~/shared/ui/button";
+import {HiOutlineDotsHorizontal} from "react-icons/hi";
 
 export const meta: MetaFunction = () => {
     return [
@@ -69,7 +72,7 @@ const ProjectRoute = () => {
     const currentProject = projects.find((project) => project.id === projectId);
 
     return (
-        <section className={'container'}>
+        <section className={'pl-2 pr-2'}>
             <DashboardHeader workspaces={workspaces} projects={projects}/>
 
             {/*TODO Create ProjectColumns component*/}
@@ -91,12 +94,34 @@ const ProjectRoute = () => {
             </header>
 
 
-            <section className={'flex w-full items-start min-h-[240px] p-4 overflow-x-auto'}>
+            <section className={'flex w-full items-start min-h-[240px] overflow-x-auto'}>
                 {
                     [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((column) => {
                         return <article key={column}
-                                        className={'min-w-[200px] min-h-[200px] h-auto p-4 mr-4 rounded-sm bg-pink-400'}>
-                            column
+                                        className={'min-w-[400px] min-h-[200px] h-auto p-4 mr-4 rounded-sm bg-pink-400'}>
+                            <header className={'flex items-start justify-between'}>
+                                <header>
+                                    <p>Column name</p>
+                                    <p>Column description</p>
+                                </header>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger>
+                                        <Button
+                                            variant={'link'}
+                                            className={'!h-6 !p-0 hover:opacity-50 transition-opacity'}>
+                                            <HiOutlineDotsHorizontal size={28}/>
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuItem>
+                                            Edit
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem className={'text-red-400'}>
+                                            Delete
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </header>
                         </article>
                     })
                 }
