@@ -19,7 +19,7 @@ import { validationError } from 'remix-validated-form';
 import { METHODS } from '~/shared/api';
 import { createProjectApi } from '~/features/projects/api';
 import {getWorkspacesApi} from "~/features/workspaces";
-import {useLoaderData} from "@remix-run/react";
+import {Link, useLoaderData} from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -96,7 +96,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 	);
 };
 
-const ProjectsPage = () => {
+const ProjectsRoute = () => {
 	const {workspaces} = useLoaderData<typeof loader>();
 
 	return (
@@ -107,4 +107,4 @@ const ProjectsPage = () => {
 	);
 };
 
-export default ProjectsPage;
+export default ProjectsRoute;
