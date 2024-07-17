@@ -85,7 +85,7 @@ const deleteProjectApi = async ({ supabase, id }: ProjectApiProps) => {
 	}
 };
 
-const projectChannelApi = async ({
+const projectsChannelApi = async ({
 	supabase,
 	handleUpdateProjectsList,
 	workspaceId,
@@ -129,6 +129,6 @@ export {
 	createProjectApi,
 	updateProjectApi,
 	deleteProjectApi,
-	projectChannelApi,
+	projectsChannelApi,
 	getProjectsApi,
 };

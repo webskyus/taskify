@@ -1,7 +1,7 @@
 export {
 	updateProjectApi,
 	deleteProjectApi,
-	projectChannelApi,
+	projectsChannelApi,
 	getProjectsApi,
 } from './api/index';
 export {

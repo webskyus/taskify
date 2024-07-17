@@ -15,7 +15,7 @@ type WorkspaceApiProps = {
 	id: string;
 };
 
-type WorkspaceChannelApiProps = {
+type WorkspacesChannelApiProps = {
 	supabase: SupabaseClient;
 	handleUpdateWorkspacesList: (
 		payload: RealtimePostgresChangesPayloadType
@@ -78,10 +78,10 @@ const deleteWorkspaceApi = async ({ supabase, id }: WorkspaceApiProps) => {
 	}
 };
 
-const workspaceChannelApi = async ({
+const workspacesChannelApi = async ({
 	supabase,
 	handleUpdateWorkspacesList,
-}: WorkspaceChannelApiProps) => {
+}: WorkspacesChannelApiProps) => {
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
@@ -122,6 +122,6 @@ export {
 	createWorkspaceApi,
 	updateWorkspaceApi,
 	deleteWorkspaceApi,
-	workspaceChannelApi,
+	workspacesChannelApi,
 	getWorkspacesApi,
 };

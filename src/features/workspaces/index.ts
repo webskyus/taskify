@@ -1,7 +1,7 @@
 export {
 	updateWorkspaceApi,
 	deleteWorkspaceApi,
-	workspaceChannelApi,
+	workspacesChannelApi,
 	getWorkspacesApi,
 } from './api/index';
 export {

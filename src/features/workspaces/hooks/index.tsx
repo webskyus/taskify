@@ -7,7 +7,7 @@ import {
 	RealtimePostgresChangesPayload,
 	SupabaseClient,
 } from '@supabase/supabase-js';
-import { deleteWorkspaceApi, workspaceChannelApi } from '~/features/workspaces';
+import { deleteWorkspaceApi, workspacesChannelApi } from '~/features/workspaces';
 
 export type RealtimePostgresChangesPayloadType =
 	RealtimePostgresChangesPayload<{ [p: string]: any }>;
@@ -39,7 +39,7 @@ const useGetWorkspaces = () => {
 	}, [serverWorkspaces]);
 
 	useEffect(() => {
-		workspaceChannelApi({ supabase, handleUpdateWorkspacesList });
+		workspacesChannelApi({ supabase, handleUpdateWorkspacesList });
 	}, [supabase, workspaces, setWorkspaces]);
 
 	const handleUpdateWorkspacesList = (

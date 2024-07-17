@@ -11,7 +11,7 @@ import {
 	RealtimePostgresChangesPayload,
 	SupabaseClient,
 } from '@supabase/supabase-js';
-import { deleteProjectApi, projectChannelApi } from '~/features/projects';
+import { deleteProjectApi, projectsChannelApi } from '~/features/projects';
 import { Project } from '~/routes/dashboard';
 
 export type RealtimePostgresChangesPayloadType =
@@ -45,7 +45,7 @@ const useGetProjects = () => {
 	}, [serverProjects]);
 
 	useEffect(() => {
-		projectChannelApi({ supabase, handleUpdateProjectsList, workspaceId });
+		projectsChannelApi({ supabase, handleUpdateProjectsList, workspaceId });
 	}, [supabase, projects, setProjects]);
 
 	const handleUpdateProjectsList = (
