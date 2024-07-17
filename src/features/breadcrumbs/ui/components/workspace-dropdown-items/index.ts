@@ -1,3 +1,1 @@
-export {
-    WorkspaceDropdownItems
-} from './ui/workspace-dropdown-items'
+export { WorkspaceDropdownItems } from './ui/workspace-dropdown-items';
