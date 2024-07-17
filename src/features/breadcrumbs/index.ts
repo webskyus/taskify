@@ -1,3 +1,1 @@
-export {
-    BreadCrumbs
-} from './ui/breadcrumbs';
+export { BreadCrumbs } from './ui/breadcrumbs';
