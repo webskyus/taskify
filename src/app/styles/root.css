@@ -32,12 +32,12 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-    background : #fafaff;
+    background : #cbd5e1;
     border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background : #22223b;
+    background : #1e293b;
     border-radius: 6px;
 }
 

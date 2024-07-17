@@ -71,7 +71,7 @@ export default function App() {
 
 	// console.log('dd.db.supabase.print', db);
 	return (
-		<html lang='en' className={clsx(theme)} >
+		<html lang='en' className={clsx(theme)}>
 			<head>
 				<ClientHintCheck nonce={nonce} />
 				<meta charSet='utf-8' />
