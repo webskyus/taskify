@@ -37,7 +37,10 @@ interface Props {
 	id?: string;
 	handleSetId: Dispatch<SetStateAction<string | undefined>>;
 	defaultValue?: CreateDialogFormProps;
-	formAction: ROUTES.DASHBOARD | `${ROUTES.DASHBOARD}/${string}` | `${ROUTES.DASHBOARD}/${string}/${string}`;
+	formAction:
+		| ROUTES.DASHBOARD
+		| `${ROUTES.DASHBOARD}/${string}`
+		| `${ROUTES.DASHBOARD}/${string}/${string}`;
 }
 
 export type CreateDialogFormProps = {
@@ -116,9 +119,7 @@ const CreateDialog: FC<Props> = ({
 					<Input type='hidden' name='id' value={id || ''} />
 
 					<DialogHeader>
-						<DialogTitle>
-							{CREATE_DIALOG_TEXT[type].title}
-						</DialogTitle>
+						<DialogTitle>{CREATE_DIALOG_TEXT[type].title}</DialogTitle>
 						<DialogDescription className={'!mb-4'}>
 							{CREATE_DIALOG_TEXT[type].description}
 						</DialogDescription>
