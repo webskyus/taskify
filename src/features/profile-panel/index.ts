@@ -1,3 +1,1 @@
-export {
-    ProfilePanel
-} from './ui/profile-panel'
+export { ProfilePanel } from './ui/profile-panel';
