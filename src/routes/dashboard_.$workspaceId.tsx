@@ -13,13 +13,13 @@ import {
 	Projects,
 	updateProjectApi,
 } from '~/features/projects';
-import {Project, Workspace} from '~/routes/dashboard';
+import { Project, Workspace } from '~/routes/dashboard';
 import { validator } from '~/features/create-dialog/ui/create-dialog';
 import { validationError } from 'remix-validated-form';
 import { METHODS } from '~/shared/api';
 import { createProjectApi } from '~/features/projects/api';
-import {getWorkspacesApi} from "~/features/workspaces";
-import {Link, useLoaderData} from "@remix-run/react";
+import { getWorkspacesApi } from '~/features/workspaces';
+import { useLoaderData } from '@remix-run/react';
 
 export const meta: MetaFunction = () => {
 	return [
@@ -88,7 +88,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 		{
 			serverSession,
 			projects: projects as Project[],
-			workspaces: workspaces as Workspace[]
+			workspaces: workspaces as Workspace[],
 		},
 		{
 			headers,
@@ -97,7 +97,7 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 };
 
 const ProjectsRoute = () => {
-	const {workspaces} = useLoaderData<typeof loader>();
+	const { workspaces } = useLoaderData<typeof loader>();
 
 	return (
 		<section className={'container'}>
