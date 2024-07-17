@@ -57,7 +57,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	if (error) return validationError(result.error);
 
 	if (request?.method === METHODS.POST) {
-		await createProjectColumnApi({ supabase, userId, workspaceId, formData });
+		await createProjectColumnApi({ supabase, userId, projectId, formData });
 	}
 
 	if (request?.method === METHODS.PUT) {
