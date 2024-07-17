@@ -26,11 +26,11 @@ const ProjectItem: FC<Props> = ({ project, handleSetId }) => {
 
 	const handleUpdateProject = (id: string) => handleSetId(id);
 
-	console.log('dd.url', url)
+	console.log('dd.url', url);
 	return (
 		<>
 			<header className={'flex items-start justify-between'}>
-				<Link to={url} unstable_viewTransition discover="none" prefetch="none">
+				<Link to={url} unstable_viewTransition discover='none' prefetch='none'>
 					<p className={'mb-2 text-6xl'}>{icon}</p>
 					<h2 className={'text-2xl font-bold line-clamp-1 text-white'}>
 						{name}
@@ -40,7 +40,7 @@ const ProjectItem: FC<Props> = ({ project, handleSetId }) => {
 					<DropdownMenuTrigger>
 						<Button
 							variant={'link'}
-							className={'!h-6 !p-0 hover:opacity-50 transition-opacity'}>
+							className={'!h-6 !p-0 hover:opacity-50 transition-opacity !text-white'}>
 							<HiOutlineDotsHorizontal size={28} />
 						</Button>
 					</DropdownMenuTrigger>
@@ -57,7 +57,7 @@ const ProjectItem: FC<Props> = ({ project, handleSetId }) => {
 				</DropdownMenu>
 			</header>
 			<p className={'mt-2 mb-4 line-clamp-3 text-white'}>{description}</p>
-			<time dateTime={'24.12.2024'} className={'text-xs italic'}>
+			<time dateTime={'24.12.2024'} className={'text-xs italic text-white'}>
 				Created in {date(created_at)}
 			</time>
 		</>

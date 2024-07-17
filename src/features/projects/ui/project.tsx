@@ -1,4 +1,4 @@
-import { CreateDialog } from '~/features/create-dialog';
+import {CreateDialog, useSetFormDefaultValues} from '~/features/create-dialog';
 import { CREATED_PAGE_TYPE, PROJECT_TEXT } from '~/shared/lib/utils/static';
 import { EmptyResultMessage } from '~/shared/ui/empty-result-message';
 import { ErrorMessage } from '~/shared/ui/error-message';
@@ -6,40 +6,15 @@ import { ProjectItem } from '~/features/projects/ui/components/project-item';
 import { useGetProjects } from '~/features/projects';
 import { AnimatePresence, motion } from 'framer-motion';
 import { gradientColors } from '~/shared/lib/utils/constants';
-import { useEffect, useState } from 'react';
-import { CreateDialogFormProps } from '~/features/create-dialog/ui/create-dialog';
+import { useState } from 'react';
 import { ROUTES } from '~/shared/lib/utils/urls';
 import { useParams } from '@remix-run/react';
 
 const Projects = () => {
 	const { workspaceId } = useParams();
-
-	const [defaultValue, setDefaultValue] = useState<CreateDialogFormProps>();
 	const [id, setId] = useState<string>();
-
 	const { projects, error } = useGetProjects();
-
-	useEffect(() => {
-		if (!id) return;
-		handleSetFormDefaultValues(id);
-
-		return () => setDefaultValue(undefined);
-	}, [id]);
-
-	const handleSetFormDefaultValues = (id: string) => {
-		const project = projects.find(project => project.id === id);
-
-		if (!project) return;
-
-		const { name, description, color, icon } = project;
-
-		setDefaultValue({
-			name,
-			description,
-			color: String(color),
-			icon,
-		});
-	};
+	const { defaultValue } = useSetFormDefaultValues(id, projects);
 
 	return (
 		<>
