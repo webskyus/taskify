@@ -38,7 +38,7 @@ const WorkspaceItem: FC<Props> = ({ workspace, handleSetId }) => {
 					<DropdownMenuTrigger>
 						<Button
 							variant={'link'}
-							className={'!h-6 !p-0 hover:opacity-50 transition-opacity'}>
+							className={'!h-6 !p-0 hover:opacity-50 transition-opacity !text-white'}>
 							<HiOutlineDotsHorizontal size={28} />
 						</Button>
 					</DropdownMenuTrigger>
@@ -55,7 +55,7 @@ const WorkspaceItem: FC<Props> = ({ workspace, handleSetId }) => {
 				</DropdownMenu>
 			</header>
 			<p className={'mt-2 mb-4 line-clamp-3 text-white'}>{description}</p>
-			<time dateTime={'24.12.2024'} className={'text-xs italic'}>
+			<time dateTime={'24.12.2024'} className={'text-xs italic text-white'}>
 				Created in {date(created_at)}
 			</time>
 		</>

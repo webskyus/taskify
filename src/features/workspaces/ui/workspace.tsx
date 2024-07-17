@@ -1,4 +1,7 @@
-import { CreateDialog } from '~/features/create-dialog';
+import {
+	CreateDialog,
+	useSetFormDefaultValues,
+} from '~/features/create-dialog';
 import { CREATED_PAGE_TYPE, WORKSPACE_TEXT } from '~/shared/lib/utils/static';
 import { EmptyResultMessage } from '~/shared/ui/empty-result-message';
 import { ErrorMessage } from '~/shared/ui/error-message';
@@ -6,37 +9,14 @@ import { WorkspaceItem } from '~/features/workspaces/ui/components/workspace-ite
 import { useGetWorkspaces } from '~/features/workspaces';
 import { AnimatePresence, motion } from 'framer-motion';
 import { gradientColors } from '~/shared/lib/utils/constants';
-import { useEffect, useState } from 'react';
-import { CreateDialogFormProps } from '~/features/create-dialog/ui/create-dialog';
+import { useState } from 'react';
 import { ROUTES } from '~/shared/lib/utils/urls';
 
 const Workspaces = () => {
-	const [defaultValue, setDefaultValue] = useState<CreateDialogFormProps>();
 	const [id, setId] = useState<string>();
 
 	const { workspaces, error } = useGetWorkspaces();
-
-	useEffect(() => {
-		if (!id) return;
-		handleSetFormDefaultValues(id);
-
-		return () => setDefaultValue(undefined);
-	}, [id]);
-
-	const handleSetFormDefaultValues = (id: string) => {
-		const workspace = workspaces.find(workspace => workspace.id === id);
-
-		if (!workspace) return;
-
-		const { name, description, color, icon } = workspace;
-
-		setDefaultValue({
-			name,
-			description,
-			color: String(color),
-			icon,
-		});
-	};
+	const { defaultValue } = useSetFormDefaultValues(id, workspaces);
 
 	return (
 		<>
