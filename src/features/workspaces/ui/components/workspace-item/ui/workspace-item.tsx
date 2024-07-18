@@ -38,7 +38,9 @@ const WorkspaceItem: FC<Props> = ({ workspace, handleSetId }) => {
 					<DropdownMenuTrigger>
 						<Button
 							variant={'link'}
-							className={'!h-6 !p-0 hover:opacity-50 transition-opacity !text-white'}>
+							className={
+								'!h-6 !p-0 hover:opacity-50 transition-opacity !text-white'
+							}>
 							<HiOutlineDotsHorizontal size={28} />
 						</Button>
 					</DropdownMenuTrigger>

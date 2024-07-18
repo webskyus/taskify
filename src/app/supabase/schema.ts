@@ -20,6 +20,12 @@ const workspaces = pgTable('workspaces', {
 	})
 		.defaultNow()
 		.notNull(),
+	updatedAt: timestamp('updated_at', {
+		withTimezone: true,
+		mode: 'string',
+	})
+		.defaultNow()
+		.notNull(),
 });
 
 const projects = pgTable('projects', {
@@ -36,6 +42,31 @@ const projects = pgTable('projects', {
 	})
 		.defaultNow()
 		.notNull(),
+	updatedAt: timestamp('updated_at', {
+		withTimezone: true,
+		mode: 'string',
+	})
+		.defaultNow()
+		.notNull(),
+});
+
+const projectColumns = pgTable('project_columns', {
+	id: uuid('id').primaryKey().defaultRandom(),
+	name: text('name').notNull(),
+	ownerId: uuid('owner_id').notNull(),
+	projectId: uuid('project_id').notNull(),
+	createdAt: timestamp('created_at', {
+		withTimezone: true,
+		mode: 'string',
+	})
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp('updated_at', {
+		withTimezone: true,
+		mode: 'string',
+	})
+		.defaultNow()
+		.notNull(),
 });
 
 const profiles = pgTable('profiles', {
@@ -46,7 +77,9 @@ const profiles = pgTable('profiles', {
 	updatedAt: timestamp('updated_at', {
 		withTimezone: true,
 		mode: 'string',
-	}),
+	})
+		.defaultNow()
+		.notNull(),
 	createdAt: timestamp('created_at', {
 		withTimezone: true,
 		mode: 'string',
@@ -57,4 +90,4 @@ const profiles = pgTable('profiles', {
 	email: text('email'),
 });
 
-export { workspaces, profiles, projects };
+export { workspaces, profiles, projects, projectColumns };

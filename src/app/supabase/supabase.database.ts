@@ -42,6 +42,33 @@ export type Database = {
 				};
 				Relationships: [];
 			};
+			project_columns: {
+				Row: {
+					created_at: string;
+					id: string;
+					name: string;
+					owner_id: string;
+					project_id: string;
+					updated_at: string;
+				};
+				Insert: {
+					created_at?: string;
+					id?: string;
+					name: string;
+					owner_id: string;
+					project_id: string;
+					updated_at?: string;
+				};
+				Update: {
+					created_at?: string;
+					id?: string;
+					name?: string;
+					owner_id?: string;
+					project_id?: string;
+					updated_at?: string;
+				};
+				Relationships: [];
+			};
 			projects: {
 				Row: {
 					color: number;
@@ -51,6 +78,7 @@ export type Database = {
 					id: string;
 					name: string;
 					owner_id: string;
+					updated_at: string | null;
 					workspace_id: string;
 				};
 				Insert: {
@@ -61,6 +89,7 @@ export type Database = {
 					id?: string;
 					name: string;
 					owner_id: string;
+					updated_at?: string | null;
 					workspace_id: string;
 				};
 				Update: {
@@ -71,6 +100,7 @@ export type Database = {
 					id?: string;
 					name?: string;
 					owner_id?: string;
+					updated_at?: string | null;
 					workspace_id?: string;
 				};
 				Relationships: [];
@@ -84,15 +114,17 @@ export type Database = {
 					id: string;
 					name: string;
 					owner_id: string;
+					updated_at: string | null;
 				};
 				Insert: {
-					color?: number;
+					color: number;
 					created_at?: string;
 					description: string;
 					icon: string;
 					id?: string;
 					name: string;
 					owner_id: string;
+					updated_at?: string | null;
 				};
 				Update: {
 					color?: number;
@@ -102,6 +134,7 @@ export type Database = {
 					id?: string;
 					name?: string;
 					owner_id?: string;
+					updated_at?: string | null;
 				};
 				Relationships: [];
 			};

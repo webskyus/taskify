@@ -40,7 +40,9 @@ const ProjectItem: FC<Props> = ({ project, handleSetId }) => {
 					<DropdownMenuTrigger>
 						<Button
 							variant={'link'}
-							className={'!h-6 !p-0 hover:opacity-50 transition-opacity !text-white'}>
+							className={
+								'!h-6 !p-0 hover:opacity-50 transition-opacity !text-white'
+							}>
 							<HiOutlineDotsHorizontal size={28} />
 						</Button>
 					</DropdownMenuTrigger>
