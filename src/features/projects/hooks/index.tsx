@@ -34,7 +34,7 @@ const useGetProjects = () => {
 	const { supabase } = useOutletContext<{
 		supabase: SupabaseClient;
 	}>();
-	const { projects: serverProjects, error } = useRouteLoaderData(
+	const { projects: serverProjects, workspacesError } = useRouteLoaderData(
 		'routes/dashboard_.$workspaceId'
 	) as SerializeFrom<typeof dashboardProjectsLoader>;
 	const [projects, setProjects] = useState<Project[]>(serverProjects);
@@ -63,12 +63,12 @@ const useGetProjects = () => {
 			project => project.id === oldProject.id
 		);
 
-		getObjectKeysLength(newProject) &&
-			!newProjectIndex &&
+		!newProjectIndex &&
+			getObjectKeysLength(newProject) &&
 			setProjects([...projects, newProject]);
 
-		getObjectKeysLength(oldProject) &&
-			oldProjectIndex !== -1 &&
+		oldProjectIndex !== -1 &&
+			getObjectKeysLength(oldProject) &&
 			setProjects([
 				...projects.slice(0, oldProjectIndex),
 				...projects.slice(oldProjectIndex + 1, projects.length),
@@ -77,7 +77,7 @@ const useGetProjects = () => {
 
 	return {
 		projects,
-		error,
+		error: workspacesError,
 	};
 };
 

@@ -7,7 +7,10 @@ import {
 	RealtimePostgresChangesPayload,
 	SupabaseClient,
 } from '@supabase/supabase-js';
-import { deleteWorkspaceApi, workspacesChannelApi } from '~/features/workspaces';
+import {
+	deleteWorkspaceApi,
+	workspacesChannelApi,
+} from '~/features/workspaces';
 
 export type RealtimePostgresChangesPayloadType =
 	RealtimePostgresChangesPayload<{ [p: string]: any }>;
@@ -57,12 +60,12 @@ const useGetWorkspaces = () => {
 			workspace => workspace.id === oldWorkspace.id
 		);
 
-		getObjectKeysLength(newWorkspace) &&
-			!newWorkspaceIndex &&
+		!newWorkspaceIndex &&
+			getObjectKeysLength(newWorkspace) &&
 			setWorkspaces([...workspaces, newWorkspace]);
 
-		getObjectKeysLength(oldWorkspace) &&
-			oldWorkspaceIndex !== -1 &&
+		oldWorkspaceIndex !== -1 &&
+			getObjectKeysLength(oldWorkspace) &&
 			setWorkspaces([
 				...workspaces.slice(0, oldWorkspaceIndex),
 				...workspaces.slice(oldWorkspaceIndex + 1, workspaces.length),
