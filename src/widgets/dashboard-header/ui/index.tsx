@@ -1,4 +1,4 @@
-import { Link, } from '@remix-run/react';
+import { Link } from '@remix-run/react';
 import { ROUTES } from '~/shared/lib/utils/urls';
 import LogoIcon from '~/shared/assets/icons/logo';
 import { ProfilePanel } from '~/features/profile-panel';

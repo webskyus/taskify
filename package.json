@@ -16,8 +16,8 @@
     "drizzle-drop": "drizzle-kit drop",
     "drizzle-check": "drizzle-kit check:pg",
     "drizzle-up": "drizzle-kit up:pg",
-    "supabase-login": "npx supabase login",
-    "generate-types": "npx supabase gen types typescript --project-id \"gliohamypqrkhfxcdlpu\" > src/app/supabase/supabase.database.ts"
+    "sb-login": "npx supabase login",
+    "sb-generate-types": "npx supabase gen types typescript --project-id \"gliohamypqrkhfxcdlpu\" > src/app/supabase/supabase.database.ts"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.0",
