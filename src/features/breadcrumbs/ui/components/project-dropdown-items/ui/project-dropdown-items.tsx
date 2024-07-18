@@ -7,7 +7,7 @@ import {
 	DropdownMenuTrigger,
 } from '~/shared/ui/dropdown-menu';
 import { ROUTES } from '~/shared/lib/utils/urls';
-import { Project, } from '~/routes/dashboard';
+import { Project } from '~/routes/dashboard';
 
 interface Props {
 	projects?: Project[];
