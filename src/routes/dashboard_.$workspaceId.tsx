@@ -68,12 +68,12 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 	const { workspaceId } = params;
 	const userId = serverSession?.user?.id;
 
-	const { data: workspaces } = await getWorkspacesApi({
+	const { data: workspaces, error: workspacesError } = await getWorkspacesApi({
 		supabase,
 		userId,
 	});
 
-	const { data: projects } = await getProjectsApi({
+	const { data: projects, error: projectsError } = await getProjectsApi({
 		supabase,
 		workspaceId,
 	});
@@ -89,6 +89,8 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 			serverSession,
 			projects: projects as Project[],
 			workspaces: workspaces as Workspace[],
+			workspacesError,
+			projectsError,
 		},
 		{
 			headers,

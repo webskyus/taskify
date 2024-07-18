@@ -7,28 +7,20 @@ import {
 } from '@remix-run/node';
 import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
 import { ROUTES } from '~/shared/lib/utils/urls';
-import { useLoaderData, useParams, } from '@remix-run/react';
+import { useLoaderData, } from '@remix-run/react';
 import { DashboardHeader } from '~/widgets/dashboard-header';
 import { getWorkspacesApi } from '~/features/workspaces';
+import { Project, ProjectColumn, Workspace } from '~/routes/dashboard';
+import { getProjectsApi, } from '~/features/projects';
+import { validator } from '~/features/create-dialog/ui/create-dialog';
+import { validationError } from 'remix-validated-form';
+import { METHODS } from '~/shared/api';
 import {
-	Project,
-	Workspace,
-} from '~/routes/dashboard';
-import {getProjectsApi, updateProjectApi} from '~/features/projects';
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger,
-} from '~/shared/ui/dropdown-menu';
-import { Button } from '~/shared/ui/button';
-import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-import { CreateColumnDialog } from '~/features/create-column-dialog';
-import {validator} from "~/features/create-dialog/ui/create-dialog";
-import {validationError} from "remix-validated-form";
-import {METHODS} from "~/shared/api";
-import {createProjectApi} from "~/features/projects/api";
-import {createProjectColumnApi, ProjectColumns, updateProjectColumnApi} from "~/features/project-columns";
+	createProjectColumnApi,
+	getProjectColumnsApi,
+	ProjectColumns,
+	updateProjectColumnApi,
+} from '~/features/project-columns';
 
 export const meta: MetaFunction = () => {
 	return [
@@ -74,18 +66,24 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 		await getSupabaseWithSessionAndHeaders({
 			request,
 		});
-	const { workspaceId } = params;
+	const { workspaceId, projectId } = params;
 	const userId = serverSession?.user?.id;
 
-	const { data: workspaces } = await getWorkspacesApi({
+	const { data: workspaces, error: workspacesError } = await getWorkspacesApi({
 		supabase,
 		userId,
 	});
 
-	const { data: projects } = await getProjectsApi({
+	const { data: projects, error: projectsError } = await getProjectsApi({
 		supabase,
 		workspaceId,
 	});
+
+	const { data: projectColumns, error: projectColumnsError } =
+		await getProjectColumnsApi({
+			supabase,
+			projectId,
+		});
 
 	if (!serverSession) {
 		return redirect(ROUTES.SIGN_IN, {
@@ -96,8 +94,14 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 	return json(
 		{
 			serverSession,
+
 			workspaces: workspaces as Workspace[],
 			projects: projects as Project[],
+			projectColumns: projectColumns as ProjectColumn[],
+
+			workspacesError,
+			projectsError,
+			projectColumnsError,
 		},
 		{
 			headers,
