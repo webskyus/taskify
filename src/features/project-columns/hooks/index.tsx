@@ -34,16 +34,14 @@ const useGetProjectColumnCrud = () => {
 };
 
 const useGetProjectColumns = () => {
+	const { projectId } = useParams();
 	const { supabase } = useOutletContext<{
 		supabase: SupabaseClient;
 	}>();
 	const { projectColumns: serverProjectColumns, projectColumnsError: error } =
-		useRouteLoaderData('dashboard_.$workspaceId_.$projectId') as SerializeFrom<
-			typeof dashboardProjectLoader
-		>;
+		useRouteLoaderData('dashboard_.$workspaceId_.$projectId') as SerializeFrom<typeof dashboardProjectLoader>;
 	const [projectColumns, setProjectColumns] =
 		useState<ProjectColumn[]>(serverProjectColumns);
-	const { projectId } = useParams();
 
 	useEffect(() => {
 		setProjectColumns(serverProjectColumns);

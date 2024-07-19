@@ -5,13 +5,14 @@ import {CreateDialogFormProps} from '~/features/create-dialog/ui/create-dialog';
 type CreateProjectColumnApiProps = {
     supabase: SupabaseClient;
     userId: string | undefined;
+    workspaceId: string | undefined;
     projectId: string | undefined;
     formData: CreateDialogFormProps;
 };
 
 type UpdateProjectColumnApiProps = Omit<
     CreateProjectColumnApiProps,
-    'projectId' | 'userId'
+    'workspaceId' | 'projectId' | 'userId'
 >;
 
 type ProjectColumnApiProps = {
@@ -35,6 +36,7 @@ type GetProjectColumnApiProps = {
 const createProjectColumnApi = async ({
                                           supabase,
                                           userId,
+                                          workspaceId,
                                           projectId,
                                           formData,
                                       }: CreateProjectColumnApiProps) => {
@@ -46,6 +48,7 @@ const createProjectColumnApi = async ({
                 {
                     name,
                     owner_id: userId,
+                    workspace_id: workspaceId,
                     project_id: projectId,
                 },
             ]);

@@ -1,5 +1,5 @@
 import { CreateColumnDialog } from '~/features/create-column-dialog';
-import { useLoaderData, useParams } from '@remix-run/react';
+import {useLoaderData, useParams} from '@remix-run/react';
 import { loader } from '~/routes/dashboard_.$workspaceId_.$projectId';
 import { ProjectColumnsItem } from '~/features/project-columns/ui/components/project-columns-item';
 import { EmptyResultMessage } from '~/shared/ui/empty-result-message';

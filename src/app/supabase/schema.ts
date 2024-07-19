@@ -4,7 +4,7 @@ import {
 	text,
 	timestamp,
 	jsonb,
-	smallint,
+	smallint, integer,
 } from 'drizzle-orm/pg-core';
 
 const workspaces = pgTable('workspaces', {
@@ -55,6 +55,7 @@ const projectColumns = pgTable('project_columns', {
 	name: text('name').notNull(),
 	ownerId: uuid('owner_id').notNull(),
 	projectId: uuid('project_id').notNull(),
+	order: integer('order').notNull(),
 	createdAt: timestamp('created_at', {
 		withTimezone: true,
 		mode: 'string',

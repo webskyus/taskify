@@ -5,7 +5,7 @@ import {
 	text,
 	timestamp,
 	smallint,
-	jsonb,
+	jsonb, integer,
 } from 'drizzle-orm/pg-core';
 
 export const keyStatus = pgEnum('key_status', [
@@ -107,6 +107,7 @@ const projectColumns = pgTable('project_columns', {
 	name: text('name').notNull(),
 	ownerId: uuid('owner_id').notNull(),
 	projectId: uuid('project_id').notNull(),
+	order: integer('order').notNull(),
 	createdAt: timestamp('created_at', {
 		withTimezone: true,
 		mode: 'string',

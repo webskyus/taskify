@@ -87,8 +87,10 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 	return json(
 		{
 			serverSession,
+
 			projects: projects as Project[],
 			workspaces: workspaces as Workspace[],
+
 			workspacesError,
 			projectsError,
 		},
