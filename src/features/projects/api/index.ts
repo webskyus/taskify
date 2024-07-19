@@ -40,7 +40,7 @@ const createProjectApi = async ({
 }: CreateProjectApiProps) => {
 	try {
 		const { name, description, icon, color } = formData;
-		console.log('dd.create.project', formData);
+
 		await supabase.from('projects').insert([
 			{
 				name,

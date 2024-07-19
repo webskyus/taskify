@@ -28,18 +28,18 @@ import { HiSquaresPlus } from 'react-icons/hi2';
 interface Props {
 	id?: string;
 	handleSetId: Dispatch<SetStateAction<string | undefined>>;
-	defaultValue?: CreateDialogFormProps;
+	defaultValue?: CreateColumnDialogFormProps;
 }
 
-export type CreateDialogFormProps = {
+export type CreateColumnDialogFormProps = {
 	id?: string;
 	name: string;
 };
 
-export const validator = withZod(
+export const createColumnDialogValidator = withZod(
 	z.object({
-		name: z.string().min(5, {
-			message: 'Minimum 5 characters required',
+		name: z.string().min(4, {
+			message: 'Minimum 4 characters required',
 		}),
 		id: z.string().optional(),
 	})
@@ -47,11 +47,11 @@ export const validator = withZod(
 
 const CreateColumnDialog: FC<Props> = ({ id, handleSetId, defaultValue }) => {
 	const { workspaceId, projectId } = useParams();
+
 	const [isOpen, setIsOpen] = useState(false);
 	const [formId, _] = useState('create-column-dialog-form');
 
 	const actionData = useActionData();
-	const theme = useTheme();
 	const isSubmitting = useIsSubmitting(formId);
 
 	useEffect(() => {
@@ -83,7 +83,7 @@ const CreateColumnDialog: FC<Props> = ({ id, handleSetId, defaultValue }) => {
 				<ValidatedForm
 					id={formId}
 					method={id ? 'put' : 'post'}
-					validator={validator}
+					validator={createColumnDialogValidator}
 					defaultValues={defaultValue}
 					navigate={false}
 					action={`${ROUTES.DASHBOARD}/${workspaceId}/${projectId}`}>

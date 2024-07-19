@@ -14,7 +14,7 @@ import {
 	updateProjectApi,
 } from '~/features/projects';
 import { Project, Workspace } from '~/routes/dashboard';
-import { validator } from '~/features/create-dialog/ui/create-dialog';
+import {createDialogValidator} from '~/features/create-dialog/ui/create-dialog';
 import { validationError } from 'remix-validated-form';
 import { METHODS } from '~/shared/api';
 import { createProjectApi } from '~/features/projects/api';
@@ -37,7 +37,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	const { supabase } = await getSupabaseWithSessionAndHeaders({
 		request,
 	});
-	const result = await validator.validate(await request.formData());
+	const result = await createDialogValidator.validate(await request.formData());
 	const { data: formData, error } = result;
 	const {
 		data: { user },

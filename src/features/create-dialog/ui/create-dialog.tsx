@@ -37,10 +37,7 @@ interface Props {
 	id?: string;
 	handleSetId: Dispatch<SetStateAction<string | undefined>>;
 	defaultValue?: CreateDialogFormProps;
-	formAction:
-		| ROUTES.DASHBOARD
-		| `${ROUTES.DASHBOARD}/${string}`
-		| `${ROUTES.DASHBOARD}/${string}/${string}`;
+	formAction: ROUTES.DASHBOARD | `${ROUTES.DASHBOARD}/${string}`;
 }
 
 export type CreateDialogFormProps = {
@@ -51,7 +48,7 @@ export type CreateDialogFormProps = {
 	icon: string;
 };
 
-export const validator = withZod(
+export const createDialogValidator = withZod(
 	z.object({
 		name: z.string().min(5, {
 			message: 'Minimum 5 characters required',
@@ -109,7 +106,7 @@ const CreateDialog: FC<Props> = ({
 				<ValidatedForm
 					id={formId}
 					method={id ? 'put' : 'post'}
-					validator={validator}
+					validator={createDialogValidator}
 					defaultValues={{
 						...defaultValue,
 						color: String(defaultValue?.color) || '0',

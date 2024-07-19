@@ -26,7 +26,6 @@ const ProjectItem: FC<Props> = ({ project, handleSetId }) => {
 
 	const handleUpdateProject = (id: string) => handleSetId(id);
 
-	console.log('dd.url', url);
 	return (
 		<>
 			<header className={'flex items-start justify-between'}>

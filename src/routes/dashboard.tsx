@@ -8,7 +8,7 @@ import {
 import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
 import { ROUTES } from '~/shared/lib/utils/urls';
 import { DashboardHeader } from '~/widgets/dashboard-header';
-import { validator } from '~/features/create-dialog/ui/create-dialog';
+import { createDialogValidator } from '~/features/create-dialog/ui/create-dialog';
 import { validationError } from 'remix-validated-form';
 import { Database } from '~/app/supabase/supabase.database';
 import {
@@ -41,7 +41,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 	const { supabase } = await getSupabaseWithSessionAndHeaders({
 		request,
 	});
-	const result = await validator.validate(await request.formData());
+	const result = await createDialogValidator.validate(await request.formData());
 	const { data: formData, error } = result;
 	const {
 		data: { user },

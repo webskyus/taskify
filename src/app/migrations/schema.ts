@@ -5,7 +5,8 @@ import {
 	text,
 	timestamp,
 	smallint,
-	jsonb, integer,
+	jsonb,
+	integer,
 } from 'drizzle-orm/pg-core';
 
 export const keyStatus = pgEnum('key_status', [
