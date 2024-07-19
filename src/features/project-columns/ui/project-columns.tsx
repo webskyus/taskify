@@ -41,7 +41,7 @@ const ProjectColumns = () => {
                     transition-all
                 `}>
 				<AnimatePresence>
-					{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(column => {
+					{projectColumns.map(column => {
 						return <ProjectColumnsItem />;
 					})}
 				</AnimatePresence>

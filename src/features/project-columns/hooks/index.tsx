@@ -39,7 +39,7 @@ const useGetProjectColumns = () => {
 		supabase: SupabaseClient;
 	}>();
 	const { projectColumns: serverProjectColumns, projectColumnsError: error } =
-		useRouteLoaderData('dashboard_.$workspaceId_.$projectId') as SerializeFrom<typeof dashboardProjectLoader>;
+		useRouteLoaderData('routes/dashboard_.$workspaceId_.$projectId') as SerializeFrom<typeof dashboardProjectLoader>;
 	const [projectColumns, setProjectColumns] =
 		useState<ProjectColumn[]>(serverProjectColumns);
 
