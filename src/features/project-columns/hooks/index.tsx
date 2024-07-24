@@ -50,7 +50,11 @@ const useGetProjectColumns = () => {
 	}, [serverProjectColumns]);
 
 	useEffect(() => {
-		projectColumnsChannelApi({ supabase, handleUpdateProjectsList, projectId });
+		projectColumnsChannelApi({
+			supabase,
+			handleUpdateProjectsList,
+			projectId
+		});
 	}, [supabase, projectColumns, setProjectColumns]);
 
 	const handleUpdateProjectsList = (
@@ -81,6 +85,8 @@ const useGetProjectColumns = () => {
 					projectColumns.length
 				),
 			]);
+
+		console.log('dd.oldProjectColumnIndex', payload, projectColumns, oldProjectColumnIndex, newProjectColumnIndex)
 	};
 
 	return {

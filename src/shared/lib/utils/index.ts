@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { Project, Workspace } from '~/routes/dashboard';
+import {Project, ProjectColumn, Workspace} from '~/routes/dashboard';
 
 const cn = (...inputs: ClassValue[]) => {
 	return twMerge(clsx(inputs));
@@ -37,16 +37,15 @@ const getObjectKeysLength = (data: object) => {
 	return Object.keys(data).length;
 };
 
-const getCurrentInfo = (
-	data: Project[] | Workspace[],
+const getCurrentInfo = <T extends Workspace | Project | ProjectColumn>(
+	data: T[],
 	id: string | undefined
-) => {
+): T => {
 	const currentData = data.find(item => item.id === id);
 
 	return {
-		name: currentData?.name,
-		description: currentData?.description,
-	};
+		...currentData
+	} as T;
 };
 
 export {
