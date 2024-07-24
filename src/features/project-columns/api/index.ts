@@ -7,6 +7,7 @@ type CreateProjectColumnApiProps = {
 	userId: string | undefined;
 	projectId: string | undefined;
 	formData: CreateColumnDialogFormProps;
+	order?: number
 };
 
 type UpdateProjectColumnApiProps = Omit<
@@ -37,13 +38,14 @@ const createProjectColumnApi = async ({
 	userId,
 	projectId,
 	formData,
+	order
 }: CreateProjectColumnApiProps) => {
 	try {
 		const { name } = formData;
 		await supabase.from('project_columns').insert([
 			{
 				name,
-				order: 1,
+				order: order || 0,
 				owner_id: userId,
 				project_id: projectId,
 			},
@@ -56,6 +58,7 @@ const createProjectColumnApi = async ({
 const updateProjectColumnApi = async ({
 	supabase,
 	formData,
+	order
 }: UpdateProjectColumnApiProps) => {
 	try {
 		const { id, name } = formData;
@@ -64,6 +67,7 @@ const updateProjectColumnApi = async ({
 			.from('project_columns')
 			.update({
 				name,
+				order
 			})
 			.eq('id', id);
 	} catch (e) {
@@ -98,7 +102,7 @@ const projectColumnsChannelApi = async ({
 				event: '*',
 				schema: 'public',
 				table: 'project_columns',
-				filter: `project_id=eq.${projectId}&owner_id=eq.${user?.id}`,
+				filter: `project_id=eq.${projectId}`,
 			},
 			payload => handleUpdateProjectsList(payload)
 		)
@@ -114,6 +118,9 @@ const getProjectColumnsApi = async ({
 	const { data, error } = await supabase
 		.from('project_columns')
 		.select()
+		.order('updated_at', {
+			ascending: false,
+		})
 		.eq('project_id', projectId);
 
 	return {

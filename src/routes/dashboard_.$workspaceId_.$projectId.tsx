@@ -20,7 +20,7 @@ import {
 	ProjectColumns,
 	updateProjectColumnApi,
 } from '~/features/project-columns';
-import {createColumnDialogValidator} from "~/features/create-column-dialog/ui/create-column-dialog";
+import { createColumnDialogValidator } from '~/features/create-column-dialog/ui/create-column-dialog';
 
 export const meta: MetaFunction = () => {
 	return [
@@ -38,7 +38,9 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	const { supabase } = await getSupabaseWithSessionAndHeaders({
 		request,
 	});
-	const result = await createColumnDialogValidator.validate(await request.formData());
+	const result = await createColumnDialogValidator.validate(
+		await request.formData()
+	);
 	const { data: formData, error } = result;
 	const {
 		data: { user },
