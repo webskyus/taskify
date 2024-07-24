@@ -16,7 +16,6 @@ import {
 } from '~/shared/lib/utils/static';
 import { Label } from '~/shared/ui/label';
 import { Input } from '~/shared/ui/input';
-import { useTheme } from '~/routes/action.set-theme';
 import { z } from 'zod';
 import { useIsSubmitting, ValidatedForm } from 'remix-validated-form';
 import { withZod } from '@rvf/zod';

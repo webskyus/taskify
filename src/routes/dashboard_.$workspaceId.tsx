@@ -14,7 +14,7 @@ import {
 	updateProjectApi,
 } from '~/features/projects';
 import { Project, Workspace } from '~/routes/dashboard';
-import {createDialogValidator} from '~/features/create-dialog/ui/create-dialog';
+import { createDialogValidator } from '~/features/create-dialog/ui/create-dialog';
 import { validationError } from 'remix-validated-form';
 import { METHODS } from '~/shared/api';
 import { createProjectApi } from '~/features/projects/api';
