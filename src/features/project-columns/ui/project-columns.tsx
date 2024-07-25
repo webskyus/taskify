@@ -10,14 +10,15 @@ import {getCurrentInfo} from '~/shared/lib/utils';
 import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
 import {SupabaseClient} from "@supabase/supabase-js";
 import {ProjectColumn} from "~/routes/dashboard";
-import {reorder, reorderQuoteMap} from "~/shared/lib/utils/dnd";
+import {reorder, reorderColumnTasks} from "~/shared/lib/utils/dnd";
 
 const getListStyle = (isDraggingOver: boolean) => ({
     display: 'flex',
     width: '100%',
-    minHeight: '240px',
+    minHeight: '250px',
     alignItems: 'items-start',
     padding: 0,
+    paddingBottom: 20,
     overflow: 'auto',
 });
 
@@ -33,10 +34,10 @@ const ProjectColumns = () => {
     const {name, description} = getCurrentInfo(projects, projectId);
 
     const [columns, setColumns] = useState(projectColumns);
-    const [ordered, setOrdered] = useState(columns);
+    const [ordered, setOrdered] = useState(Object.keys(projectColumns).map(Number));
 
     const onDragEnd = async (result: DropResult) => {
-        const {destination, source, draggableId, combine} = result;
+        const {destination, source, draggableId, combine, type} = result;
         const data = getCurrentInfo(projectColumns, draggableId);
         const order = Number((Math.random() * 10000000).toFixed());
         const formData = {...data, id: draggableId};
@@ -48,28 +49,31 @@ const ProjectColumns = () => {
             destination.index === source.index
         ) return;
 
-        if (result.combine) {
-            if (result.type === 'COLUMN') {
+        if (combine) {
+            if (type === 'column') {
                 const shallow = [...ordered];
                 shallow.splice(source.index, 1);
                 setOrdered(shallow);
                 return;
             }
 
-            const column = columns[source.droppableId];
-            const withQuoteRemoved = [...column];
+            // const column = columns.find(column => column.id === source.droppableId);
+            // const withQuoteRemoved = [...column];
+            //
+            // withQuoteRemoved.splice(source.index, 1);
+            //
+            // const orderedColumns = {
+            //     ...columns,
+            //     [source.droppableId]: withQuoteRemoved,
+            // };
+            //
+            // setColumns(orderedColumns);
 
-            withQuoteRemoved.splice(source.index, 1);
-
-            const orderedColumns = {
-                ...columns,
-                [source.droppableId]: withQuoteRemoved,
-            };
-            setColumns(orderedColumns);
             return;
         }
 
-        if (result.type === 'COLUMN') {
+        if (type === 'column') {
+            console.log('dd.2', source.index, destination.index)
             setOrdered(
                 reorder(
                     ordered,
@@ -81,7 +85,7 @@ const ProjectColumns = () => {
             return;
         }
 
-        const {quoteMap} = reorderQuoteMap({
+        const {quoteMap} = reorderColumnTasks({
             quoteMap: columns,
             source,
             destination,
@@ -96,6 +100,7 @@ const ProjectColumns = () => {
         // })
     };
 
+    console.log('dd.oreder', ordered)
     return (
         <>
             <header className={'flex items-center justify-between mb-6'}>
@@ -114,19 +119,21 @@ const ProjectColumns = () => {
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
                     droppableId="board"
-                    type="COLUMN"
+                    type="column"
                     direction="horizontal"
-                    ignoreContainerClipping={true}
-                    isCombineEnabled={false}
                 >
                     {(provided, snapshot) => (
                         <section style={getListStyle(snapshot.isDraggingOver)}
-                                 ref={provided.innerRef}
                                  {...provided.droppableProps}
-                        >
+                                 ref={provided.innerRef}>
                             {
                                 ordered.map((key, index) => {
-                                    return <ProjectColumnsItem key={key} data={columns[index]} index={index}/>
+                                    const data = columns[key];
+                                    const {id} = columns[key];
+
+                                    return <ProjectColumnsItem key={id}
+                                                               data={data}
+                                                               index={index}/>
                                 })
                             }
                             {provided.placeholder}

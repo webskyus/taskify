@@ -22,17 +22,21 @@ const ProjectColumnsItem: FC<Props> = ({ data, index }) => {
 	return (
 		<Draggable draggableId={id} index={index}>
 			{(provided, snapshot) => {
-				return <article ref={provided.innerRef} {...provided.draggableProps}
+				return <article ref={provided.innerRef}
+								{...provided.draggableProps}
 					className={`
 						flex flex-col 
-						min-w-[400px] min-h-[200px] h-auto 
+						min-w-[400px] h-auto 
 						p-4 mr-4 
 						rounded-sm bg-slate-200 
 						group transition-opacity
 						dark:bg-slate-800 
 					`}>
-					<header className={'flex items-start justify-between'}>
-						<p className={'text-slate-800 dark:text-slate-200'}>{name}</p>
+					<header className={'flex items-start justify-between mb-2'}>
+						<p className={'text-slate-800 dark:text-slate-200'}
+						   {...provided.dragHandleProps}>
+							{name}
+						</p>
 						<DropdownMenu>
 							<DropdownMenuTrigger>
 								<Button
@@ -50,7 +54,11 @@ const ProjectColumnsItem: FC<Props> = ({ data, index }) => {
 						</DropdownMenu>
 					</header>
 
-					{/*ITEMS LIST*/}
+					{/*<ul className={'mb-2'}>*/}
+					{/*	<li className={'w-full p-2 rounded-md bg-pink-400'}>*/}
+					{/*		Item 1*/}
+					{/*	</li>*/}
+					{/*</ul>*/}
 
 					<Button
 						className={
