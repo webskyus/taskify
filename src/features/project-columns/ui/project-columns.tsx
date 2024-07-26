@@ -5,7 +5,7 @@ import {loader} from '~/routes/dashboard_.$workspaceId_.$projectId';
 import {ProjectColumnsItem} from '~/features/project-columns/ui/components/project-columns-item';
 import {EmptyResultMessage} from '~/shared/ui/empty-result-message';
 import {ErrorMessage} from '~/shared/ui/error-message';
-import {useGetProjectColumns} from '~/features/project-columns';
+import {updateProjectColumnApi, useGetProjectColumns} from '~/features/project-columns';
 import {getCurrentInfo} from '~/shared/lib/utils';
 import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
 import {SupabaseClient} from "@supabase/supabase-js";
@@ -34,12 +34,12 @@ const ProjectColumns = () => {
     const {name, description} = getCurrentInfo(projects, projectId);
 
     const [columns, setColumns] = useState(projectColumns);
-    const [ordered, setOrdered] = useState(Object.keys(projectColumns).map(Number));
+    const [ordered, setOrdered] = useState<ProjectColumn[]>(projectColumns);
 
     const onDragEnd = async (result: DropResult) => {
         const {destination, source, draggableId, combine, type} = result;
         const data = getCurrentInfo(projectColumns, draggableId);
-        const order = Number((Math.random() * 10000000).toFixed());
+        const order = Number((Math.random() * 10).toFixed());
         const formData = {...data, id: draggableId};
 
         if (!destination) return;
@@ -54,6 +54,7 @@ const ProjectColumns = () => {
                 const shallow = [...ordered];
                 shallow.splice(source.index, 1);
                 setOrdered(shallow);
+
                 return;
             }
 
@@ -73,14 +74,18 @@ const ProjectColumns = () => {
         }
 
         if (type === 'column') {
-            console.log('dd.2', source.index, destination.index)
-            setOrdered(
-                reorder(
-                    ordered,
-                    source.index,
-                    destination.index
-                )
+            const _ordered = reorder(
+                ordered,
+                source.index,
+                destination.index
             );
+
+            setOrdered(_ordered);
+            await updateProjectColumnApi({
+                supabase,
+                formData,
+                projectColumns: _ordered
+            })
 
             return;
         }
@@ -92,15 +97,8 @@ const ProjectColumns = () => {
         });
 
         setColumns(quoteMap);
-
-        // await updateProjectColumnApi({
-        // 	supabase,
-        // 	formData,
-        // 	order
-        // })
     };
 
-    console.log('dd.oreder', ordered)
     return (
         <>
             <header className={'flex items-center justify-between mb-6'}>
@@ -127,9 +125,8 @@ const ProjectColumns = () => {
                                  {...provided.droppableProps}
                                  ref={provided.innerRef}>
                             {
-                                ordered.map((key, index) => {
-                                    const data = columns[key];
-                                    const {id} = columns[key];
+                                ordered.map((data, index) => {
+                                    const {id} = data;
 
                                     return <ProjectColumnsItem key={id}
                                                                data={data}

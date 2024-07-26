@@ -85,8 +85,6 @@ const useGetProjectColumns = () => {
 					projectColumns.length
 				),
 			]);
-
-		console.log('dd.oldProjectColumnIndex', payload, projectColumns, oldProjectColumnIndex, newProjectColumnIndex)
 	};
 
 	return {
