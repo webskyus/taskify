@@ -84,6 +84,7 @@ const ProjectColumns = () => {
             await updateProjectColumnApi({
                 supabase,
                 formData,
+                projectId,
                 projectColumns: _ordered
             })
 
