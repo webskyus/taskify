@@ -63,7 +63,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 		await updateProjectColumnApi({
 			supabase,
 			formData,
-			projectId
+			projectId,
 		});
 	}
 

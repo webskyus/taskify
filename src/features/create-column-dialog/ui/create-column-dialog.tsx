@@ -70,7 +70,6 @@ const CreateColumnDialog: FC<Props> = ({ id, handleSetId, defaultValue }) => {
 		}
 	}, [isOpen]);
 
-
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
 			<DialogTrigger asChild>

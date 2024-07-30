@@ -53,7 +53,7 @@ const useGetProjectColumns = () => {
 		projectColumnsChannelApi({
 			supabase,
 			handleUpdateProjectsList,
-			projectId
+			projectId,
 		});
 	}, [supabase, projectColumns, setProjectColumns]);
 
