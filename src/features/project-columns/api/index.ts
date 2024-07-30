@@ -75,7 +75,6 @@ const updateProjectColumnApi = async ({
 
             await supabase
                 .from('project_columns')
-                .eq('project_id', projectId)
                 .upsert(reorderProjectColumns);
         }
     } catch (e) {

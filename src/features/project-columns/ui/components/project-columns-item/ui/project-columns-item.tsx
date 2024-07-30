@@ -10,6 +10,7 @@ import { FC } from 'react';
 import { ProjectColumn } from '~/routes/dashboard';
 import { BsFolderPlus } from 'react-icons/bs';
 import {Draggable} from "react-beautiful-dnd";
+import {useGetProjectColumnCrud} from "~/features/project-columns";
 
 interface Props {
 	data: ProjectColumn;
@@ -18,6 +19,7 @@ interface Props {
 
 const ProjectColumnsItem: FC<Props> = ({ data, index }) => {
 	const { name, id } = data;
+	const {handleDeleteProjectColumn} = useGetProjectColumnCrud();
 
 	return (
 		<Draggable draggableId={id} index={index}>
@@ -47,7 +49,7 @@ const ProjectColumnsItem: FC<Props> = ({ data, index }) => {
 							</DropdownMenuTrigger>
 							<DropdownMenuContent>
 								<DropdownMenuItem>Edit</DropdownMenuItem>
-								<DropdownMenuItem className={'text-red-400'}>
+								<DropdownMenuItem className={'text-red-400'} onClick={() => handleDeleteProjectColumn(id)}>
 									Delete
 								</DropdownMenuItem>
 							</DropdownMenuContent>

@@ -33,8 +33,8 @@ const ProjectColumns = () => {
     const {projectColumns, error} = useGetProjectColumns();
     const {name, description} = getCurrentInfo(projects, projectId);
 
-    const [columns, setColumns] = useState(projectColumns);
-    const [ordered, setOrdered] = useState<ProjectColumn[]>(projectColumns);
+    const [columns, setColumns] = useState<ProjectColumn[]>(projectColumns);
+    // const [ordered, setOrdered] = useState<ProjectColumn[]>(projectColumns);
 
     const onDragEnd = async (result: DropResult) => {
         const {destination, source, draggableId, combine, type} = result;
@@ -51,9 +51,9 @@ const ProjectColumns = () => {
 
         if (combine) {
             if (type === 'column') {
-                const shallow = [...ordered];
+                const shallow = [...columns];
                 shallow.splice(source.index, 1);
-                setOrdered(shallow);
+                setColumns(shallow);
 
                 return;
             }
@@ -75,12 +75,12 @@ const ProjectColumns = () => {
 
         if (type === 'column') {
             const _ordered = reorder(
-                ordered,
+                columns,
                 source.index,
                 destination.index
             );
 
-            setOrdered(_ordered);
+            setColumns(_ordered);
             await updateProjectColumnApi({
                 supabase,
                 formData,
@@ -97,7 +97,7 @@ const ProjectColumns = () => {
             destination,
         });
 
-        setColumns(quoteMap);
+        // setColumns(quoteMap);
     };
 
     return (
@@ -111,7 +111,7 @@ const ProjectColumns = () => {
                 <CreateColumnDialog handleSetId={() => 1}/>
             </header>
 
-            {!projectColumns?.length && !error && <EmptyResultMessage/>}
+            {!columns?.length && !error && <EmptyResultMessage/>}
 
             {error && <ErrorMessage/>}
 
@@ -126,7 +126,7 @@ const ProjectColumns = () => {
                                  {...provided.droppableProps}
                                  ref={provided.innerRef}>
                             {
-                                ordered.map((data, index) => {
+                                columns.map((data, index) => {
                                     const {id} = data;
 
                                     return <ProjectColumnsItem key={id}
@@ -139,47 +139,6 @@ const ProjectColumns = () => {
                     )}
                 </Droppable>
             </DragDropContext>
-
-
-            {/*<Column*/}
-            {/*	key={key}*/}
-            {/*	index={index}*/}
-            {/*	title={key}*/}
-            {/*	quotes={columns[key]}*/}
-            {/*	isScrollable={withScrollableColumns}*/}
-            {/*	isCombineEnabled={isCombineEnabled}*/}
-            {/*	useClone={useClone}*/}
-            {/*/>*/}
-
-            {/*<DragDropContext onDragEnd={onDragEnd}>*/}
-            {/*	<Droppable*/}
-            {/*		droppableId='droppable'*/}
-            {/*		direction='horizontal'*/}
-            {/*		children={(provided, snapshot) => (*/}
-            {/*			<section*/}
-            {/*				ref={provided.innerRef}*/}
-            {/*				style={getListStyle(snapshot.isDraggingOver)}*/}
-            {/*				{...provided.droppableProps}>*/}
-            {/*				{_projectColumns.map((projectColumn, index) => (*/}
-            {/*					<Draggable*/}
-            {/*						key={projectColumn.id}*/}
-            {/*						draggableId={projectColumn.id}*/}
-            {/*						index={index}>*/}
-            {/*						{(provided, snapshot) => (*/}
-            {/*							<article*/}
-            {/*								ref={provided.innerRef}*/}
-            {/*								{...provided.draggableProps}*/}
-            {/*								{...provided.dragHandleProps}>*/}
-            {/*								<ProjectColumnsItem data={projectColumn} />*/}
-            {/*							</article>*/}
-            {/*						)}*/}
-            {/*					</Draggable>*/}
-            {/*				))}*/}
-            {/*				{provided.placeholder}*/}
-            {/*			</section>*/}
-            {/*		)}*/}
-            {/*	/>*/}
-            {/*</DragDropContext>*/}
         </>
     );
 };
