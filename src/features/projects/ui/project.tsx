@@ -1,6 +1,6 @@
 import {
 	CreateDialog,
-	useSetFormDefaultValues,
+	useSetCreateDialogForm,
 } from '~/features/create-dialog';
 import { CREATED_PAGE_TYPE, PROJECT_TEXT } from '~/shared/lib/utils/static';
 import { EmptyResultMessage } from '~/shared/ui/empty-result-message';
@@ -17,7 +17,7 @@ const Projects = () => {
 	const { workspaceId } = useParams();
 	const [id, setId] = useState<string>();
 	const { projects, error } = useGetProjects();
-	const { defaultValue } = useSetFormDefaultValues(id, projects);
+	const { defaultValue } = useSetCreateDialogForm(id, projects);
 
 	return (
 		<>

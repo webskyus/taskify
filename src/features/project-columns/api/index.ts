@@ -13,7 +13,7 @@ type CreateProjectColumnApiProps = {
 
 type UpdateProjectColumnApiProps = Omit<
     CreateProjectColumnApiProps,
-    'userId'
+    'projectId' | 'userId'
 >;
 
 type ProjectColumnApiProps = {
@@ -58,12 +58,18 @@ const createProjectColumnApi = async ({
 const updateProjectColumnApi = async ({
                                           supabase,
                                           formData,
-                                          projectId,
                                           projectColumns,
                                       }: UpdateProjectColumnApiProps) => {
     try {
         if (formData) {
+            const {name, id} = formData;
 
+            await supabase
+                .from('project_columns')
+                .update({
+                    name,
+                })
+                .eq('id', id);
         }
 
 

@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {CreateColumnDialog} from '~/features/create-column-dialog';
+import {useEffect, useState} from "react";
+import {CreateColumnDialog, useSetCreateColumnDialogForm} from '~/features/create-column-dialog';
 import {useLoaderData, useOutletContext, useParams} from '@remix-run/react';
 import {loader} from '~/routes/dashboard_.$workspaceId_.$projectId';
 import {ProjectColumnsItem} from '~/features/project-columns/ui/components/project-columns-item';
@@ -27,14 +27,16 @@ const ProjectColumns = () => {
         supabase: SupabaseClient;
     }>();
 
-    const {projects} = useLoaderData<typeof loader>();
     const {projectId} = useParams();
-
+    const {projects} = useLoaderData<typeof loader>();
     const {projectColumns, error} = useGetProjectColumns();
-    const {name, description} = getCurrentInfo(projects, projectId);
 
+    const [id, setId] = useState<string>();
     const [columns, setColumns] = useState<ProjectColumn[]>(projectColumns);
     // const [ordered, setOrdered] = useState<ProjectColumn[]>(projectColumns);
+
+    const {defaultValue} = useSetCreateColumnDialogForm(id, projectColumns);
+    const {name, description} = getCurrentInfo(projects, projectId);
 
     const onDragEnd = async (result: DropResult) => {
         const {destination, source, draggableId, combine, type} = result;
@@ -84,7 +86,6 @@ const ProjectColumns = () => {
             await updateProjectColumnApi({
                 supabase,
                 formData,
-                projectId,
                 projectColumns: _ordered
             })
 
@@ -108,7 +109,7 @@ const ProjectColumns = () => {
                     <p className={'text-md'}>{description}</p>
                 </header>
 
-                <CreateColumnDialog handleSetId={() => 1}/>
+                <CreateColumnDialog handleSetId={setId} id={id} defaultValue={defaultValue}/>
             </header>
 
             {!columns?.length && !error && <EmptyResultMessage/>}
@@ -130,6 +131,7 @@ const ProjectColumns = () => {
                                     const {id} = data;
 
                                     return <ProjectColumnsItem key={id}
+                                                               handleSetId={setId}
                                                                data={data}
                                                                index={index}/>
                                 })

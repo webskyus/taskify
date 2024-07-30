@@ -6,7 +6,7 @@ import {
 } from '~/shared/ui/dropdown-menu';
 import { Button } from '~/shared/ui/button';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
-import { FC } from 'react';
+import {Dispatch, FC, SetStateAction} from 'react';
 import { ProjectColumn } from '~/routes/dashboard';
 import { BsFolderPlus } from 'react-icons/bs';
 import {Draggable} from "react-beautiful-dnd";
@@ -14,12 +14,15 @@ import {useGetProjectColumnCrud} from "~/features/project-columns";
 
 interface Props {
 	data: ProjectColumn;
-	index: number
+	index: number;
+	handleSetId: Dispatch<SetStateAction<string | undefined>>;
 }
 
-const ProjectColumnsItem: FC<Props> = ({ data, index }) => {
+const ProjectColumnsItem: FC<Props> = ({ data, index, handleSetId }) => {
 	const { name, id } = data;
 	const {handleDeleteProjectColumn} = useGetProjectColumnCrud();
+
+	const handleUpdateProjectColumn = (id: string) => handleSetId(id);
 
 	return (
 		<Draggable draggableId={id} index={index}>
@@ -48,7 +51,7 @@ const ProjectColumnsItem: FC<Props> = ({ data, index }) => {
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent>
-								<DropdownMenuItem>Edit</DropdownMenuItem>
+								<DropdownMenuItem onClick={() => handleUpdateProjectColumn(id)}>Edit</DropdownMenuItem>
 								<DropdownMenuItem className={'text-red-400'} onClick={() => handleDeleteProjectColumn(id)}>
 									Delete
 								</DropdownMenuItem>

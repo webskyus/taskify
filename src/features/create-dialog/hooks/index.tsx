@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Project, Workspace } from '~/routes/dashboard';
 import { CreateDialogFormProps } from '~/features/create-dialog/ui/create-dialog';
 
-const useSetFormDefaultValues = (
+const useSetCreateDialogForm = (
 	id: string | undefined,
 	data: Workspace[] | Project[]
 ) => {
@@ -35,4 +35,4 @@ const useSetFormDefaultValues = (
 	};
 };
 
-export { useSetFormDefaultValues };
+export { useSetCreateDialogForm };
