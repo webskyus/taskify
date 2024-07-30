@@ -38,6 +38,10 @@ const ProjectColumns = () => {
     const {defaultValue} = useSetCreateColumnDialogForm(id, projectColumns);
     const {name, description} = getCurrentInfo(projects, projectId);
 
+    useEffect(() => {
+        setColumns(projectColumns);
+    }, [projectColumns]);
+
     const onDragEnd = async (result: DropResult) => {
         const {destination, source, draggableId, combine, type} = result;
         const data = getCurrentInfo(projectColumns, draggableId);

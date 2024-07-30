@@ -107,6 +107,7 @@ const projectColumnsChannelApi = async ({
     const {
         data: {user},
     } = await supabase.auth.getUser();
+
     const channel = supabase
         .channel('table-db-changes')
         .on(
