@@ -60,6 +60,7 @@ const useGetProjectColumns = () => {
 	const handleUpdateProjectsList = (
 		payload: RealtimePostgresChangesPayloadType
 	) => {
+		const {eventType} = payload;
 		if (!projectColumns) return;
 
 		const newProjectColumn = payload.new as ProjectColumn;
@@ -76,7 +77,8 @@ const useGetProjectColumns = () => {
 			getObjectKeysLength(newProjectColumn) &&
 			setProjectColumns([...projectColumns, newProjectColumn]);
 
-		oldProjectColumnIndex !== -1 &&
+		if (eventType === 'DELETE') {
+			oldProjectColumnIndex !== -1 &&
 			getObjectKeysLength(oldProjectColumn) &&
 			setProjectColumns([
 				...projectColumns.slice(0, oldProjectColumnIndex),
@@ -85,6 +87,17 @@ const useGetProjectColumns = () => {
 					projectColumns.length
 				),
 			]);
+		}
+
+		if (eventType === 'UPDATE') {
+			const oldProjectColumns = projectColumns.filter((projectColumn) => projectColumn.id !== payload?.new?.id);
+			const result = ([
+				...oldProjectColumns,
+				payload?.new as ProjectColumn,
+			] as ProjectColumn[]).sort((a, b) => a.order - b.order);
+
+			setProjectColumns(result);
+		}
 	};
 
 	return {
