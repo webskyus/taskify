@@ -17,8 +17,6 @@ import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
 import {SupabaseClient} from '@supabase/supabase-js';
 import {ProjectColumn} from '~/routes/dashboard';
 import {reorder, reorderColumnTasks} from '~/shared/lib/utils/dnd';
-import postgres from "postgres";
-import column = postgres.toPascal.column;
 
 const getListStyle = (isDraggingOver: boolean) => ({
     display: 'flex',
@@ -51,8 +49,18 @@ const ProjectColumns = () => {
     }, [projectColumns]);
 
     const handleReCheckProjectColumnsList = (projectColumns: ProjectColumn[]) => {
-        (columns.length !== projectColumns.length) ||
-        columns.filter((column, index) => projectColumns[index].name !== column.name).length &&
+        const projectColumnIds = projectColumns.map((projectColumn) => projectColumn.id);
+        const checkColumnNames = columns.filter((column) => {
+            const findMatchedProjectColumn = projectColumns.find(projectColumn => projectColumn.id === column.id);
+            if (projectColumnIds.includes(column.id) && column.name !== findMatchedProjectColumn?.name) {
+                return column;
+            }
+        });
+
+        (
+            columns.length !== projectColumns.length ||
+            checkColumnNames.length
+        ) &&
         setColumns(projectColumns);
     }
 

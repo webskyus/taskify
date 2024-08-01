@@ -23,7 +23,9 @@ const Projects = () => {
 					<h1 className={'mb-1 text-4xl sm:text-6xl font-bold'}>
 						{PROJECT_TEXT.title}
 					</h1>
-					<p className={'text-md'}>{PROJECT_TEXT.description}</p>
+					<p className={'text-md'}>
+						{PROJECT_TEXT.description}
+					</p>
 				</header>
 
 				<CreateDialog

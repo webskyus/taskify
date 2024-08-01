@@ -46,7 +46,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 		data: { user },
 	} = await supabase.auth.getUser();
 	const userId = user?.id;
-	const { workspaceId, projectId } = params;
+	const { projectId } = params;
 
 	if (error) return validationError(result.error);
 
@@ -62,8 +62,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	if (request?.method === METHODS.PUT) {
 		await updateProjectColumnApi({
 			supabase,
-			formData,
-			projectId,
+			formData
 		});
 	}
 
