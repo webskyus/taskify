@@ -20,6 +20,7 @@
     "sb-generate-types": "npx supabase gen types typescript --project-id \"gliohamypqrkhfxcdlpu\" > src/app/supabase/supabase.database.ts"
   },
   "dependencies": {
+    "@lexical/react": "^0.17.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -47,6 +48,7 @@
     "emoji-picker-react": "^4.10.0",
     "framer-motion": "12.0.0-alpha.0",
     "isbot": "^4.4.0",
+    "lexical": "^0.17.0",
     "lucide-react": "^0.364.0",
     "postgres": "^3.4.4",
     "react": "^18.3.1",

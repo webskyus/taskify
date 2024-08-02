@@ -35,6 +35,7 @@ enum CREATED_PAGE_TYPE {
 	WORKSPACE = 'Workspace',
 	PROJECT = 'Project',
 	PROJECT_COLUMN = 'Project Column',
+	PROJECT_COLUMN_TASK = 'Project Task',
 }
 
 const HEADER_TEXT = {
@@ -88,6 +89,10 @@ const CREATE_DIALOG_TEXT: Record<CREATED_PAGE_TYPE, CreatedDialogItemType> = {
 	[CREATED_PAGE_TYPE.PROJECT_COLUMN]: {
 		title: 'Create new project column',
 		description: 'You can create new column for project and start create tasks',
+	},
+	[CREATED_PAGE_TYPE.PROJECT_COLUMN_TASK]: {
+		title: 'Create new task',
+		description: 'You can create new task and describe your what you want',
 	},
 };
 

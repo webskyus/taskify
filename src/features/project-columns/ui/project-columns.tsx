@@ -17,6 +17,7 @@ import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
 import {SupabaseClient} from '@supabase/supabase-js';
 import {ProjectColumn} from '~/routes/dashboard';
 import {reorder, reorderColumnTasks} from '~/shared/lib/utils/dnd';
+import {CreateTaskDialog} from "~/features/create-task-dialog";
 
 const getListStyle = (isDraggingOver: boolean) => ({
     display: 'flex',
@@ -37,11 +38,12 @@ const ProjectColumns = () => {
     const {projects} = useLoaderData<typeof loader>();
     const {projectColumns, error} = useGetProjectColumns();
 
-    const [id, setId] = useState<string>();
+    const [editedProjectColumnId, setEditedProjectColumnId] = useState<string>();
     const [columns, setColumns] = useState<ProjectColumn[]>(projectColumns);
+    const [createTaskDialogState, setCreateTaskDialogState] = useState(false);
     // const [ordered, setOrdered] = useState<ProjectColumn[]>(projectColumns);
 
-    const {defaultValue} = useSetCreateColumnDialogForm(id, projectColumns);
+    const {defaultValue} = useSetCreateColumnDialogForm(editedProjectColumnId, projectColumns);
     const {name, description} = getCurrentInfo(projects, projectId);
 
     useEffect(() => {
@@ -132,8 +134,8 @@ const ProjectColumns = () => {
                 </header>
 
                 <CreateColumnDialog
-                    handleSetId={setId}
-                    id={id}
+                    handleSetId={setEditedProjectColumnId}
+                    id={editedProjectColumnId}
                     defaultValue={defaultValue}
                 />
             </header>
@@ -155,9 +157,10 @@ const ProjectColumns = () => {
                                 return (
                                     <ProjectColumnsItem
                                         key={id}
-                                        handleSetId={setId}
+                                        handleSetId={setEditedProjectColumnId}
                                         data={data}
                                         index={index}
+                                        handleOpenCreateTaskDialog={setCreateTaskDialogState}
                                     />
                                 );
                             })}
@@ -166,6 +169,12 @@ const ProjectColumns = () => {
                     )}
                 </Droppable>
             </DragDropContext>
+
+            <CreateTaskDialog isOpen={createTaskDialogState}
+                              setIsOpen={setCreateTaskDialogState}
+                              projectColumnId={'test'}
+                              projectColumnName={'Test 1'}
+            />
         </>
     );
 };
