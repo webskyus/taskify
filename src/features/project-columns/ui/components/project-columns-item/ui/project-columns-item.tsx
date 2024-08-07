@@ -11,7 +11,6 @@ import { ProjectColumn } from '~/routes/dashboard';
 import { BsFolderPlus } from 'react-icons/bs';
 import { Draggable } from 'react-beautiful-dnd';
 import { useGetProjectColumnCrud } from '~/features/project-columns';
-import {CreateTaskDialog} from "~/features/create-task-dialog";
 
 interface Props {
 	data: ProjectColumn;
@@ -20,7 +19,12 @@ interface Props {
 	handleOpenCreateTaskDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-const ProjectColumnsItem: FC<Props> = ({ data, index, handleSetId, handleOpenCreateTaskDialog }) => {
+const ProjectColumnsItem: FC<Props> = ({
+	data,
+	index,
+	handleSetId,
+	handleOpenCreateTaskDialog,
+}) => {
 	const { name, id } = data;
 	const { handleDeleteProjectColumn } = useGetProjectColumnCrud();
 
@@ -75,11 +79,12 @@ const ProjectColumnsItem: FC<Props> = ({ data, index, handleSetId, handleOpenCre
 						{/*	</li>*/}
 						{/*</ul>*/}
 
-						<Button onClick={() => handleOpenCreateTaskDialog(true)}
+						<Button
+							onClick={() => handleOpenCreateTaskDialog(true)}
 							className={
 								'mt-auto transition-opacity opacity-0 group-hover:opacity-100 uppercase'
 							}>
-							<BsFolderPlus className={'mr-1'}/>
+							<BsFolderPlus className={'mr-1'} />
 							New Task
 						</Button>
 					</article>
