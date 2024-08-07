@@ -12,13 +12,12 @@ import {
 	updateProjectColumnApi,
 	useGetProjectColumns,
 } from '~/features/project-columns';
-import { getCurrentInfo, } from '~/shared/lib/utils';
+import { getCurrentInfo } from '~/shared/lib/utils';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { ProjectColumn } from '~/routes/dashboard';
 import { reorder, reorderColumnTasks } from '~/shared/lib/utils/dnd';
 import { CreateTaskDialog } from '~/features/create-task-dialog';
-import { Editor } from '~/features/create-task-dialog/ui/components/editor';
 
 const getListStyle = (isDraggingOver: boolean) => ({
 	display: 'flex',
@@ -179,6 +178,7 @@ const ProjectColumns = () => {
 			</DragDropContext>
 
 			<CreateTaskDialog
+				handleSetEditedTaskId={() => {}}
 				isOpen={createTaskDialogState}
 				setIsOpen={setCreateTaskDialogState}
 				projectColumnId={'test'}

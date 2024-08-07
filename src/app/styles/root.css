@@ -143,6 +143,19 @@ a[disabled] {
     color: hsl(var(--primary))!important;
 }
 
+.ql-tooltip.ql-editing.ql-flip,
+.ql-tooltip.ql-editing.ql-flip input {
+    border: none!important;
+    box-shadow: none!important;
+    color: hsl(var(--primary))!important;
+    background: hsl(var(--accent))!important;
+}
+
+.ql-tooltip.ql-editing.ql-flip input {
+    text-indent: 10px!important;
+    border: 1px solid hsl(var(--primary))!important;
+}
+
 .ql-snow .ql-stroke {
     stroke: hsl(var(--primary))!important;
 }

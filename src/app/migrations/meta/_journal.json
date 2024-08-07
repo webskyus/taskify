@@ -169,6 +169,13 @@
       "when": 1721363386900,
       "tag": "0023_fearless_lilith",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "5",
+      "when": 1723005942589,
+      "tag": "0024_dark_wilson_fisk",
+      "breakpoints": true
     }
   ]
 }

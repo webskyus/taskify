@@ -21,6 +21,8 @@ import {
 	updateProjectColumnApi,
 } from '~/features/project-columns';
 import { createColumnDialogValidator } from '~/features/create-column-dialog/ui/create-column-dialog';
+import {FORM_IDS} from "~/shared/lib/utils/constants";
+import {createProjectTaskApi} from "~/features/project-tasks";
 
 export const meta: MetaFunction = () => {
 	return [
@@ -41,7 +43,11 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	const result = await createColumnDialogValidator.validate(
 		await request.formData()
 	);
-	const { data: formData, error } = result;
+	const {
+		data: formData,
+		error,
+		submittedData: { __rvfInternalFormId: formName },
+	} = result;
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
@@ -50,7 +56,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
 	if (error) return validationError(result.error);
 
-	if (request?.method === METHODS.POST) {
+	if (request?.method === METHODS.POST && formName === FORM_IDS.CREATE_COLUMN_DIALOG_FORM) {
 		await createProjectColumnApi({
 			supabase,
 			userId,
@@ -59,11 +65,19 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 		});
 	}
 
-	if (request?.method === METHODS.PUT) {
+	if (request?.method === METHODS.PUT && formName === FORM_IDS.CREATE_COLUMN_DIALOG_FORM) {
 		await updateProjectColumnApi({
 			supabase,
 			formData,
 		});
+	}
+
+	if (request?.method === METHODS.POST && formName === FORM_IDS.CREATE_TASK_DIALOG_FORM) {
+		await createProjectTaskApi({
+			supabase,
+			userId,
+			formData
+		})
 	}
 
 	return json({

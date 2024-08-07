@@ -24,6 +24,8 @@ export type Workspace = Database['public']['Tables']['workspaces']['Row'];
 export type Project = Database['public']['Tables']['projects']['Row'];
 export type ProjectColumn =
 	Database['public']['Tables']['project_columns']['Row'];
+export type ProjectTask =
+	Database['public']['Tables']['project_tasks']['Row'];
 
 export const meta: MetaFunction = () => {
 	return [

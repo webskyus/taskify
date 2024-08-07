@@ -23,6 +23,7 @@ import { ROUTES } from '~/shared/lib/utils/urls';
 import { Spinner } from '~/shared/ui/spinner';
 import { useActionData, useParams } from '@remix-run/react';
 import { HiSquaresPlus } from 'react-icons/hi2';
+import { FORM_IDS } from '~/shared/lib/utils/constants';
 
 interface Props {
 	id?: string;
@@ -48,10 +49,9 @@ const CreateColumnDialog: FC<Props> = ({ id, handleSetId, defaultValue }) => {
 	const { workspaceId, projectId } = useParams();
 
 	const [isOpen, setIsOpen] = useState(false);
-	const [formId, _] = useState('create-column-dialog-form');
 
 	const actionData = useActionData();
-	const isSubmitting = useIsSubmitting(formId);
+	const isSubmitting = useIsSubmitting(FORM_IDS.CREATE_COLUMN_DIALOG_FORM);
 
 	useEffect(() => {
 		if (!id) return;
@@ -80,7 +80,7 @@ const CreateColumnDialog: FC<Props> = ({ id, handleSetId, defaultValue }) => {
 
 			<DialogContent>
 				<ValidatedForm
-					id={formId}
+					id={FORM_IDS.CREATE_COLUMN_DIALOG_FORM}
 					method={id ? 'put' : 'post'}
 					validator={createColumnDialogValidator}
 					defaultValues={defaultValue}

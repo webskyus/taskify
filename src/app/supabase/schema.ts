@@ -6,6 +6,7 @@ import {
 	jsonb,
 	smallint,
 	integer,
+	json
 } from 'drizzle-orm/pg-core';
 
 const workspaces = pgTable('workspaces', {
@@ -71,6 +72,27 @@ const projectColumns = pgTable('project_columns', {
 		.notNull(),
 });
 
+const projectTasks = pgTable('project_tasks', {
+	id: uuid('id').primaryKey().defaultRandom(),
+	name: text('name').notNull(),
+	content: json('content'),
+	ownerId: uuid('owner_id').notNull(),
+	projectColumnId: uuid('project_column_id').notNull(),
+	order: integer('order').notNull(),
+	createdAt: timestamp('created_at', {
+		withTimezone: true,
+		mode: 'string',
+	})
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp('updated_at', {
+		withTimezone: true,
+		mode: 'string',
+	})
+		.defaultNow()
+		.notNull(),
+});
+
 const profiles = pgTable('profiles', {
 	id: uuid('id').primaryKey().notNull(),
 	fullName: text('full_name'),
@@ -92,4 +114,4 @@ const profiles = pgTable('profiles', {
 	email: text('email'),
 });
 
-export { workspaces, profiles, projects, projectColumns };
+export { workspaces, profiles, projects, projectColumns, projectTasks };

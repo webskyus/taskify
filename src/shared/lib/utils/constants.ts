@@ -15,4 +15,9 @@ const gradientColors = [
 	'bg-gradient-to-r from-indigo-500 to-purple-500',
 ];
 
-export { placeholder, gradientColors };
+enum FORM_IDS {
+	CREATE_COLUMN_DIALOG_FORM = 'create-column-dialog-form',
+	CREATE_TASK_DIALOG_FORM = 'create-task-dialog-form',
+}
+
+export { placeholder, gradientColors, FORM_IDS };
