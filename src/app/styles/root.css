@@ -131,6 +131,7 @@ a[disabled] {
 }
 
 .ql-container.ql-snow {
+    min-height: 300px!important;
     border: 1px solid hsl(var(--accent))!important;
     border-top: none!important;
 }
@@ -139,13 +140,19 @@ a[disabled] {
     background: hsl(var(--accent))!important;
     border: none!important;
     box-shadow: none!important;
+    color: hsl(var(--primary))!important;
 }
 
 .ql-snow .ql-stroke {
     stroke: hsl(var(--primary))!important;
 }
 
-.ql-picker-label {
+.ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
+    fill: hsl(var(--primary))!important;
+}
+
+.ql-picker-label,
+.ql-editor.ql-blank::before {
     color: hsl(var(--primary))!important;
 }
 
