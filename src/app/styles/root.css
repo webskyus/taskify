@@ -124,3 +124,31 @@ a[disabled] {
         @apply bg-background text-foreground;
     }
 }
+
+/*REACT QUILL EDITOR STYLES*/
+.ql-toolbar.ql-snow{
+    border: 1px solid hsl(var(--accent))!important;
+}
+
+.ql-container.ql-snow {
+    border: 1px solid hsl(var(--accent))!important;
+    border-top: none!important;
+}
+
+.ql-picker-options {
+    background: hsl(var(--accent))!important;
+    border: none!important;
+    box-shadow: none!important;
+}
+
+.ql-snow .ql-stroke {
+    stroke: hsl(var(--primary))!important;
+}
+
+.ql-picker-label {
+    color: hsl(var(--primary))!important;
+}
+
+.ql-font.ql-picker {
+    margin-right: 20px!important;
+}

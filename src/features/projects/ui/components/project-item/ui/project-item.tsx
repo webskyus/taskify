@@ -57,9 +57,7 @@ const ProjectItem: FC<Props> = ({ project, handleSetId }) => {
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</header>
-			<p className={'mt-2 mb-4 line-clamp-3 text-white'}>
-				{description}
-			</p>
+			<p className={'mt-2 mb-4 line-clamp-3 text-white'}>{description}</p>
 			<time dateTime={'24.12.2024'} className={'text-xs italic text-white'}>
 				Created in {date(created_at)}
 			</time>
