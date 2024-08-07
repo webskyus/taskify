@@ -62,7 +62,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	if (request?.method === METHODS.PUT) {
 		await updateProjectColumnApi({
 			supabase,
-			formData
+			formData,
 		});
 	}
 
