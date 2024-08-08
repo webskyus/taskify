@@ -10,7 +10,12 @@ import { ROUTES } from '~/shared/lib/utils/urls';
 import { useLoaderData } from '@remix-run/react';
 import { DashboardHeader } from '~/widgets/dashboard-header';
 import { getWorkspacesApi } from '~/features/workspaces';
-import { Project, ProjectColumn, Workspace } from '~/routes/dashboard';
+import {
+	Project,
+	ProjectColumn,
+	ProjectTask,
+	Workspace,
+} from '~/routes/dashboard';
 import { getProjectsApi } from '~/features/projects';
 import { validationError } from 'remix-validated-form';
 import { METHODS } from '~/shared/api';
@@ -21,8 +26,12 @@ import {
 	updateProjectColumnApi,
 } from '~/features/project-columns';
 import { createColumnDialogValidator } from '~/features/create-column-dialog/ui/create-column-dialog';
-import {FORM_IDS} from "~/shared/lib/utils/constants";
-import {createProjectTaskApi} from "~/features/project-tasks";
+import { FORM_IDS } from '~/shared/lib/utils/constants';
+import {
+	createProjectTaskApi,
+	getProjectTasksApi,
+} from '~/features/project-tasks';
+import { createTaskDialogValidator } from '~/features/create-task-dialog/ui/create-task-dialog';
 
 export const meta: MetaFunction = () => {
 	return [
@@ -40,44 +49,78 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	const { supabase } = await getSupabaseWithSessionAndHeaders({
 		request,
 	});
-	const result = await createColumnDialogValidator.validate(
-		await request.formData()
-	);
-	const {
-		data: formData,
-		error,
-		submittedData: { __rvfInternalFormId: formName },
-	} = result;
 	const {
 		data: { user },
 	} = await supabase.auth.getUser();
 	const userId = user?.id;
 	const { projectId } = params;
+	const formData = await request.formData();
 
-	if (error) return validationError(result.error);
+	// CRUD OPERATIONS FOR PROJECT COLUMN
+	try {
+		const resultProjectColumn =
+			await createColumnDialogValidator.validate(formData);
 
-	if (request?.method === METHODS.POST && formName === FORM_IDS.CREATE_COLUMN_DIALOG_FORM) {
-		await createProjectColumnApi({
-			supabase,
-			userId,
-			projectId,
-			formData,
-		});
+		const {
+			data: projectColumnFormData,
+			error: projectColumnError,
+			submittedData: { __rvfInternalFormId: projectColumnFormName },
+		} = resultProjectColumn;
+
+		if (projectColumnError) return validationError(projectColumnError);
+
+		if (
+			request?.method === METHODS.POST &&
+			projectColumnFormName === FORM_IDS.CREATE_COLUMN_DIALOG_FORM
+		) {
+			await createProjectColumnApi({
+				supabase,
+				userId,
+				projectId,
+				formData: projectColumnFormData,
+			});
+		}
+
+		if (
+			request?.method === METHODS.PUT &&
+			projectColumnFormName === FORM_IDS.CREATE_COLUMN_DIALOG_FORM
+		) {
+			await updateProjectColumnApi({
+				supabase,
+				formData: projectColumnFormData,
+			});
+		}
+	} catch (e) {
+		console.log(`CRUD.${FORM_IDS.CREATE_COLUMN_DIALOG_FORM}.error`, e);
 	}
 
-	if (request?.method === METHODS.PUT && formName === FORM_IDS.CREATE_COLUMN_DIALOG_FORM) {
-		await updateProjectColumnApi({
-			supabase,
-			formData,
-		});
-	}
+	// CRUD OPERATIONS FOR PROJECT TASK
+	try {
+		const resultProjectTask =
+			await createTaskDialogValidator.validate(formData);
 
-	if (request?.method === METHODS.POST && formName === FORM_IDS.CREATE_TASK_DIALOG_FORM) {
-		await createProjectTaskApi({
-			supabase,
-			userId,
-			formData
-		})
+		const {
+			data: projectTaskFormData,
+			error: projectTaskError,
+			submittedData: { __rvfInternalFormId: projectTaskFormName },
+		} = resultProjectTask;
+
+		if (projectTaskError) return validationError(projectTaskError);
+
+		if (
+			request?.method === METHODS.POST &&
+			projectTaskFormName === FORM_IDS.CREATE_TASK_DIALOG_FORM
+		) {
+			console.log('dd.form', projectTaskFormData?.projectColumnId);
+			await createProjectTaskApi({
+				supabase,
+				userId,
+				projectId,
+				formData: projectTaskFormData,
+			});
+		}
+	} catch (e) {
+		console.log(`CRUD.${FORM_IDS.CREATE_TASK_DIALOG_FORM}.error`, e);
 	}
 
 	return json({
@@ -109,6 +152,12 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 			projectId,
 		});
 
+	const { data: projectTasks, error: projectTasksError } =
+		await getProjectTasksApi({
+			supabase,
+			projectId,
+		});
+
 	if (!serverSession) {
 		return redirect(ROUTES.SIGN_IN, {
 			headers,
@@ -122,10 +171,12 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 			workspaces: workspaces as Workspace[],
 			projects: projects as Project[],
 			projectColumns: projectColumns as ProjectColumn[],
+			projectTasks: projectTasks as ProjectTask[],
 
 			workspacesError,
 			projectsError,
 			projectColumnsError,
+			projectTasksError,
 		},
 		{
 			headers,

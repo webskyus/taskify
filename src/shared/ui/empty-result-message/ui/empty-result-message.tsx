@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion';
+import {FC} from "react";
 
-const EmptyResultMessage = () => {
+interface Props {
+	state: boolean
+}
+
+const EmptyResultMessage: FC<Props> = ({state}: Props) => {
+	if (!state) return;
+
 	return (
 		<motion.article
 			initial={{ opacity: 0, y: -20 }}

@@ -3,10 +3,11 @@ import {
 	pgEnum,
 	uuid,
 	text,
+	varchar,
+	integer,
 	timestamp,
 	smallint,
 	jsonb,
-	integer, json,
 } from 'drizzle-orm/pg-core';
 
 export const keyStatus = pgEnum('key_status', [
@@ -34,7 +35,7 @@ export const codeChallengeMethod = pgEnum('code_challenge_method', [
 	'plain',
 ]);
 export const factorStatus = pgEnum('factor_status', ['unverified', 'verified']);
-export const factorType = pgEnum('factor_type', ['totp', 'webauthn']);
+export const factorType = pgEnum('factor_type', ['totp', 'webauthn', 'phone']);
 export const oneTimeTokenType = pgEnum('one_time_token_type', [
 	'confirmation_token',
 	'reauthentication_token',
@@ -59,92 +60,58 @@ export const equalityOp = pgEnum('equality_op', [
 	'gte',
 	'in',
 ]);
+export const requestStatus = pgEnum('request_status', [
+	'PENDING',
+	'SUCCESS',
+	'ERROR',
+]);
 
-const workspaces = pgTable('workspaces', {
-	id: uuid('id').primaryKey().defaultRandom(),
+export const projectTasks = pgTable('project_tasks', {
+	id: uuid('id').defaultRandom().primaryKey().notNull(),
 	name: text('name').notNull(),
-	description: text('description').notNull(),
-	icon: text('icon').notNull(),
-	color: smallint('color').notNull(),
+	content: varchar('content'),
 	ownerId: uuid('owner_id').notNull(),
-	createdAt: timestamp('created_at', {
-		withTimezone: true,
-		mode: 'string',
-	})
+	projectId: uuid('project_id').notNull(),
+	projectColumnId: uuid('project_column_id').notNull(),
+	order: integer('order').notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
 		.defaultNow()
 		.notNull(),
-	updatedAt: timestamp('updated_at', {
-		withTimezone: true,
-		mode: 'string',
-	})
+	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
 		.defaultNow()
 		.notNull(),
 });
 
-const projects = pgTable('projects', {
-	id: uuid('id').primaryKey().defaultRandom(),
+export const workspaces = pgTable('workspaces', {
+	id: uuid('id').defaultRandom().primaryKey().notNull(),
 	name: text('name').notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
+		.defaultNow()
+		.notNull(),
 	description: text('description').notNull(),
 	icon: text('icon').notNull(),
 	color: smallint('color').notNull(),
 	ownerId: uuid('owner_id').notNull(),
-	workspaceId: uuid('workspace_id').notNull(),
-	createdAt: timestamp('created_at', {
-		withTimezone: true,
-		mode: 'string',
-	})
-		.defaultNow()
-		.notNull(),
-	updatedAt: timestamp('updated_at', {
-		withTimezone: true,
-		mode: 'string',
-	})
+	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
 		.defaultNow()
 		.notNull(),
 });
 
-const projectColumns = pgTable('project_columns', {
-	id: uuid('id').primaryKey().defaultRandom(),
+export const projectColumns = pgTable('project_columns', {
+	id: uuid('id').defaultRandom().primaryKey().notNull(),
 	name: text('name').notNull(),
 	ownerId: uuid('owner_id').notNull(),
 	projectId: uuid('project_id').notNull(),
 	order: integer('order').notNull(),
-	createdAt: timestamp('created_at', {
-		withTimezone: true,
-		mode: 'string',
-	})
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
 		.defaultNow()
 		.notNull(),
-	updatedAt: timestamp('updated_at', {
-		withTimezone: true,
-		mode: 'string',
-	})
+	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'string' })
 		.defaultNow()
 		.notNull(),
 });
 
-const projectTasks = pgTable('project_tasks', {
-	id: uuid('id').primaryKey().defaultRandom(),
-	name: text('name').notNull(),
-	content: json('content'),
-	ownerId: uuid('owner_id').notNull(),
-	projectColumnId: uuid('project_column_id').notNull(),
-	order: integer('order').notNull(),
-	createdAt: timestamp('created_at', {
-		withTimezone: true,
-		mode: 'string',
-	})
-		.defaultNow()
-		.notNull(),
-	updatedAt: timestamp('updated_at', {
-		withTimezone: true,
-		mode: 'string',
-	})
-		.defaultNow()
-		.notNull(),
-});
-
-const profiles = pgTable('profiles', {
+export const profiles = pgTable('profiles', {
 	id: uuid('id').primaryKey().notNull(),
 	fullName: text('full_name'),
 	avatarUrl: text('avatar_url'),
@@ -152,17 +119,29 @@ const profiles = pgTable('profiles', {
 	updatedAt: timestamp('updated_at', {
 		withTimezone: true,
 		mode: 'string',
-	})
+	}).defaultNow(),
+	paymentMethod: jsonb('payment_method'),
+	email: text('email'),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
 		.defaultNow()
 		.notNull(),
-	createdAt: timestamp('created_at', {
+});
+
+export const projects = pgTable('projects', {
+	id: uuid('id').defaultRandom().primaryKey().notNull(),
+	name: text('name').notNull(),
+	description: text('description').notNull(),
+	icon: text('icon').notNull(),
+	color: smallint('color').notNull(),
+	ownerId: uuid('owner_id').notNull(),
+	workspaceId: uuid('workspace_id').notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'string' })
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp('updated_at', {
 		withTimezone: true,
 		mode: 'string',
 	})
 		.defaultNow()
 		.notNull(),
-	paymentMethod: jsonb('payment_method'),
-	email: text('email'),
 });
-
-export { workspaces, profiles, projects, projectColumns, projectTasks };

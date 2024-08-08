@@ -7,28 +7,41 @@ import {
 import { Button } from '~/shared/ui/button';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { Dispatch, FC, SetStateAction } from 'react';
-import { ProjectColumn } from '~/routes/dashboard';
+import { ProjectColumn, ProjectTask } from '~/routes/dashboard';
 import { BsFolderPlus } from 'react-icons/bs';
 import { Draggable } from 'react-beautiful-dnd';
 import { useGetProjectColumnCrud } from '~/features/project-columns';
+import {ProjectTasks} from "~/features/project-tasks/ui/project-tasks";
 
 interface Props {
 	data: ProjectColumn;
 	index: number;
-	handleSetId: Dispatch<SetStateAction<string | undefined>>;
+	handleSetEditedProjectColumnId: Dispatch<SetStateAction<string | undefined>>;
+	handleSetOpenedTaskProjectColumnId: Dispatch<
+		SetStateAction<string | undefined>
+	>;
 	handleOpenCreateTaskDialog: Dispatch<SetStateAction<boolean>>;
+	tasks: ProjectTask[];
 }
 
 const ProjectColumnsItem: FC<Props> = ({
 	data,
+	tasks,
 	index,
-	handleSetId,
+	handleSetEditedProjectColumnId,
+	handleSetOpenedTaskProjectColumnId,
 	handleOpenCreateTaskDialog,
 }) => {
 	const { name, id } = data;
 	const { handleDeleteProjectColumn } = useGetProjectColumnCrud();
 
-	const handleUpdateProjectColumn = (id: string) => handleSetId(id);
+	const handleUpdateProjectColumn = (id: string) =>
+		handleSetEditedProjectColumnId(id);
+
+	const handleOpenModal = (id: string) => {
+		handleSetOpenedTaskProjectColumnId(id);
+		handleOpenCreateTaskDialog(true);
+	};
 
 	return (
 		<Draggable draggableId={id} index={index}>
@@ -73,16 +86,20 @@ const ProjectColumnsItem: FC<Props> = ({
 							</DropdownMenu>
 						</header>
 
-						{/*<ul className={'mb-2'}>*/}
-						{/*	<li className={'w-full p-2 rounded-md bg-pink-400'}>*/}
-						{/*		Item 1*/}
-						{/*	</li>*/}
-						{/*</ul>*/}
+						<ProjectTasks
+							style={{
+								backgroundColor: snapshot.isDragging ? 'sky-600' : '',
+								marginTop: '10px',
+								marginBottom: '10px'
+							}}
+							projectColumnId={id}
+							data={tasks}
+						/>
 
 						<Button
-							onClick={() => handleOpenCreateTaskDialog(true)}
+							onClick={() => handleOpenModal(id)}
 							className={
-								'mt-auto transition-opacity opacity-0 group-hover:opacity-100 uppercase'
+								'mt-auto transition-opacity opacity-[0.9] group-hover:opacity-100 uppercase'
 							}>
 							<BsFolderPlus className={'mr-1'} />
 							New Task

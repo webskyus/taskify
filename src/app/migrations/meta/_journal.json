@@ -176,6 +176,20 @@
       "when": 1723005942589,
       "tag": "0024_dark_wilson_fisk",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "5",
+      "when": 1723083632551,
+      "tag": "0025_dusty_killraven",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "5",
+      "when": 1723087190338,
+      "tag": "0026_noisy_stick",
+      "breakpoints": true
     }
   ]
 }
