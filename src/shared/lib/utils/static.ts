@@ -87,11 +87,11 @@ const CREATE_DIALOG_TEXT: Record<CREATED_PAGE_TYPE, CreatedDialogItemType> = {
 		description: 'You can create new project and start using Taskify board',
 	},
 	[CREATED_PAGE_TYPE.PROJECT_COLUMN]: {
-		title: 'Create new project column',
+		title: 'Create or update new project column',
 		description: 'You can create new column for project and start create tasks',
 	},
 	[CREATED_PAGE_TYPE.PROJECT_COLUMN_TASK]: {
-		title: 'Create new task',
+		title: 'Create or update new task',
 		description: 'You can create new task and describe your what you want',
 	},
 };

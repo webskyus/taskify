@@ -3,7 +3,8 @@ import { RealtimePostgresChangesPayloadType } from '~/features/projects/hooks';
 import { CreateColumnDialogFormProps } from '~/features/create-column-dialog/ui/create-column-dialog';
 import { ProjectColumn } from '~/routes/dashboard';
 
-type CreateProjectColumnApiProps = {
+type ProjectColumnApiProps = {
+	id: string;
 	supabase: SupabaseClient;
 	userId: string | undefined;
 	projectId: string | undefined;
@@ -11,15 +12,17 @@ type CreateProjectColumnApiProps = {
 	projectColumns?: ProjectColumn[];
 };
 
+type CreateProjectColumnApiProps = Omit<ProjectColumnApiProps, 'id'>;
+
 type UpdateProjectColumnApiProps = Omit<
-	CreateProjectColumnApiProps,
-	'projectId' | 'userId'
+	ProjectColumnApiProps,
+	'projectId' | 'userId' | 'id'
 >;
 
-type ProjectColumnApiProps = {
-	supabase: SupabaseClient;
-	id: string;
-};
+type DeleteProjectColumnApiProps = Omit<
+	ProjectColumnApiProps,
+	'projectId' | 'userId'
+>;
 
 type ProjectColumnsChannelApiProps = {
 	supabase: SupabaseClient;
@@ -90,9 +93,10 @@ const updateProjectColumnApi = async ({
 const deleteProjectColumnApi = async ({
 	supabase,
 	id,
-}: ProjectColumnApiProps) => {
+}: DeleteProjectColumnApiProps) => {
 	try {
 		await supabase.from('project_columns').delete().eq('id', id);
+		await supabase.from('project_tasks').delete().eq('project_column_id', id);
 	} catch (e) {
 		console.log('dd.delete.Project.error', e);
 	}

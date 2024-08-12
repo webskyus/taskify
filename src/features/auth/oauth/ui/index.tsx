@@ -13,17 +13,20 @@ import {
 
 interface Props {
 	authType: AUTH_TYPE;
+	url: string;
 }
 
 const Auth: FC<Props> = props => {
-	const { authType } = props;
+	const { authType, url } = props;
 	const { supabase } = useOutletContext<{
 		supabase: SupabaseClient;
 	}>();
 
-	const handleSignInWithGoogle = async () => signInWithGoogleOAuthApi(supabase);
+	const handleSignInWithGoogle = async () =>
+		signInWithGoogleOAuthApi(supabase, url);
 
-	const handleSignInWithGitHub = async () => signInWithGithubOAuthApi(supabase);
+	const handleSignInWithGitHub = async () =>
+		signInWithGithubOAuthApi(supabase, url);
 
 	return (
 		<section className={'max-w-md m-auto shadow-2xl p-4 rounded'}>

@@ -12,7 +12,8 @@
     "lib": [
       "DOM",
       "DOM.Iterable",
-      "ES2022"
+      "ES2022",
+      "ES2023.Array",
     ],
     "types": [
       "@remix-run/node",

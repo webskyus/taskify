@@ -11,12 +11,13 @@ import { ProjectColumn, ProjectTask } from '~/routes/dashboard';
 import { BsFolderPlus } from 'react-icons/bs';
 import { Draggable } from 'react-beautiful-dnd';
 import { useGetProjectColumnCrud } from '~/features/project-columns';
-import {ProjectTasks} from "~/features/project-tasks/ui/project-tasks";
+import { ProjectTasks } from '~/features/project-tasks';
 
 interface Props {
 	data: ProjectColumn;
 	index: number;
 	handleSetEditedProjectColumnId: Dispatch<SetStateAction<string | undefined>>;
+	handleSetEditedProjectTaskId: Dispatch<SetStateAction<string | undefined>>;
 	handleSetOpenedTaskProjectColumnId: Dispatch<
 		SetStateAction<string | undefined>
 	>;
@@ -31,6 +32,7 @@ const ProjectColumnsItem: FC<Props> = ({
 	handleSetEditedProjectColumnId,
 	handleSetOpenedTaskProjectColumnId,
 	handleOpenCreateTaskDialog,
+	handleSetEditedProjectTaskId,
 }) => {
 	const { name, id } = data;
 	const { handleDeleteProjectColumn } = useGetProjectColumnCrud();
@@ -45,7 +47,7 @@ const ProjectColumnsItem: FC<Props> = ({
 
 	return (
 		<Draggable draggableId={id} index={index}>
-			{(provided, snapshot) => {
+			{provided => {
 				return (
 					<article
 						ref={provided.innerRef}
@@ -87,11 +89,10 @@ const ProjectColumnsItem: FC<Props> = ({
 						</header>
 
 						<ProjectTasks
-							style={{
-								backgroundColor: snapshot.isDragging ? 'sky-600' : '',
-								marginTop: '10px',
-								marginBottom: '10px'
-							}}
+							handleSetEditedProjectTaskId={handleSetEditedProjectTaskId}
+							handleSetEditedProjectColumnId={
+								handleSetOpenedTaskProjectColumnId
+							}
 							projectColumnId={id}
 							data={tasks}
 						/>

@@ -9,6 +9,7 @@ import { Auth } from '~/features/auth/oauth';
 import { AUTH_TYPE } from '~/shared/types/auth';
 import { getSupabaseWithSessionAndHeaders } from '~/app/supabase/supabase.server';
 import { ROUTES } from '~/shared/lib/utils/urls';
+import { useLoaderData } from '@remix-run/react';
 
 export const meta: MetaFunction = () => {
 	return [
@@ -26,6 +27,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const { headers, serverSession } = await getSupabaseWithSessionAndHeaders({
 		request,
 	});
+	const { origin } = new URL(request.url);
 
 	if (serverSession) {
 		return redirect(ROUTES.DASHBOARD, {
@@ -36,6 +38,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 	return json(
 		{
 			success: true,
+			url: origin,
 		},
 		{
 			headers,
@@ -44,10 +47,12 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 const SignUpRoute = () => {
+	const { url } = useLoaderData<typeof loader>();
+
 	return (
 		<section className={'container'}>
 			<AuthHeader authType={AUTH_TYPE.SIGN_UP} />
-			<Auth authType={AUTH_TYPE.SIGN_UP} />
+			<Auth authType={AUTH_TYPE.SIGN_UP} url={url} />
 		</section>
 	);
 };

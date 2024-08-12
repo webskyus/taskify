@@ -1,167 +1,203 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import {
-    CreateColumnDialog,
-    useSetCreateColumnDialogForm,
+	CreateColumnDialog,
+	useSetCreateColumnDialogForm,
 } from '~/features/create-column-dialog';
-import {useLoaderData, useOutletContext, useParams} from '@remix-run/react';
-import {loader} from '~/routes/dashboard_.$workspaceId_.$projectId';
-import {ProjectColumnsItem} from '~/features/project-columns/ui/components/project-columns-item';
-import {EmptyResultMessage} from '~/shared/ui/empty-result-message';
-import {ErrorMessage} from '~/shared/ui/error-message';
+import { useLoaderData, useOutletContext, useParams } from '@remix-run/react';
+import { loader } from '~/routes/dashboard_.$workspaceId_.$projectId';
+import { ProjectColumnsItem } from '~/features/project-columns/ui/components/project-columns-item';
+import { EmptyResultMessage } from '~/shared/ui/empty-result-message';
+import { ErrorMessage } from '~/shared/ui/error-message';
 import {
-    updateProjectColumnApi,
-    useGetProjectColumns,
+	updateProjectColumnApi,
+	useGetProjectColumns,
 } from '~/features/project-columns';
-import {getCurrentInfo} from '~/shared/lib/utils';
-import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
-import {SupabaseClient} from '@supabase/supabase-js';
-import {ProjectColumn, ProjectTask} from '~/routes/dashboard';
-import {reorder, reorderTasks} from '~/shared/lib/utils/dnd';
-import {CreateTaskDialog} from '~/features/create-task-dialog';
-import {useGetProjectTasks} from '~/features/project-tasks';
-import {getListStyle} from "~/features/project-columns/ui/style";
+import { getCurrentInfo } from '~/shared/lib/utils';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { ProjectColumn, ProjectTask } from '~/routes/dashboard';
+import { reorder, reorderTasks } from '~/shared/lib/utils/dnd';
+import {
+	CreateTaskDialog,
+	useSetCreateTaskDialogForm,
+} from '~/features/create-task-dialog';
+import { useGetProjectTasks } from '~/features/project-tasks';
+import { getListStyle } from '~/features/project-columns/ui/style';
+import { updateProjectTaskApi } from '~/features/project-tasks/api';
 
 const ProjectColumns = () => {
-    const {supabase} = useOutletContext<{
-        supabase: SupabaseClient;
-    }>();
+	const { supabase } = useOutletContext<{
+		supabase: SupabaseClient;
+	}>();
 
-    const {projectId} = useParams();
-    const {projects} = useLoaderData<typeof loader>();
-    const {projectColumns, error} = useGetProjectColumns();
-    const {projectTasks} = useGetProjectTasks();
+	const { projectId } = useParams();
+	const { projects } = useLoaderData<typeof loader>();
+	const { projectColumns, error } = useGetProjectColumns();
+	const { projectTasks } = useGetProjectTasks();
 
-    const [editedProjectColumnId, setEditedProjectColumnId] = useState<string>();
-    const [openedTaskProjectColumnId, setOpenedTaskProjectColumnId] =
-        useState<string>();
-    const [createTaskDialogState, setCreateTaskDialogState] = useState(false);
-    const [columns, setColumns] = useState<ProjectColumn[]>(projectColumns);
-    const [tasks, setTasks] = useState<ProjectTask[]>(projectTasks);
+	const [editedProjectColumnId, setEditedProjectColumnId] = useState<string>();
+	const [projectColumnId, setProjectColumnId] = useState<string>();
+	const [editedProjectTaskId, setEditedProjectTaskId] = useState<string>();
+	const [createTaskDialogState, setCreateTaskDialogState] = useState(false);
+	const [columns, setColumns] = useState<ProjectColumn[]>(projectColumns);
+	const [tasks, setTasks] = useState<ProjectTask[]>(projectTasks);
 
-    const {defaultValue} = useSetCreateColumnDialogForm(
-        editedProjectColumnId,
-        projectColumns
-    );
-    const {name, description} = getCurrentInfo(projects, projectId);
+	const { defaultValue: projectColumnDefaultValue } =
+		useSetCreateColumnDialogForm(editedProjectColumnId, projectColumns);
+	const { defaultValue: projectTaskDefaultValue } = useSetCreateTaskDialogForm(
+		editedProjectTaskId,
+		projectTasks
+	);
+	const { name, description } = getCurrentInfo(projects, projectId);
 
-    useEffect(() => {
-        handleReCheckProjectColumnsList(projectColumns);
-    }, [projectColumns]);
+	useEffect(() => {
+		handleReCheckProjectColumnsList(projectColumns);
+	}, [projectColumns]);
 
-    const handleReCheckProjectColumnsList = (projectColumns: ProjectColumn[]) => {
-        const projectColumnIds = projectColumns.map(
-            projectColumn => projectColumn.id
-        );
-        const checkColumnNames = columns.filter(column => {
-            const findMatchedProjectColumn = projectColumns.find(
-                projectColumn => projectColumn.id === column.id
-            );
-            if (
-                projectColumnIds.includes(column.id) &&
-                column.name !== findMatchedProjectColumn?.name
-            ) {
-                return column;
-            }
-        });
+	useEffect(() => {
+		handleReCheckProjectTasksList(projectTasks);
+	}, [projectTasks]);
 
-        (columns.length !== projectColumns.length || checkColumnNames.length) &&
-        setColumns(projectColumns);
-    };
+	const handleReCheckProjectColumnsList = (projectColumns: ProjectColumn[]) => {
+		const projectColumnIds = projectColumns.map(
+			projectColumn => projectColumn.id
+		);
+		const checkColumnNames = columns.filter(column => {
+			const findMatchedProjectColumn = projectColumns.find(
+				projectColumn => projectColumn.id === column.id
+			);
+			if (
+				projectColumnIds.includes(column.id) &&
+				column.name !== findMatchedProjectColumn?.name
+			) {
+				return column;
+			}
+		});
 
-    const onDragEnd = async (result: DropResult) => {
-        const {destination, source, draggableId, type} = result;
-        const data = getCurrentInfo(projectColumns, draggableId);
-        const formData = {...data, id: draggableId};
+		(columns.length !== projectColumns.length || checkColumnNames.length) &&
+			setColumns(projectColumns);
+	};
 
-        if (!destination) return;
+	const handleReCheckProjectTasksList = (projectTasks: ProjectTask[]) => {
+		const projectTaskIds = projectTasks.map(projectColumn => projectColumn.id);
+		const checkTaskNames = tasks.filter(task => {
+			const findMatchedProjectTask = projectTasks.find(
+				projectTask => projectTask.id === task.id
+			);
+			if (
+				projectTaskIds.includes(task.id) &&
+				task.name !== findMatchedProjectTask?.name
+			) {
+				return task;
+			}
+		});
 
-        if (
-            destination.droppableId === source.droppableId &&
-            destination.index === source.index
-        ) return;
+		(tasks.length !== projectTasks.length || checkTaskNames.length) &&
+			setTasks(projectTasks);
+	};
 
-        if (type === 'column') {
-            const _ordered = reorder(columns, source.index, destination.index);
+	const onDragEnd = async (result: DropResult) => {
+		const { destination, source, draggableId, type } = result;
+		const data = getCurrentInfo(projectColumns, draggableId);
+		const formData = { ...data, id: draggableId };
 
-            setColumns(_ordered);
+		if (!destination) return;
 
-            return await updateProjectColumnApi({
-                supabase,
-                formData,
-                projectColumns: _ordered,
-            });
-        }
+		if (
+			destination.droppableId === source.droppableId &&
+			destination.index === source.index
+		)
+			return;
 
-        if (type === 'task') {
-            const {tasks: _tasks} = reorderTasks({
-                tasks,
-                source,
-                destination
-            });
+		if (type === 'column') {
+			const _ordered = reorder(columns, source.index, destination.index);
 
-            setTasks(_tasks as ProjectTask[]);
-        }
+			setColumns(_ordered);
 
-    };
+			return await updateProjectColumnApi({
+				supabase,
+				formData,
+				projectColumns: _ordered,
+			});
+		}
 
-    return (
-        <>
-            <header className={'flex items-center justify-between mb-6'}>
-                <header>
-                    <h1 className={'mb-1 text-4xl sm:text-6xl font-bold'}>{name}</h1>
-                    <p className={'text-md'}>{description}</p>
-                </header>
+		if (type === 'task') {
+			const { tasks: _tasks } = reorderTasks({
+				tasks,
+				source,
+				destination,
+			});
 
-                <CreateColumnDialog
-                    handleSetId={setEditedProjectColumnId}
-                    id={editedProjectColumnId}
-                    defaultValue={defaultValue}
-                />
-            </header>
+			setTasks(_tasks as ProjectTask[]);
 
-            <EmptyResultMessage state={!columns?.length && !error}/>
-            <ErrorMessage state={error}/>
+			return await updateProjectTaskApi({
+				supabase,
+				formData,
+				projectTasks: _tasks,
+			});
+		}
+	};
 
-            <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId='board' type='column' direction='horizontal'>
-                    {(provided, snapshot) => (
-                        <section
-                            style={getListStyle(snapshot.isDraggingOver)}
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}>
-                            {columns.map((data, index) => {
-                                const {id} = data;
+	return (
+		<>
+			<header className={'flex items-center justify-between mb-6'}>
+				<header>
+					<h1 className={'mb-1 text-4xl sm:text-6xl font-bold'}>{name}</h1>
+					<p className={'text-md'}>{description}</p>
+				</header>
 
-                                return (
-                                    <ProjectColumnsItem
-                                        key={id}
-                                        handleSetEditedProjectColumnId={setEditedProjectColumnId}
-                                        handleSetOpenedTaskProjectColumnId={
-                                            setOpenedTaskProjectColumnId
-                                        }
-                                        data={data}
-                                        tasks={tasks.filter((task) => task.project_column_id === id)}
-                                        index={index}
-                                        handleOpenCreateTaskDialog={setCreateTaskDialogState}
-                                    />
-                                );
-                            })}
-                            {provided.placeholder}
-                        </section>
-                    )}
-                </Droppable>
-            </DragDropContext>
+				<CreateColumnDialog
+					handleSetId={setEditedProjectColumnId}
+					id={editedProjectColumnId}
+					defaultValue={projectColumnDefaultValue}
+				/>
+			</header>
 
-            <CreateTaskDialog
-                handleSetEditedTaskId={() => {
-                }}
-                isOpen={createTaskDialogState}
-                setIsOpen={setCreateTaskDialogState}
-                projectColumnId={openedTaskProjectColumnId}
-                projectColumnName={'Test 2'}
-            />
-        </>
-    );
+			<EmptyResultMessage state={!columns?.length && !error} />
+			<ErrorMessage state={error} />
+
+			<DragDropContext onDragEnd={onDragEnd}>
+				<Droppable droppableId='board' type='column' direction='horizontal'>
+					{(provided, snapshot) => (
+						<section
+							style={getListStyle(snapshot.isDraggingOver)}
+							{...provided.droppableProps}
+							ref={provided.innerRef}>
+							{columns.map((data, index) => {
+								const { id } = data;
+
+								return (
+									<ProjectColumnsItem
+										key={id}
+										handleSetEditedProjectColumnId={setEditedProjectColumnId}
+										handleSetOpenedTaskProjectColumnId={setProjectColumnId}
+										handleSetEditedProjectTaskId={setEditedProjectTaskId}
+										data={data}
+										tasks={tasks.filter(task => task.project_column_id === id)}
+										index={index}
+										handleOpenCreateTaskDialog={setCreateTaskDialogState}
+									/>
+								);
+							})}
+							{provided.placeholder}
+						</section>
+					)}
+				</Droppable>
+			</DragDropContext>
+
+			<CreateTaskDialog
+				handleSetEditedTaskId={setEditedProjectTaskId}
+				editedProjectTaskId={editedProjectTaskId}
+				isOpen={createTaskDialogState}
+				setIsOpen={setCreateTaskDialogState}
+				projectColumnId={projectColumnId}
+				defaultValue={projectTaskDefaultValue}
+				projectColumnName={
+					columns.filter(column => column.id === projectColumnId)[0]?.name
+				}
+			/>
+		</>
+	);
 };
 
-export {ProjectColumns};
+export { ProjectColumns };

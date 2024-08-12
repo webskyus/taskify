@@ -32,6 +32,7 @@ import {
 	getProjectTasksApi,
 } from '~/features/project-tasks';
 import { createTaskDialogValidator } from '~/features/create-task-dialog/ui/create-task-dialog';
+import { updateProjectTaskApi } from '~/features/project-tasks/api';
 
 export const meta: MetaFunction = () => {
 	return [
@@ -111,11 +112,20 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 			request?.method === METHODS.POST &&
 			projectTaskFormName === FORM_IDS.CREATE_TASK_DIALOG_FORM
 		) {
-			console.log('dd.form', projectTaskFormData?.projectColumnId);
 			await createProjectTaskApi({
 				supabase,
 				userId,
 				projectId,
+				formData: projectTaskFormData,
+			});
+		}
+
+		if (
+			request?.method === METHODS.PUT &&
+			projectTaskFormName === FORM_IDS.CREATE_TASK_DIALOG_FORM
+		) {
+			await updateProjectTaskApi({
+				supabase,
 				formData: projectTaskFormData,
 			});
 		}
