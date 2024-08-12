@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion';
-import {FC} from "react";
+import { FC } from 'react';
 
 interface Props {
-	state: boolean
+	state: boolean;
 }
 
-const EmptyResultMessage: FC<Props> = ({state}: Props) => {
+const EmptyResultMessage: FC<Props> = ({ state }: Props) => {
 	if (!state) return;
 
 	return (
