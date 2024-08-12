@@ -1,0 +1,1 @@
+ALTER TABLE "project_tasks" ALTER COLUMN "content" SET DATA TYPE longtext;
