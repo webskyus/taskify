@@ -4,6 +4,7 @@ const signInWithGoogleOAuthApi = async (
 	supabase: SupabaseClient,
 	url?: string
 ) => {
+	console.log('dd.redirect.url', url)
 	await supabase.auth.signInWithOAuth({
 		provider: 'google',
 		options: {
@@ -20,6 +21,7 @@ const signInWithGithubOAuthApi = async (
 	supabase: SupabaseClient,
 	url?: string
 ) => {
+	console.log('dd.redirect.url', url)
 	await supabase.auth.signInWithOAuth({
 		provider: 'github',
 		options: {
