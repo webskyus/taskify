@@ -1,6 +1,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { CreateTaskDialogFormProps } from '~/features/create-task-dialog/ui/create-task-dialog';
 import { ProjectTask } from '~/routes/dashboard';
+import {RealtimePostgresChangesPayloadType} from "~/features/projects/hooks";
 
 type ProjectTaskApiProps = {
 	id?: string;
@@ -30,6 +31,15 @@ type UpdateProjectTaskApiProps = Omit<
 	ProjectTaskApiProps,
 	'userId' | 'projectId'
 >;
+
+type ProjectTasksChannelApiProps = {
+	supabase: SupabaseClient;
+	handleUpdateProjectTasksList: (
+		payload: RealtimePostgresChangesPayloadType
+	) => void;
+	projectId: string | undefined;
+}
+
 
 const createProjectTaskApi = async ({
 	supabase,
@@ -115,9 +125,37 @@ const deleteProjectTaskApi = async ({
 	}
 };
 
+
+const projectTasksChannelApi = async ({
+											supabase,
+											handleUpdateProjectTasksList,
+											projectId,
+										}: ProjectTasksChannelApiProps) => {
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+
+	const channel = supabase
+		.channel('table-db-changes')
+		.on(
+			'postgres_changes',
+			{
+				event: '*',
+				schema: 'public',
+				table: 'project_tasks',
+				filter: `project_id=eq.${projectId}`,
+			},
+			payload => handleUpdateProjectTasksList(payload)
+		)
+		.subscribe();
+
+	return () => supabase.removeChannel(channel);
+};
+
 export {
 	getProjectTasksApi,
 	createProjectTaskApi,
 	deleteProjectTaskApi,
 	updateProjectTaskApi,
+	projectTasksChannelApi
 };
