@@ -60,7 +60,7 @@ const AUTH_TEXT: Record<AUTH_TYPE, AuthTextType> = {
 
 const LANDING_TEXT: LandingTextType = {
 	title:
-		'♻️ Relabel, 🚀 Move, <br/> 🔄 Modify, 📂 Archive and Many more operations.',
+		'♻️ Relabel, 🚀 Move, <br/> 🔄 Modify and Many more operations.',
 	description:
 		'Experience seamless project management with our Trello-inspired platform, Taskify. Organize tasks, collaborate with ease, and boost productivity starting today.',
 	auth_button: 'Get Taskify free',
