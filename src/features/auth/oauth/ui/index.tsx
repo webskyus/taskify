@@ -23,10 +23,10 @@ const Auth: FC<Props> = props => {
 	}>();
 
 	const handleSignInWithGoogle = async () =>
-		signInWithGoogleOAuthApi(supabase);
+		signInWithGoogleOAuthApi(supabase, url);
 
 	const handleSignInWithGitHub = async () =>
-		signInWithGithubOAuthApi(supabase);
+		signInWithGithubOAuthApi(supabase, url);
 
 	return (
 		<section className={'max-w-md m-auto shadow-2xl p-4 rounded'}>
