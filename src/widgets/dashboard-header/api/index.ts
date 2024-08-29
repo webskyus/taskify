@@ -9,8 +9,9 @@ const getUserProfileApi = async ({
 	supabase,
 	userId,
 }: GetUserProfileApiProps) => {
+
 	const { data, error } = await supabase
-		.from('profiles')
+        .from('profiles')
 		.select()
 		.eq('id', userId)
 		.single();

@@ -37,9 +37,8 @@ const Projects = () => {
 				{/*TODO ADD FILTERS*/}
 			</header>
 
-			{!projects?.length && !error && <EmptyResultMessage />}
-
-			{error && <ErrorMessage />}
+			<EmptyResultMessage state={!projects?.length && !error} />
+			<ErrorMessage state={error} />
 
 			<section
 				className={`

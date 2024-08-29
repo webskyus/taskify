@@ -36,9 +36,8 @@ const Workspaces = () => {
 				{/*TODO ADD FILTERS*/}
 			</header>
 
-			{!workspaces?.length && !error && <EmptyResultMessage />}
-
-			{error && <ErrorMessage />}
+			<EmptyResultMessage state={!workspaces?.length && !error} />
+			<ErrorMessage state={error} />
 
 			<section
 				className={`

@@ -9,12 +9,12 @@ import { getShortFullName } from '~/shared/lib/utils';
 import { ThemeSwitch } from '~/routes/action.set-theme';
 import { useOutletContext, useRouteLoaderData } from '@remix-run/react';
 import { SerializeFrom } from '@remix-run/node';
-import { loader as dashboardLoader } from '~/routes/dashboard';
+import { loader as rootLoader } from '~/root';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 const ProfilePanel = () => {
 	const { profile } = useRouteLoaderData('root') as SerializeFrom<
-		typeof dashboardLoader
+		typeof rootLoader
 	>;
 	const { avatar_url, full_name, email } = profile;
 	const { supabase } = useOutletContext<{
