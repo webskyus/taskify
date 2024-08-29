@@ -12,7 +12,10 @@ import {
 	SupabaseClient,
 } from '@supabase/supabase-js';
 import { ProjectTask } from '~/routes/dashboard';
-import {deleteProjectTaskApi, projectTasksChannelApi} from '~/features/project-tasks/api';
+import {
+	deleteProjectTaskApi,
+	projectTasksChannelApi,
+} from '~/features/project-tasks/api';
 
 export type RealtimePostgresChangesPayloadType =
 	RealtimePostgresChangesPayload<{ [p: string]: any }>;
