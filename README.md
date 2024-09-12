@@ -6,7 +6,6 @@
 - [Tailwind | Shadcn/ui](https://ui.shadcn.com/)
 - [Framer Motion](https://www.framer.com/motion/)
 - [Drizzle ORM](https://orm.drizzle.team/)
-- [Remix PWA](https://remix-pwa.run/)
 - [FSD Architectures](https://feature-sliced.design/docs/get-started/overview)
 - [Supabase](https://supabase.com/)
 - [BiomeJS | Format / Lint](https://biomejs.dev/)
